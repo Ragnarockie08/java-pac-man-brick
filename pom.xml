@@ -8,5 +8,12 @@
     <artifactId>java-tank-game-brick</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    
+    <name>pong-like-network-game</name>
+    <description>mMltiplayer window game based on NES Tanks</description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+    </properties>
 </project>
