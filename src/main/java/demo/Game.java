@@ -1,9 +1,17 @@
 package demo;
 
 import helper.Mode;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -12,6 +20,7 @@ import model.Player;
 import modes.Client;
 import modes.NetworkConnection;
 import modes.Server;
+import sun.plugin2.message.Message;
 
 import java.io.IOException;
 
@@ -42,6 +51,67 @@ public class Game extends Application {
         Pane pane = (Pane) root.lookup("#scene");
         pane.getChildren().add(square);
         player = new Player(square.getTranslateX(), square.getTranslateY());
+
+        final double rectangleSpeed = 100 ; // pixels per second
+        final double minX = 0, minY = 0;
+        final double maxX = WIDTH, maxY = HEIGHT ; // whatever the max value should be.. can use a property and bind to scene width if needed...
+        final DoubleProperty rectangleVelocityX = new SimpleDoubleProperty();
+        final DoubleProperty rectangleVelocityY = new SimpleDoubleProperty();
+        final LongProperty lastUpdateTime = new SimpleLongProperty();
+        final AnimationTimer rectangleAnimation = new AnimationTimer() {
+            @Override
+            public void handle(long timestamp) {
+                if (lastUpdateTime.get() > 0) {
+                    final double elapsedSeconds = (timestamp - lastUpdateTime.get()) / 1_000_000_000.0 ;
+                    final double deltaX = elapsedSeconds * rectangleVelocityX.get();
+                    final double oldX = square.getTranslateX();
+                    final double newX = Math.max(minX, Math.min(maxX, oldX + deltaX));
+                    final double deltaY = elapsedSeconds * rectangleVelocityY.get();
+                    final double oldY = square.getTranslateY();
+                    final double newY = Math.max(minY, Math.min(maxY, oldY + deltaY));
+                    square.setTranslateX(newX);
+                    square.setTranslateY(newY);
+                }
+                lastUpdateTime.set(timestamp);
+            }
+        };
+        rectangleAnimation.start();
+
+        try {
+
+            scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(KeyEvent event) {
+                    if (event.getCode()== KeyCode.D) { // don't use toString here!!!
+                        rectangleVelocityX.set(rectangleSpeed);
+                    } else if (event.getCode() == KeyCode.A) {
+                        rectangleVelocityX.set(-rectangleSpeed);
+                    } else if (event.getCode() == KeyCode.W) {
+                        rectangleVelocityY.set(-rectangleSpeed);
+                    } else if (event.getCode() == KeyCode.S) {
+                        rectangleVelocityY.set(rectangleSpeed);
+                    }
+                    System.out.println(rectangleVelocityX);
+                    System.out.println(rectangleVelocityY);
+                }
+            });
+
+            scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
+                @Override
+                public void handle(KeyEvent event) {
+                    if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.A
+                            || event.getCode() == KeyCode.W || event.getCode() == KeyCode.S) {
+                        rectangleVelocityX.set(0);
+                        rectangleVelocityY.set(0);
+                    }
+                }
+            });
+            networkConnection.send(new Player(square.getTranslateX(), square.getTranslateY()));
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+/*
         scene.setOnKeyPressed(event -> {
 
             try {
@@ -74,6 +144,7 @@ public class Game extends Application {
                 e.printStackTrace();
             }
         });
+*/
 
         primaryStage.setTitle("Tanks");
         primaryStage.setScene(scene);
