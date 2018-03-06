@@ -26,7 +26,7 @@ public class Game extends Application {
 
     private static Pane root;
 
-    private Rectangle square = new Rectangle(20, 20);
+    private static Rectangle square = new Rectangle(20, 20);
     private static Player player = new Player();
 
     @Override
@@ -45,36 +45,31 @@ public class Game extends Application {
         scene.setOnKeyPressed(event -> {
 
             try {
-
                 switch (event.getCode()) {
 
                     case W:
                         if (!(square.getTranslateY() <= 0)) {
                             square.setTranslateY(square.getTranslateY() - 40);
-                            player.setyCoordinate(square.getTranslateY());
                         }
                         break;
                     case S:
                         if (!(square.getTranslateY() >= WIDTH)) {
                             square.setTranslateY(square.getTranslateY() + 40);
-                            player.setyCoordinate(square.getTranslateY());
                         }
                         break;
                     case A:
                         if (!(square.getTranslateX() <= 0)) {
                             square.setTranslateX(square.getTranslateX() - 40);
-                            player.setxCoordinate(square.getTranslateX());
-
                         }
                         break;
                     case D:
                         if (!(square.getTranslateX() >= HEIGHT)) {
                             square.setTranslateX(square.getTranslateX() + 40);
-                            player.setxCoordinate(square.getTranslateX());
                         }
                         break;
                 }
-                networkConnection.send(player);
+                networkConnection.send(new Player(square.getTranslateX(), square.getTranslateY()));
+
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -106,7 +101,11 @@ public class Game extends Application {
 
     }
 
-    public Rectangle getSquare() {
+    public static Rectangle getSquare() {
         return square;
     }
+
+
+
+
 }
