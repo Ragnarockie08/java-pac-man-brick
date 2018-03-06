@@ -3,6 +3,7 @@ package modes;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
+import model.Player;
 
 import java.awt.*;
 
@@ -11,7 +12,7 @@ public class Client extends NetworkConnection {
     private String ip;
     private int port;
 
-    public Client(String ip, int port, Node player) {
+    public Client(String ip, int port, Player player) {
         super(player);
         this.ip = ip;
         this.port = port;
