@@ -53,10 +53,14 @@ public class Game extends Application {
         pane.getChildren().addAll(hostSquare, clientSquare);
 
         hostSquare = (Rectangle) pane.getChildren().get(0);
-        hostSquare.setX(50); hostSquare.setY(50);
-
         clientSquare = (Rectangle) pane.getChildren().get(1);
-        clientSquare.setX(250); clientSquare.setY(250);
+        if(mode.equals(Mode.SERVER)) {
+            hostSquare.setTranslateX(50); hostSquare.setTranslateY(50);
+            clientSquare.setTranslateX(250); clientSquare.setTranslateY(250);
+        } else {
+            hostSquare.setTranslateX(250); hostSquare.setTranslateY(250);
+            clientSquare.setTranslateX(50); clientSquare.setTranslateY(50);
+        }
 
         player = new Player(hostSquare.getTranslateX(), hostSquare.getTranslateY());
 
@@ -127,22 +131,22 @@ public class Game extends Application {
 
                     case W:
                         if (!(hostSquare.getTranslateY() <= 0)) {
-                            hostSquare.setTranslateY(hostSquare.getTranslateY() - 40);
+                            hostSquare.setTranslateY(hostSquare.getTranslateY() - 20);
                         }
                         break;
                     case S:
                         if (!(hostSquare.getTranslateY() >= WIDTH)) {
-                            hostSquare.setTranslateY(hostSquare.getTranslateY() + 40);
+                            hostSquare.setTranslateY(hostSquare.getTranslateY() + 20);
                         }
                         break;
                     case A:
                         if (!(hostSquare.getTranslateX() <= 0)) {
-                            hostSquare.setTranslateX(hostSquare.getTranslateX() - 40);
+                            hostSquare.setTranslateX(hostSquare.getTranslateX() - 20);
                         }
                         break;
                     case D:
                         if (!(hostSquare.getTranslateX() >= HEIGHT)) {
-                            hostSquare.setTranslateX(hostSquare.getTranslateX() + 40);
+                            hostSquare.setTranslateX(hostSquare.getTranslateX() + 20);
                         }
                         break;
                 }
