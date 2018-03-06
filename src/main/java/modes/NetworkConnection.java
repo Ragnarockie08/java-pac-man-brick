@@ -2,9 +2,6 @@ package modes;
 
 
 import demo.Game;
-import javafx.scene.Node;
-import javafx.scene.control.TextArea;
-import javafx.scene.layout.Pane;
 import model.Player;
 
 import java.io.IOException;
@@ -69,10 +66,8 @@ public abstract class NetworkConnection extends Thread {
 
             while (true) {
                 Player player = (Player) in.readObject();
-                System.out.println(player.getxCoordinate());
-                System.out.println(player.getyCoordinate());
-                Game.getSquare().setTranslateY(player.getyCoordinate());
-                Game.getSquare().setTranslateX(player.getxCoordinate());
+                Game.getClientSquare().setTranslateY(player.getyCoordinate());
+                Game.getClientSquare().setTranslateX(player.getxCoordinate());
             }
 
         } catch (IOException e){
