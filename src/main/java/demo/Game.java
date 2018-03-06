@@ -103,8 +103,11 @@ public class Game extends Application {
                     } else if (event.getCode() == KeyCode.S) {
                         rectangleVelocityY.set(rectangleSpeed);
                     }
-                    System.out.println(rectangleVelocityX);
-                    System.out.println(rectangleVelocityY);
+                    System.out.println("My x: " + hostSquare.getTranslateX());
+                    System.out.println("My y: " + hostSquare.getTranslateY());
+                    System.out.println("Enemy x: " + clientSquare.getTranslateX());
+                    System.out.println("Enemy y: " + clientSquare.getTranslateY());
+                    System.out.println();
                 }
             });
 
@@ -123,40 +126,6 @@ public class Game extends Application {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-/*
-        scene.setOnKeyPressed(event -> {
-
-            try {
-                switch (event.getCode()) {
-
-                    case W:
-                        if (!(hostSquare.getTranslateY() <= 0)) {
-                            hostSquare.setTranslateY(hostSquare.getTranslateY() - 20);
-                        }
-                        break;
-                    case S:
-                        if (!(hostSquare.getTranslateY() >= WIDTH)) {
-                            hostSquare.setTranslateY(hostSquare.getTranslateY() + 20);
-                        }
-                        break;
-                    case A:
-                        if (!(hostSquare.getTranslateX() <= 0)) {
-                            hostSquare.setTranslateX(hostSquare.getTranslateX() - 20);
-                        }
-                        break;
-                    case D:
-                        if (!(hostSquare.getTranslateX() >= HEIGHT)) {
-                            hostSquare.setTranslateX(hostSquare.getTranslateX() + 20);
-                        }
-                        break;
-                }
-                networkConnection.send(new Player(hostSquare.getTranslateX(), hostSquare.getTranslateY()));
-
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-*/
 
         primaryStage.setTitle("Tanks");
         primaryStage.setScene(scene);
