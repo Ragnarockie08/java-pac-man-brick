@@ -26,7 +26,8 @@ public class Game extends Application {
 
     private static Pane root;
 
-    private static Rectangle square = new Rectangle(20, 20);
+    private static Rectangle hostSquare = new Rectangle(20, 20);
+    private static Rectangle clientSquare = new Rectangle(20, 20);
     private static Player player = new Player();
 
     @Override
@@ -40,35 +41,43 @@ public class Game extends Application {
 
         Scene scene = new Scene(root);
         Pane pane = (Pane) root.lookup("#scene");
-        pane.getChildren().add(square);
-        player = new Player(square.getTranslateX(), square.getTranslateY());
+        pane.getChildren().addAll(hostSquare, clientSquare);
+
+        hostSquare = (Rectangle) pane.getChildren().get(0);
+        hostSquare.setX(50); hostSquare.setY(50);
+
+        clientSquare = (Rectangle) pane.getChildren().get(1);
+        clientSquare.setX(250); clientSquare.setY(250);
+
+        player = new Player(hostSquare.getTranslateX(), hostSquare.getTranslateY());
+
         scene.setOnKeyPressed(event -> {
 
             try {
                 switch (event.getCode()) {
 
                     case W:
-                        if (!(square.getTranslateY() <= 0)) {
-                            square.setTranslateY(square.getTranslateY() - 40);
+                        if (!(hostSquare.getTranslateY() <= 0)) {
+                            hostSquare.setTranslateY(hostSquare.getTranslateY() - 40);
                         }
                         break;
                     case S:
-                        if (!(square.getTranslateY() >= WIDTH)) {
-                            square.setTranslateY(square.getTranslateY() + 40);
+                        if (!(hostSquare.getTranslateY() >= WIDTH)) {
+                            hostSquare.setTranslateY(hostSquare.getTranslateY() + 40);
                         }
                         break;
                     case A:
-                        if (!(square.getTranslateX() <= 0)) {
-                            square.setTranslateX(square.getTranslateX() - 40);
+                        if (!(hostSquare.getTranslateX() <= 0)) {
+                            hostSquare.setTranslateX(hostSquare.getTranslateX() - 40);
                         }
                         break;
                     case D:
-                        if (!(square.getTranslateX() >= HEIGHT)) {
-                            square.setTranslateX(square.getTranslateX() + 40);
+                        if (!(hostSquare.getTranslateX() >= HEIGHT)) {
+                            hostSquare.setTranslateX(hostSquare.getTranslateX() + 40);
                         }
                         break;
                 }
-                networkConnection.send(new Player(square.getTranslateX(), square.getTranslateY()));
+                networkConnection.send(new Player(hostSquare.getTranslateX(), hostSquare.getTranslateY()));
 
             } catch (Exception e){
                 e.printStackTrace();
@@ -101,11 +110,11 @@ public class Game extends Application {
 
     }
 
-    public static Rectangle getSquare() {
-        return square;
+    public static Rectangle getHostSquare() {
+        return hostSquare;
     }
 
-
-
-
+    public static Rectangle getClientSquare() {
+        return clientSquare;
+    }
 }
