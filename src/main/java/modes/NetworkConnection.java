@@ -4,6 +4,7 @@ package modes;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
+import model.Player;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -14,11 +15,11 @@ import java.net.Socket;
 
 public abstract class NetworkConnection {
 
-    private Node player;
+    private Player player;
 
     private ConnectionThread connectionThread = new ConnectionThread();
 
-    public NetworkConnection(Node player) {
+    public NetworkConnection(Player player) {
         this.player = player;
     }
 
@@ -67,8 +68,9 @@ public abstract class NetworkConnection {
                 this.outputStream = out;
 
                 while (true) {
-                    Serializable data = (Serializable) in.readObject();
-
+                    player = (Player) in.readObject();
+                    System.out.println("X :" + player.getxCoordinate());
+                    System.out.println("Y :" + player.getyCoordinate());
 
                 }
 
