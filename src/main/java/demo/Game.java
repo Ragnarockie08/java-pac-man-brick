@@ -89,6 +89,7 @@ public class Game extends Application {
         };
         rectangleAnimation.start();
 
+
         try {
 
             scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
@@ -111,6 +112,7 @@ public class Game extends Application {
                 }
             });
 
+
             scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
                 @Override
                 public void handle(KeyEvent event) {
@@ -121,7 +123,11 @@ public class Game extends Application {
                     }
                 }
             });
+
+            System.out.println(hostSquare.getTranslateX());
+            System.out.println(hostSquare.getTranslateY());
             networkConnection.send(new Player(hostSquare.getTranslateX(), hostSquare.getTranslateY()));
+
 
         } catch (Exception ex) {
             ex.printStackTrace();
