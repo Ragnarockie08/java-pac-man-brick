@@ -7,7 +7,6 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.LongProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleLongProperty;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -20,7 +19,6 @@ import model.Player;
 import modes.Client;
 import modes.NetworkConnection;
 import modes.Server;
-import sun.plugin2.message.Message;
 
 import java.io.IOException;
 
@@ -52,21 +50,9 @@ public class Game extends Application {
         Pane pane = (Pane) root.lookup("#scene");
         pane.getChildren().addAll(hostSquare, clientSquare);
 
-        hostSquare = (Rectangle) pane.getChildren().get(0);
-        clientSquare = (Rectangle) pane.getChildren().get(1);
-        if(mode.equals(Mode.SERVER)) {
-            hostSquare.setTranslateX(50); hostSquare.setTranslateY(50);
-            clientSquare.setTranslateX(250); clientSquare.setTranslateY(250);
-        } else {
-            hostSquare.setTranslateX(250); hostSquare.setTranslateY(250);
-            clientSquare.setTranslateX(50); clientSquare.setTranslateY(50);
-        }
-
-        player = new Player(hostSquare.getTranslateX(), hostSquare.getTranslateY());
+        setSquares(pane);
 
         final double rectangleSpeed = 100 ; // pixels per second
-        final double minX = 0, minY = 0;
-        final double maxX = WIDTH, maxY = HEIGHT ; // whatever the max value should be.. can use a property and bind to scene width if needed...
         final DoubleProperty rectangleVelocityX = new SimpleDoubleProperty();
         final DoubleProperty rectangleVelocityY = new SimpleDoubleProperty();
         final LongProperty lastUpdateTime = new SimpleLongProperty();
@@ -75,12 +61,15 @@ public class Game extends Application {
             public void handle(long timestamp) {
                 if (lastUpdateTime.get() > 0) {
                     final double elapsedSeconds = (timestamp - lastUpdateTime.get()) / 1_000_000_000.0 ;
+
                     final double deltaX = elapsedSeconds * rectangleVelocityX.get();
                     final double oldX = hostSquare.getTranslateX();
-                    final double newX = Math.max(minX, Math.min(maxX, oldX + deltaX));
+                    final double newX = Math.max(0, Math.min(WIDTH, oldX + deltaX));
+
                     final double deltaY = elapsedSeconds * rectangleVelocityY.get();
                     final double oldY = hostSquare.getTranslateY();
-                    final double newY = Math.max(minY, Math.min(maxY, oldY + deltaY));
+                    final double newY = Math.max(0, Math.min(HEIGHT, oldY + deltaY));
+
                     hostSquare.setTranslateX(newX);
                     hostSquare.setTranslateY(newY);
                 }
@@ -89,55 +78,68 @@ public class Game extends Application {
         };
         rectangleAnimation.start();
 
-
         try {
+            scene.setOnKeyPressed((KeyEvent event) ->
+            {
+                if (event.getCode() == KeyCode.D) {
+                    rectangleVelocityX.set(rectangleSpeed);
+                } else if (event.getCode() == KeyCode.A) {
+                    rectangleVelocityX.set(-rectangleSpeed);
+                } else if (event.getCode() == KeyCode.W) {
+                    rectangleVelocityY.set(-rectangleSpeed);
+                } else if (event.getCode() == KeyCode.S) {
+                    rectangleVelocityY.set(rectangleSpeed);
+                }
 
-            scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-                @Override
-                public void handle(KeyEvent event) {
-                    if (event.getCode()== KeyCode.D) { // don't use toString here!!!
-                        rectangleVelocityX.set(rectangleSpeed);
-                    } else if (event.getCode() == KeyCode.A) {
-                        rectangleVelocityX.set(-rectangleSpeed);
-                    } else if (event.getCode() == KeyCode.W) {
-                        rectangleVelocityY.set(-rectangleSpeed);
-                    } else if (event.getCode() == KeyCode.S) {
-                        rectangleVelocityY.set(rectangleSpeed);
-                    }
-                    System.out.println("My x: " + hostSquare.getTranslateX());
-                    System.out.println("My y: " + hostSquare.getTranslateY());
-                    System.out.println("Enemy x: " + clientSquare.getTranslateX());
-                    System.out.println("Enemy y: " + clientSquare.getTranslateY());
-                    System.out.println();
+                try {
+                    networkConnection.send(new Player(hostSquare.getTranslateX(), hostSquare.getTranslateY()));
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             });
 
+            scene.setOnKeyReleased((KeyEvent event) -> {
 
-            scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-                @Override
-                public void handle(KeyEvent event) {
-                    if (event.getCode() == KeyCode.D || event.getCode() == KeyCode.A
-                            || event.getCode() == KeyCode.W || event.getCode() == KeyCode.S) {
-                        rectangleVelocityX.set(0);
-                        rectangleVelocityY.set(0);
-                    }
+                if (isAnyKeyReleased(event)) {
+                    rectangleVelocityX.set(0);
+                    rectangleVelocityY.set(0);
                 }
             });
-
-            System.out.println(hostSquare.getTranslateX());
-            System.out.println(hostSquare.getTranslateY());
-            networkConnection.send(new Player(hostSquare.getTranslateX(), hostSquare.getTranslateY()));
-
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        primaryStage.setTitle("Tanks");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        showPreparedStage(primaryStage, scene);
+    }
 
+    private void setSquares(Pane pane) {
+        hostSquare = (Rectangle) pane.getChildren().get(0);
+        clientSquare = (Rectangle) pane.getChildren().get(1);
+
+        int initCoord1 = 50;
+        int initCoord2 = 250;
+
+        if(mode.equals(Mode.SERVER)) {
+            hostSquare.setTranslateX(initCoord1); hostSquare.setTranslateY(initCoord1);
+            clientSquare.setTranslateX(initCoord2); clientSquare.setTranslateY(initCoord2);
+
+        } else {
+            hostSquare.setTranslateX(initCoord2); hostSquare.setTranslateY(initCoord2);
+            clientSquare.setTranslateX(initCoord1); clientSquare.setTranslateY(initCoord1);
+        }
+    }
+
+    private boolean isAnyKeyReleased(KeyEvent event) {
+        return (event.getCode() == KeyCode.D || event.getCode() == KeyCode.A
+                || event.getCode() == KeyCode.W || event.getCode() == KeyCode.S);
+    }
+
+    private void showPreparedStage(Stage stage, Scene scene) {
+        stage.setTitle("Tanks");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
     }
 
     public static void main(String[] args) {
@@ -150,13 +152,13 @@ public class Game extends Application {
         if (mode.equals(Mode.SERVER)) {
             server = new Server(Integer.parseInt(args[1]), player);
             networkConnection = server;
+
         } else if (mode.equals(Mode.CLIENT)) {
             client = new Client(args[1], Integer.parseInt(args[2]), player);
             networkConnection = client;
         }
 
         launch(args);
-
     }
 
     public static Rectangle getHostSquare() {
