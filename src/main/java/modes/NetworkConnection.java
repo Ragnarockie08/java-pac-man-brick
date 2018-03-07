@@ -46,7 +46,7 @@ public abstract class NetworkConnection extends Thread {
     public void run() {
         try {
 
-            ServerSocket server = null;
+            ServerSocket server;
             Socket socket;
             if (isServer()) {
                 server = new ServerSocket(getPort());
