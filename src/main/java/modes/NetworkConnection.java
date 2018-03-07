@@ -1,6 +1,7 @@
 package modes;
 
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import demo.Game;
 import model.Player;
 
@@ -15,8 +16,10 @@ public abstract class NetworkConnection extends Thread {
 
     private Socket socket;
     private ObjectOutputStream outputStream;
+    private Game game;
 
-    public NetworkConnection(){
+    public NetworkConnection(Game game){
+        this.game = game;
     }
 
     public void startConnection() throws Exception {
@@ -59,8 +62,11 @@ public abstract class NetworkConnection extends Thread {
 
             while (true) {
                 Player player = (Player) in.readObject();
-                Game.getClientPlayer().setTranslateY(player.getyCoordinate());
-                Game.getClientPlayer().setTranslateX(player.getxCoordinate());
+
+                System.out.println(player.getxCoordinate());
+                System.out.println(player.getyCoordinate());
+                game.getClientPlayer().setTranslateY(player.getyCoordinate());
+                game.getClientPlayer().setTranslateX(player.getxCoordinate());
             }
 
         } catch (IOException e){
