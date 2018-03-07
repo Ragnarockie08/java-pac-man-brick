@@ -84,8 +84,11 @@ public class MovementController {
 
     private void handleSend(NetworkConnection networkConnection) throws Exception{
 
-        game.getPlayer().setxCoordinate(game.getHostPlayer().getTranslateX());
-        game.getPlayer().setyCoordinate(game.getHostPlayer().getTranslateY());
+        double coordinateX = game.getHostPlayer().getTranslateX();
+        double coordinateY = game.getHostPlayer().getTranslateY();
+
+        game.getPlayer().setxCoordinate(coordinateX);
+        game.getPlayer().setyCoordinate(coordinateY);
 
 
         networkConnection.send(new Player(game.getPlayer()));
