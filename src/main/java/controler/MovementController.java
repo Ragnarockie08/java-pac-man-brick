@@ -11,8 +11,6 @@ public class MovementController {
 
     private final int STEP = 20;
     private final int PLAYER_SIZE = 30;
-    private static int playerXcoord;
-    private static int playerYcoord;
     private char[][] walkableBoard;
     private Game game;
 
@@ -21,7 +19,7 @@ public class MovementController {
         this.walkableBoard = new char[680][680];
     }
 
-    public void movement(Scene scene, Shape hostSquare, Shape clientSquare, NetworkConnection networkConnection) {
+    public void movement(Scene scene, Shape hostSquare, NetworkConnection networkConnection) {
 
         prepareTable();
         scene.setOnKeyPressed(event -> {
@@ -121,9 +119,13 @@ public class MovementController {
 
     private void handleSend(NetworkConnection networkConnection) throws Exception {
 
-        Player player = new Player(game.getHostPlayer().getTranslateX(), game.getHostPlayer().getTranslateY());
+        double coordinateX = game.getHostPlayer().getTranslateX();
+        double coordinateY = game.getHostPlayer().getTranslateY();
 
-        networkConnection.send(player);
+        game.getPlayer().setxCoordinate(coordinateX);
+        game.getPlayer().setyCoordinate(coordinateY);
+
+        networkConnection.send(new Player(game.getPlayer()));
     }
 
 }
