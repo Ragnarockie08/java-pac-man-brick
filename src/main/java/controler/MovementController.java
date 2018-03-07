@@ -11,8 +11,13 @@ public class MovementController {
 
     private static final int STEP = 10;
     private static char[][] walkableBoard = new char[680][680];
+    private Game game;
 
-    public static void movement(Scene scene, Shape hostSquare, Shape clientSquare, NetworkConnection networkConnection) {
+    public MovementController(Game game){
+        this.game = game;
+    }
+
+    public void movement(Scene scene, Shape hostSquare, Shape clientSquare, NetworkConnection networkConnection) {
 
         fillTable();
         showWalkableBoard();
@@ -38,9 +43,7 @@ public class MovementController {
                         break;
                 }
 
-                System.out.println( (int) hostSquare.getTranslateX() + " : " + (int) hostSquare.getTranslateY() + "\n");
-
-                networkConnection.send(new Player(hostSquare.getTranslateX(), hostSquare.getTranslateY()));
+                handleSend(networkConnection);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -48,7 +51,7 @@ public class MovementController {
         });
     }
 
-    private static void checkMoveUp(Shape player, Shape wall) {
+    private void checkMoveUp(Shape player, Shape wall) {
         if (player.getTranslateY() > STEP
                 && !(player.getBoundsInParent().intersects(wall.getBoundsInParent())
                      && wall.getTranslateX() == player.getTranslateX()
@@ -57,7 +60,7 @@ public class MovementController {
         }
     }
 
-    private static void checkMoveDown(Shape player, Shape wall) {
+    private void checkMoveDown(Shape player, Shape wall) {
         if (player.getTranslateY() < Game.HEIGHT - 40
                 && !(player.getBoundsInParent().intersects(wall.getBoundsInParent())
                      && wall.getTranslateX() == player.getTranslateX()
@@ -66,7 +69,7 @@ public class MovementController {
         }
     }
 
-    private static void checkMoveLeft(Shape player, Shape wall) {
+    private void checkMoveLeft(Shape player, Shape wall) {
         if (player.getTranslateX() > STEP
                 && !(player.getBoundsInParent().intersects(wall.getBoundsInParent())
                      && wall.getTranslateY() == player.getTranslateY()
@@ -75,7 +78,7 @@ public class MovementController {
         }
     }
 
-    private static void checkMoveRight(Shape player, Shape wall) {
+    private void checkMoveRight(Shape player, Shape wall) {
         if (player.getTranslateX() < Game.WIDTH - 40
                 && !(player.getBoundsInParent().intersects(wall.getBoundsInParent())
                      && wall.getTranslateY() == player.getTranslateY()
@@ -84,7 +87,7 @@ public class MovementController {
         }
     }
 
-    private static void fillTable() {
+    private void fillTable() {
         for (int i=0; i<680; i++) {
             for (int j=0; j<680; j++) {
                 walkableBoard[i][j] = 'O';
@@ -92,7 +95,7 @@ public class MovementController {
         }
     }
 
-    private static void showWalkableBoard() {
+    private void showWalkableBoard() {
         for (int i=0; i<680; i+=10) {
             for (int j=0; j<680; j+=10) {
                 System.out.print(walkableBoard[i][j] + " ");
@@ -101,16 +104,23 @@ public class MovementController {
         }
     }
 
-    private static void fillWithWalkableFields() {
+    private void fillWithWalkableFields() {
 
 
-        for (Rectangle shape : Game.getWalls()) {
-            for (int i=(int)shape.getLayoutX(); i<shape.getLayoutX() + shape.getWidth(); i++) {
-                for (int j=(int)shape.getLayoutY(); j<shape.getLayoutY() + shape.getHeight(); j++) {
+        for (Rectangle shape : game.getWalls()) {
+            for (int i = (int) shape.getLayoutX(); i < shape.getLayoutX() + shape.getWidth(); i++) {
+                for (int j = (int) shape.getLayoutY(); j < shape.getLayoutY() + shape.getHeight(); j++) {
                     walkableBoard[i][j] = ' ';
                 }
             }
         }
+    }
+
+    private void handleSend(NetworkConnection networkConnection) throws Exception {
+
+        Player player = new Player(game.getHostPlayer().getTranslateX(), game.getHostPlayer().getTranslateY());
+
+        networkConnection.send(player);
     }
 
 }

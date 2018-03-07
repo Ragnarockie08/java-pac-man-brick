@@ -1,64 +1,31 @@
 package demo;
 
-import controler.MovementController;
 import helper.Mode;
-import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.stage.Stage;
-import modes.Client;
-import modes.NetworkConnection;
-import modes.Server;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Game extends Application {
+public class Game {
 
-    private static NetworkConnection networkConnection;
-    private static Mode mode;
+    private Mode mode;
     private static final int BLOCK_SIZE = 40;
     public static final int WIDTH = 17 * BLOCK_SIZE;
     public static final int HEIGHT = 17 * BLOCK_SIZE;
-    private static Shape hostPlayer = new Rectangle(30, 30);
-    private static Shape clientPlayer = new Rectangle(30, 30);
-    private MovementController movementController;
+    private Shape hostPlayer;
+    private Shape clientPlayer;
+
     private List<Rectangle> walls;
 
-    @Override
-    public void init() throws Exception {
-        networkConnection.startConnection();
-        movementController = new MovementController();
+    public Game(){
         walls = new ArrayList<>();
+        hostPlayer = new Rectangle(30, 30);
+        clientPlayer = new Rectangle(30, 30);
     }
 
-    public void start(Stage primaryStage) throws IOException {
-
-        Pane root = FXMLLoader.load(getClass().getResource("/GameBoard.fxml"));
-
-        Scene scene = new Scene(root);
-        Pane pane = (Pane) root.lookup("#scene");
-        pane.getChildren().addAll(hostPlayer, clientPlayer);
-        getWalls(pane);
-        setPosition(pane);
-        movementController.movement(scene, hostPlayer, clientPlayer, networkConnection);
-        showPreparedStage(primaryStage, scene);
-
-    }
-
-    private void showPreparedStage(Stage stage, Scene scene) {
-        stage.setTitle("Tanks");
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
-    }
-
-    private void setPosition(Pane pane){
+    public void setPosition(Pane pane){
 
         hostPlayer = (Rectangle) pane.getChildren().get(30);
         clientPlayer = (Rectangle) pane.getChildren().get(31);
@@ -77,41 +44,27 @@ public class Game extends Application {
         }
     }
 
-    private void getWalls(Pane pane){
+    public void createWalls(Pane pane){
 
         for (int i = 0; i < pane.getChildren().size() - 2; i++){
             walls.add((Rectangle) pane.getChildren().get(i));
         }
     }
 
-
-    public static void main(String[] args) {
-
-        Server server;
-        Client client;
-
-        mode = Mode.getInstance(args[0]);
-
-        if (mode.equals(Mode.SERVER)) {
-            server = new Server(Integer.parseInt(args[1]));
-            networkConnection = server;
-
-        } else if (mode.equals(Mode.CLIENT)) {
-            client = new Client(args[1], Integer.parseInt(args[2]));
-            networkConnection = client;
-        }
-        launch(args);
-    }
-
-    public static Shape getHostPlayer() {
+    public Shape getHostPlayer() {
         return hostPlayer;
     }
 
-    public static Shape getClientPlayer() {
+    public Shape getClientPlayer() {
         return clientPlayer;
     }
 
     public List<Rectangle> getWalls() {
         return walls;
     }
+
+    public void setMode(Mode mode){
+        this.mode = mode;
+    }
+
 }
