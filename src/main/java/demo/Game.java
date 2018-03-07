@@ -1,5 +1,6 @@
 package demo;
 
+import controler.MovementController;
 import helper.Mode;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -21,8 +22,8 @@ public class Game extends Application {
     private static Mode mode;
 
     private static final int BLOCK_SIZE = 40;
-    private static final int WIDTH = 15 * BLOCK_SIZE;
-    private static final int HEIGHT = 15 * BLOCK_SIZE;
+    public static final int WIDTH = 15 * BLOCK_SIZE;
+    public static final int HEIGHT = 15 * BLOCK_SIZE;
 
     private static Pane root;
 
@@ -43,6 +44,18 @@ public class Game extends Application {
         Pane pane = (Pane) root.lookup("#scene");
         pane.getChildren().addAll(hostSquare, clientSquare);
 
+        setPosition(pane);
+
+        MovementController.movement(scene, hostSquare, networkConnection);
+
+        primaryStage.setTitle("Tanks");
+        primaryStage.setScene(scene);
+        primaryStage.setResizable(false);
+        primaryStage.show();
+
+    }
+
+    private void setPosition(Pane pane){
         hostSquare = (Rectangle) pane.getChildren().get(0);
         clientSquare = (Rectangle) pane.getChildren().get(1);
         if(mode.equals(Mode.SERVER)) {
@@ -52,47 +65,6 @@ public class Game extends Application {
             hostSquare.setTranslateX(250); hostSquare.setTranslateY(250);
             clientSquare.setTranslateX(50); clientSquare.setTranslateY(50);
         }
-
-        player = new Player(hostSquare.getTranslateX(), hostSquare.getTranslateY());
-
-        scene.setOnKeyPressed(event -> {
-
-            try {
-                switch (event.getCode()) {
-
-                    case W:
-                        if (!(hostSquare.getTranslateY() <= 0)) {
-                            hostSquare.setTranslateY(hostSquare.getTranslateY() - 20);
-                        }
-                        break;
-                    case S:
-                        if (!(hostSquare.getTranslateY() >= WIDTH)) {
-                            hostSquare.setTranslateY(hostSquare.getTranslateY() + 20);
-                        }
-                        break;
-                    case A:
-                        if (!(hostSquare.getTranslateX() <= 0)) {
-                            hostSquare.setTranslateX(hostSquare.getTranslateX() - 20);
-                        }
-                        break;
-                    case D:
-                        if (!(hostSquare.getTranslateX() >= HEIGHT)) {
-                            hostSquare.setTranslateX(hostSquare.getTranslateX() + 20);
-                        }
-                        break;
-                }
-                networkConnection.send(new Player(hostSquare.getTranslateX(), hostSquare.getTranslateY()));
-
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
-        primaryStage.setTitle("Tanks");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
-
     }
 
     public static void main(String[] args) {
@@ -113,6 +85,7 @@ public class Game extends Application {
         launch(args);
 
     }
+
 
     public static Rectangle getHostSquare() {
         return hostSquare;
