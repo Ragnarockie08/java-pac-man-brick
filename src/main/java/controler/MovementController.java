@@ -9,8 +9,13 @@ import modes.NetworkConnection;
 public class MovementController {
 
     private static final int STEP = 10;
+    private Game game;
 
-    public static void movement(Scene scene, Shape hostSquare, Shape clientSquare, NetworkConnection networkConnection) {
+    public MovementController(Game game){
+        this.game = game;
+    }
+
+    public void movement(Scene scene, Shape hostSquare, Shape clientSquare, NetworkConnection networkConnection) {
 
         scene.setOnKeyPressed(event -> {
 
@@ -31,7 +36,7 @@ public class MovementController {
                         break;
                 }
 
-                networkConnection.send(new Player(hostSquare.getTranslateX(), hostSquare.getTranslateY()));
+                handleSend(networkConnection);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -40,7 +45,7 @@ public class MovementController {
     }
 
     private static void checkMoveUp(Shape player, Shape wall) {
-        if (player.getTranslateY() > 0
+        if (player.getTranslateY() > STEP
                 && !(player.getBoundsInParent().intersects(wall.getBoundsInParent())
                      && wall.getTranslateX() == player.getTranslateX()
                      && wall.getTranslateY() < player.getTranslateY())) {
@@ -49,7 +54,7 @@ public class MovementController {
     }
 
     private static void checkMoveDown(Shape player, Shape wall) {
-        if (player.getTranslateY() < Game.HEIGHT - 20
+        if (player.getTranslateY() < Game.HEIGHT - 40
                 && !(player.getBoundsInParent().intersects(wall.getBoundsInParent())
                      && wall.getTranslateX() == player.getTranslateX()
                      && wall.getTranslateY() > player.getTranslateY())) {
@@ -58,7 +63,7 @@ public class MovementController {
     }
 
     private static void checkMoveLeft(Shape player, Shape wall) {
-        if (player.getTranslateX() > 0
+        if (player.getTranslateX() > STEP
                 && !(player.getBoundsInParent().intersects(wall.getBoundsInParent())
                      && wall.getTranslateY() == player.getTranslateY()
                      && wall.getTranslateX() < player.getTranslateX())) {
@@ -67,11 +72,19 @@ public class MovementController {
     }
 
     private static void checkMoveRight(Shape player, Shape wall) {
-        if (player.getTranslateX() < Game.WIDTH - 20
+        if (player.getTranslateX() < Game.WIDTH - 40
                 && !(player.getBoundsInParent().intersects(wall.getBoundsInParent())
                      && wall.getTranslateY() == player.getTranslateY()
                      && wall.getTranslateX() > player.getTranslateX())) {
             player.setTranslateX(player.getTranslateX() + STEP);
         }
     }
+
+    private void handleSend(NetworkConnection networkConnection) throws Exception{
+
+        Player player = new Player(game.getHostPlayer().getTranslateX(), game.getHostPlayer().getTranslateY());
+
+        networkConnection.send(player);
+    }
+
 }
