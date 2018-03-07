@@ -1,99 +1,89 @@
 package demo;
 
+import controler.MovementController;
 import helper.Mode;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import model.Player;
+import javafx.scene.shape.Shape;
+import javafx.stage.Stage;
 import modes.Client;
 import modes.NetworkConnection;
 import modes.Server;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Game extends Application {
 
     private static NetworkConnection networkConnection;
     private static Mode mode;
-
     private static final int BLOCK_SIZE = 40;
-    private static final int WIDTH = 15 * BLOCK_SIZE;
-    private static final int HEIGHT = 15 * BLOCK_SIZE;
-
-    private static Pane root;
-
-    private static Rectangle hostSquare = new Rectangle(20, 20);
-    private static Rectangle clientSquare = new Rectangle(20, 20);
-    private static Player player = new Player();
+    public static final int WIDTH = 17 * BLOCK_SIZE;
+    public static final int HEIGHT = 17 * BLOCK_SIZE;
+    private static Shape hostPlayer = new Rectangle(30, 30);
+    private static Shape clientPlayer = new Rectangle(30, 30);
+    private MovementController movementController;
+    private List<Rectangle> walls;
 
     @Override
     public void init() throws Exception {
         networkConnection.startConnection();
+        movementController = new MovementController();
+        walls = new ArrayList<>();
     }
 
     public void start(Stage primaryStage) throws IOException {
 
-        root = FXMLLoader.load(getClass().getResource("/test.fxml"));
+        Pane root = FXMLLoader.load(getClass().getResource("/GameBoard.fxml"));
 
         Scene scene = new Scene(root);
         Pane pane = (Pane) root.lookup("#scene");
-        pane.getChildren().addAll(hostSquare, clientSquare);
-
-        hostSquare = (Rectangle) pane.getChildren().get(0);
-        clientSquare = (Rectangle) pane.getChildren().get(1);
-        if(mode.equals(Mode.SERVER)) {
-            hostSquare.setTranslateX(50); hostSquare.setTranslateY(50);
-            clientSquare.setTranslateX(250); clientSquare.setTranslateY(250);
-        } else {
-            hostSquare.setTranslateX(250); hostSquare.setTranslateY(250);
-            clientSquare.setTranslateX(50); clientSquare.setTranslateY(50);
-        }
-
-        player = new Player(hostSquare.getTranslateX(), hostSquare.getTranslateY());
-
-        scene.setOnKeyPressed(event -> {
-
-            try {
-                switch (event.getCode()) {
-
-                    case W:
-                        if (!(hostSquare.getTranslateY() <= 0)) {
-                            hostSquare.setTranslateY(hostSquare.getTranslateY() - 20);
-                        }
-                        break;
-                    case S:
-                        if (!(hostSquare.getTranslateY() >= WIDTH)) {
-                            hostSquare.setTranslateY(hostSquare.getTranslateY() + 20);
-                        }
-                        break;
-                    case A:
-                        if (!(hostSquare.getTranslateX() <= 0)) {
-                            hostSquare.setTranslateX(hostSquare.getTranslateX() - 20);
-                        }
-                        break;
-                    case D:
-                        if (!(hostSquare.getTranslateX() >= HEIGHT)) {
-                            hostSquare.setTranslateX(hostSquare.getTranslateX() + 20);
-                        }
-                        break;
-                }
-                networkConnection.send(new Player(hostSquare.getTranslateX(), hostSquare.getTranslateY()));
-
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-        });
-
-        primaryStage.setTitle("Tanks");
-        primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.show();
+        pane.getChildren().addAll(hostPlayer, clientPlayer);
+        getWalls(pane);
+        setPosition(pane);
+        movementController.movement(scene, hostPlayer, clientPlayer, networkConnection);
+        showPreparedStage(primaryStage, scene);
 
     }
+
+    private void showPreparedStage(Stage stage, Scene scene) {
+        stage.setTitle("Tanks");
+        stage.setScene(scene);
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    private void setPosition(Pane pane){
+
+        hostPlayer = (Rectangle) pane.getChildren().get(30);
+        clientPlayer = (Rectangle) pane.getChildren().get(31);
+
+        if(mode.equals(Mode.SERVER)) {
+            hostPlayer.setFill(Color.YELLOW);
+            clientPlayer.setFill(Color.GREEN);
+            hostPlayer.setTranslateX(5); hostPlayer.setTranslateY(5);
+            clientPlayer.setTranslateX(205); clientPlayer.setTranslateY(205);
+
+        } else {
+            clientPlayer.setFill(Color.YELLOW);
+            hostPlayer.setFill(Color.GREEN);
+            hostPlayer.setTranslateX(205); hostPlayer.setTranslateY(205);
+            clientPlayer.setTranslateX(5); clientPlayer.setTranslateY(5);
+        }
+    }
+
+    private void getWalls(Pane pane){
+
+        for (int i = 0; i < pane.getChildren().size() - 2; i++){
+            walls.add((Rectangle) pane.getChildren().get(i));
+        }
+    }
+
 
     public static void main(String[] args) {
 
@@ -103,22 +93,25 @@ public class Game extends Application {
         mode = Mode.getInstance(args[0]);
 
         if (mode.equals(Mode.SERVER)) {
-            server = new Server(Integer.parseInt(args[1]), player);
+            server = new Server(Integer.parseInt(args[1]));
             networkConnection = server;
+
         } else if (mode.equals(Mode.CLIENT)) {
-            client = new Client(args[1], Integer.parseInt(args[2]), player);
+            client = new Client(args[1], Integer.parseInt(args[2]));
             networkConnection = client;
         }
-
         launch(args);
-
     }
 
-    public static Rectangle getHostSquare() {
-        return hostSquare;
+    public static Shape getHostPlayer() {
+        return hostPlayer;
     }
 
-    public static Rectangle getClientSquare() {
-        return clientSquare;
+    public static Shape getClientPlayer() {
+        return clientPlayer;
+    }
+
+    public List<Rectangle> getWalls() {
+        return walls;
     }
 }
