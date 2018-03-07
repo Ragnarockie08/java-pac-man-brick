@@ -9,36 +9,36 @@
    <children>
       <Pane fx:id="scene" prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="40.0" layoutY="40.0" stroke="BLACK" strokeType="INSIDE" width="80.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="160.0" layoutY="40.0" stroke="BLACK" strokeType="INSIDE" width="120.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="120.0" layoutX="320.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="40.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="80.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="160.0" layoutX="160.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="240.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="320.0" layoutY="200.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutY="240.0" stroke="BLACK" strokeType="INSIDE" width="120.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="200.0" layoutY="240.0" stroke="BLACK" strokeType="INSIDE" width="80.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="200.0" layoutY="360.0" stroke="BLACK" strokeType="INSIDE" width="120.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="120.0" layoutX="160.0" layoutY="360.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="160.0" layoutY="520.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="40.0" layoutY="600.0" stroke="BLACK" strokeType="INSIDE" width="240.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="240.0" layoutY="320.0" stroke="BLACK" strokeType="INSIDE" width="80.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="360.0" layoutY="320.0" stroke="BLACK" strokeType="INSIDE" width="80.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="240.0" layoutY="360.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="400.0" layoutY="360.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="240.0" layoutY="440.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="240.0" layoutY="520.0" stroke="BLACK" strokeType="INSIDE" width="200.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="320.0" layoutY="560.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="400.0" layoutY="40.0" stroke="BLACK" strokeType="INSIDE" width="120.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="560.0" layoutY="40.0" stroke="BLACK" strokeType="INSIDE" width="80.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="400.0" layoutY="240.0" stroke="BLACK" strokeType="INSIDE" width="80.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="160.0" layoutX="480.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="120.0" layoutX="480.0" layoutY="360.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="560.0" layoutY="240.0" stroke="BLACK" strokeType="INSIDE" width="120.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="560.0" layoutY="160.0" stroke="BLACK" strokeType="INSIDE" width="80.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="200.0" layoutX="560.0" layoutY="360.0" stroke="BLACK" strokeType="INSIDE" width="120.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="80.0" layoutX="480.0" layoutY="520.0" stroke="BLACK" strokeType="INSIDE" width="40.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="40.0" layoutX="400.0" layoutY="600.0" stroke="BLACK" strokeType="INSIDE" width="240.0" />
+            <Rectangle fill="DODGERBLUE" height="80.0" layoutX="40.0" layoutY="40.0" stroke="TRANSPARENT" strokeType="INSIDE" width="80.0" />
+            <Rectangle fill="DODGERBLUE" height="80.0" layoutX="160.0" layoutY="40.0" stroke="TRANSPARENT" strokeType="INSIDE" width="120.0" />
+            <Rectangle fill="DODGERBLUE" height="120.0" layoutX="320.0" stroke="TRANSPARENT" strokeType="INSIDE" width="40.0" />
+            <Rectangle fill="DODGERBLUE" height="40.0" layoutX="40.0" layoutY="160.0" stroke="TRANSPARENT" strokeType="INSIDE" width="80.0" />
+            <Rectangle fill="DODGERBLUE" height="160.0" layoutX="160.0" layoutY="160.0" stroke="TRANSPARENT" strokeType="INSIDE" width="40.0" />
+            <Rectangle fill="DODGERBLUE" height="40.0" layoutX="240.0" layoutY="160.0" stroke="TRANSPARENT" strokeType="INSIDE" width="200.0" />
+            <Rectangle fill="DODGERBLUE" height="80.0" layoutX="320.0" layoutY="200.0" stroke="TRANSPARENT" strokeType="INSIDE" width="40.0" />
+            <Rectangle fill="DODGERBLUE" height="80.0" layoutY="240.0" stroke="TRANSPARENT" strokeType="INSIDE" width="120.0" />
+            <Rectangle fill="DODGERBLUE" height="40.0" layoutX="200.0" layoutY="240.0" stroke="TRANSPARENT" strokeType="INSIDE" width="80.0" />
+            <Rectangle fill="DODGERBLUE" height="200.0" layoutY="360.0" stroke="TRANSPARENT" strokeType="INSIDE" width="120.0" />
+            <Rectangle fill="DODGERBLUE" height="120.0" layoutX="160.0" layoutY="360.0" stroke="TRANSPARENT" strokeType="INSIDE" width="40.0" />
+            <Rectangle fill="DODGERBLUE" height="80.0" layoutX="160.0" layoutY="520.0" stroke="TRANSPARENT" strokeType="INSIDE" width="40.0" />
+            <Rectangle fill="DODGERBLUE" height="40.0" layoutX="40.0" layoutY="600.0" stroke="TRANSPARENT" strokeType="INSIDE" width="240.0" />
+            <Rectangle fill="DODGERBLUE" height="40.0" layoutX="240.0" layoutY="320.0" stroke="TRANSPARENT" strokeType="INSIDE" width="80.0" />
+            <Rectangle fill="DODGERBLUE" height="40.0" layoutX="360.0" layoutY="320.0" stroke="TRANSPARENT" strokeType="INSIDE" width="80.0" />
+            <Rectangle fill="DODGERBLUE" height="80.0" layoutX="240.0" layoutY="360.0" stroke="TRANSPARENT" strokeType="INSIDE" width="40.0" />
+            <Rectangle fill="DODGERBLUE" height="80.0" layoutX="400.0" layoutY="360.0" stroke="TRANSPARENT" strokeMiterLimit="0.0" strokeType="INSIDE" strokeWidth="5.0" width="40.0" />
+            <Rectangle fill="DODGERBLUE" height="40.0" layoutX="240.0" layoutY="440.0" stroke="TRANSPARENT" strokeType="INSIDE" width="200.0" />
+            <Rectangle fill="DODGERBLUE" height="40.0" layoutX="240.0" layoutY="520.0" stroke="TRANSPARENT" strokeType="INSIDE" width="200.0" />
+            <Rectangle fill="DODGERBLUE" height="80.0" layoutX="320.0" layoutY="560.0" stroke="TRANSPARENT" strokeType="INSIDE" width="40.0" />
+            <Rectangle fill="DODGERBLUE" height="80.0" layoutX="400.0" layoutY="40.0" stroke="TRANSPARENT" strokeType="INSIDE" width="120.0" />
+            <Rectangle fill="DODGERBLUE" height="80.0" layoutX="560.0" layoutY="40.0" stroke="TRANSPARENT" strokeType="INSIDE" width="80.0" />
+            <Rectangle fill="DODGERBLUE" height="40.0" layoutX="400.0" layoutY="240.0" stroke="TRANSPARENT" strokeType="INSIDE" width="80.0" />
+            <Rectangle fill="DODGERBLUE" height="160.0" layoutX="480.0" layoutY="160.0" stroke="TRANSPARENT" strokeType="INSIDE" width="40.0" />
+            <Rectangle fill="DODGERBLUE" height="120.0" layoutX="480.0" layoutY="360.0" stroke="TRANSPARENT" strokeType="INSIDE" width="40.0" />
+            <Rectangle fill="DODGERBLUE" height="80.0" layoutX="560.0" layoutY="240.0" stroke="TRANSPARENT" strokeType="INSIDE" width="120.0" />
+            <Rectangle fill="DODGERBLUE" height="40.0" layoutX="560.0" layoutY="160.0" stroke="TRANSPARENT" strokeType="INSIDE" width="80.0" />
+            <Rectangle fill="DODGERBLUE" height="200.0" layoutX="560.0" layoutY="360.0" stroke="TRANSPARENT" strokeType="INSIDE" width="120.0" />
+            <Rectangle fill="DODGERBLUE" height="80.0" layoutX="480.0" layoutY="520.0" stroke="TRANSPARENT" strokeType="INSIDE" width="40.0" />
+            <Rectangle fill="DODGERBLUE" height="40.0" layoutX="400.0" layoutY="600.0" stroke="TRANSPARENT" strokeType="INSIDE" width="240.0" />
          </children></Pane>
    </children>
 </StackPane>
