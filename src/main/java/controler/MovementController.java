@@ -9,37 +9,40 @@ import modes.NetworkConnection;
 
 public class MovementController {
 
-    private static final int STEP = 10;
-    private static char[][] walkableBoard = new char[680][680];
+    private final int STEP = 20;
+    private final int PLAYER_SIZE = 30;
+    private static int playerXcoord;
+    private static int playerYcoord;
+    private char[][] walkableBoard;
     private Game game;
 
     public MovementController(Game game){
         this.game = game;
+        this.walkableBoard = new char[680][680];
     }
 
     public void movement(Scene scene, Shape hostSquare, Shape clientSquare, NetworkConnection networkConnection) {
 
-        fillTable();
-        showWalkableBoard();
-        fillWithWalkableFields();
-        System.out.println();
-        showWalkableBoard();
+        prepareTable();
         scene.setOnKeyPressed(event -> {
 
             try {
+                int x = (int) hostSquare.getTranslateX();
+                int y = (int) hostSquare.getTranslateY();
+
                 switch (event.getCode()) {
 
                     case W:
-                        checkMoveUp(hostSquare, clientSquare);
+                        checkMoveUp(hostSquare,x, y);
                         break;
                     case S:
-                        checkMoveDown(hostSquare, clientSquare);
+                        checkMoveDown(hostSquare, x, y);
                         break;
                     case A:
-                        checkMoveLeft(hostSquare, clientSquare);
+                        checkMoveLeft(hostSquare, x, y);
                         break;
                     case D:
-                        checkMoveRight(hostSquare, clientSquare);
+                        checkMoveRight(hostSquare, x, y);
                         break;
                 }
 
@@ -51,40 +54,49 @@ public class MovementController {
         });
     }
 
-    private void checkMoveUp(Shape player, Shape wall) {
-        if (player.getTranslateY() > STEP
-                && !(player.getBoundsInParent().intersects(wall.getBoundsInParent())
-                     && wall.getTranslateX() == player.getTranslateX()
-                     && wall.getTranslateY() < player.getTranslateY())) {
+    private void checkMoveUp(Shape player, int x, int y) {
+        if (player.getTranslateY() > STEP && isAbleToMoveUp(x, y)) {
             player.setTranslateY(player.getTranslateY() - STEP);
         }
     }
 
-    private void checkMoveDown(Shape player, Shape wall) {
-        if (player.getTranslateY() < Game.HEIGHT - 40
-                && !(player.getBoundsInParent().intersects(wall.getBoundsInParent())
-                     && wall.getTranslateX() == player.getTranslateX()
-                     && wall.getTranslateY() > player.getTranslateY())) {
+    private boolean isAbleToMoveUp(int x, int y) {
+        return walkableBoard[x][y - STEP] == 'O' && walkableBoard[x + PLAYER_SIZE][y - STEP] == 'O';
+    }
+
+    private void checkMoveDown(Shape player, int x, int y) {
+        if (player.getTranslateY() < Game.HEIGHT - 40 && isAbleToMoveDown(x, y)) {
             player.setTranslateY(player.getTranslateY() + STEP);
         }
     }
 
-    private void checkMoveLeft(Shape player, Shape wall) {
-        if (player.getTranslateX() > STEP
-                && !(player.getBoundsInParent().intersects(wall.getBoundsInParent())
-                     && wall.getTranslateY() == player.getTranslateY()
-                     && wall.getTranslateX() < player.getTranslateX())) {
+    private boolean isAbleToMoveDown(int x, int y) {
+        return walkableBoard[x][y + STEP + PLAYER_SIZE] == 'O' && walkableBoard[x + PLAYER_SIZE][y + STEP + PLAYER_SIZE] == 'O';
+    }
+
+    private void checkMoveLeft(Shape player, int x, int y) {
+        if (player.getTranslateX() > STEP && isAbleToMoveLeft(x, y)) {
             player.setTranslateX(player.getTranslateX() - STEP);
         }
     }
 
-    private void checkMoveRight(Shape player, Shape wall) {
-        if (player.getTranslateX() < Game.WIDTH - 40
-                && !(player.getBoundsInParent().intersects(wall.getBoundsInParent())
-                     && wall.getTranslateY() == player.getTranslateY()
-                     && wall.getTranslateX() > player.getTranslateX())) {
+    private boolean isAbleToMoveLeft(int x, int y) {
+        return walkableBoard[x - STEP][y] == 'O' && walkableBoard[x -STEP][y + PLAYER_SIZE] == 'O';
+    }
+
+    private void checkMoveRight(Shape player, int x, int y) {
+        if (player.getTranslateX() < Game.WIDTH  && isAbleToMoveRight(x, y)) {
             player.setTranslateX(player.getTranslateX() + STEP);
         }
+    }
+
+    private boolean isAbleToMoveRight(int x, int y) {
+        return walkableBoard[x + STEP + PLAYER_SIZE][y] == 'O' && walkableBoard[x + STEP + PLAYER_SIZE][y + PLAYER_SIZE] == 'O';
+    }
+
+    private void prepareTable() {
+        fillTable();
+        fillWithWalkableFields();
     }
 
     private void fillTable() {
@@ -92,15 +104,6 @@ public class MovementController {
             for (int j=0; j<680; j++) {
                 walkableBoard[i][j] = 'O';
             }
-        }
-    }
-
-    private void showWalkableBoard() {
-        for (int i=0; i<680; i+=10) {
-            for (int j=0; j<680; j+=10) {
-                System.out.print(walkableBoard[i][j] + " ");
-            }
-            System.out.println();
         }
     }
 
