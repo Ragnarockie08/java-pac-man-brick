@@ -8,6 +8,11 @@ public class Player implements Serializable {
     private double xCoordinate;
     private double yCoordinate;
 
+    public Player(Player player) {
+        this.xCoordinate = player.getxCoordinate();
+        this.yCoordinate = player.getyCoordinate();
+    }
+
     public Player(double xCoordinate, double yCoordinate) {
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
