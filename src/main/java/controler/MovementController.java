@@ -18,28 +18,30 @@ public class MovementController {
     public void movement(Scene scene, Shape hostSquare, Shape clientSquare, NetworkConnection networkConnection) {
 
         scene.setOnKeyPressed(event -> {
+            if (networkConnection.isConnected()) {
 
-            try {
-                switch (event.getCode()) {
+                try {
+                    switch (event.getCode()) {
 
-                    case W:
-                        checkMoveUp(hostSquare, clientSquare);
-                        break;
-                    case S:
-                        checkMoveDown(hostSquare, clientSquare);
-                        break;
-                    case A:
-                        checkMoveLeft(hostSquare, clientSquare);
-                        break;
-                    case D:
-                        checkMoveRight(hostSquare, clientSquare);
-                        break;
+                        case W:
+                            checkMoveUp(hostSquare, clientSquare);
+                            break;
+                        case S:
+                            checkMoveDown(hostSquare, clientSquare);
+                            break;
+                        case A:
+                            checkMoveLeft(hostSquare, clientSquare);
+                            break;
+                        case D:
+                            checkMoveRight(hostSquare, clientSquare);
+                            break;
+                    }
+
+                    handleSend(networkConnection);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
-                handleSend(networkConnection);
-
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         });
     }
@@ -82,9 +84,11 @@ public class MovementController {
 
     private void handleSend(NetworkConnection networkConnection) throws Exception{
 
-        Player player = new Player(game.getHostPlayer().getTranslateX(), game.getHostPlayer().getTranslateY());
+        game.getPlayer().setxCoordinate(game.getHostPlayer().getTranslateX());
+        game.getPlayer().setyCoordinate(game.getHostPlayer().getTranslateY());
 
-        networkConnection.send(player);
+
+        networkConnection.send(new Player(game.getPlayer()));
     }
 
 }

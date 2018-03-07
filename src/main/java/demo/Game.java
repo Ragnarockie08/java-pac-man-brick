@@ -5,6 +5,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import model.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class Game {
     public static final int HEIGHT = 17 * BLOCK_SIZE;
     private Shape hostPlayer;
     private Shape clientPlayer;
+    private Player player;
 
     private List<Rectangle> walls;
 
@@ -23,6 +26,7 @@ public class Game {
         walls = new ArrayList<>();
         hostPlayer = new Rectangle(30, 30);
         clientPlayer = new Rectangle(30, 30);
+        player = new Player(hostPlayer.getTranslateX(), hostPlayer.getTranslateY());
     }
 
     public void setPosition(Pane pane){
@@ -67,4 +71,7 @@ public class Game {
         this.mode = mode;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
 }
