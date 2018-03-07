@@ -5,12 +5,10 @@ import helper.Mode;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import modes.Client;
 import modes.NetworkConnection;
@@ -27,8 +25,8 @@ public class Game extends Application {
     private static final int BLOCK_SIZE = 40;
     public static final int WIDTH = 17 * BLOCK_SIZE;
     public static final int HEIGHT = 17 * BLOCK_SIZE;
-    private static Circle hostPlayer = new Circle(15);
-    private static Circle clientPlayer = new Circle(15);
+    private static Shape hostPlayer = new Rectangle(30, 30);
+    private static Shape clientPlayer = new Rectangle(30, 30);
     private MovementController movementController;
     private List<Rectangle> walls;
 
@@ -62,20 +60,20 @@ public class Game extends Application {
 
     private void setPosition(Pane pane){
 
-        hostPlayer = (Circle) pane.getChildren().get(30);
-        clientPlayer = (Circle) pane.getChildren().get(31);
+        hostPlayer = (Rectangle) pane.getChildren().get(30);
+        clientPlayer = (Rectangle) pane.getChildren().get(31);
 
         if(mode.equals(Mode.SERVER)) {
             hostPlayer.setFill(Color.YELLOW);
             clientPlayer.setFill(Color.GREEN);
-            hostPlayer.setTranslateX(20); hostPlayer.setTranslateY(20);
-            clientPlayer.setTranslateX(220); clientPlayer.setTranslateY(220);
+            hostPlayer.setTranslateX(5); hostPlayer.setTranslateY(5);
+            clientPlayer.setTranslateX(205); clientPlayer.setTranslateY(205);
 
         } else {
             clientPlayer.setFill(Color.YELLOW);
             hostPlayer.setFill(Color.GREEN);
-            hostPlayer.setTranslateX(220); hostPlayer.setTranslateY(220);
-            clientPlayer.setTranslateX(20); clientPlayer.setTranslateY(20);
+            hostPlayer.setTranslateX(205); hostPlayer.setTranslateY(205);
+            clientPlayer.setTranslateX(5); clientPlayer.setTranslateY(5);
         }
     }
 
@@ -105,11 +103,11 @@ public class Game extends Application {
         launch(args);
     }
 
-    public static Circle getHostPlayer() {
+    public static Shape getHostPlayer() {
         return hostPlayer;
     }
 
-    public static Circle getClientPlayer() {
+    public static Shape getClientPlayer() {
         return clientPlayer;
     }
 

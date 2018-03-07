@@ -2,14 +2,13 @@ package controler;
 
 import demo.Game;
 import javafx.scene.Scene;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import model.Player;
 import modes.NetworkConnection;
 
 public class MovementController {
 
-    private static final int STEP = 20;
+    private static final int STEP = 10;
 
     public static void movement(Scene scene, Shape hostSquare, Shape clientSquare, NetworkConnection networkConnection) {
 
