@@ -59,8 +59,8 @@ public abstract class NetworkConnection extends Thread {
 
             while (true) {
                 Player player = (Player) in.readObject();
-                Game.getClientSquare().setTranslateY(player.getyCoordinate());
-                Game.getClientSquare().setTranslateX(player.getxCoordinate());
+                Game.getClientPlayer().setTranslateY(player.getyCoordinate());
+                Game.getClientPlayer().setTranslateX(player.getxCoordinate());
             }
 
         } catch (IOException e){

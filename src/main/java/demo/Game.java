@@ -6,8 +6,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
-
 import javafx.scene.shape.Rectangle;
 import modes.Client;
 import modes.NetworkConnection;
@@ -19,32 +20,29 @@ public class Game extends Application {
 
     private static NetworkConnection networkConnection;
     private static Mode mode;
-
     private static final int BLOCK_SIZE = 40;
-    public static final int WIDTH = 15 * BLOCK_SIZE;
-    public static final int HEIGHT = 15 * BLOCK_SIZE;
-
-    private static Pane root;
-
-    private static Rectangle hostSquare = new Rectangle(20, 20);
-    private static Rectangle clientSquare = new Rectangle(20, 20);
+    public static final int WIDTH = 17 * BLOCK_SIZE;
+    public static final int HEIGHT = 17 * BLOCK_SIZE;
+    private static Circle hostPlayer = new Circle(15);
+    private static Circle clientPlayer = new Circle(15);
+    private MovementController movementController;
 
     @Override
     public void init() throws Exception {
         networkConnection.startConnection();
+        movementController = new MovementController();
     }
 
     public void start(Stage primaryStage) throws IOException {
 
-        root = FXMLLoader.load(getClass().getResource("/test.fxml"));
+        Pane root = FXMLLoader.load(getClass().getResource("/GameBoard.fxml"));
 
         Scene scene = new Scene(root);
         Pane pane = (Pane) root.lookup("#scene");
-        pane.getChildren().addAll(hostSquare, clientSquare);
+        pane.getChildren().addAll(hostPlayer, clientPlayer);
 
         setPosition(pane);
-
-        MovementController.movement(scene, hostSquare, networkConnection);
+        movementController.movement(scene, hostPlayer, networkConnection);
 
         primaryStage.setTitle("Tanks");
         primaryStage.setScene(scene);
@@ -54,14 +52,19 @@ public class Game extends Application {
     }
 
     private void setPosition(Pane pane){
-        hostSquare = (Rectangle) pane.getChildren().get(0);
-        clientSquare = (Rectangle) pane.getChildren().get(1);
+
+        hostPlayer = (Circle) pane.getChildren().get(30);
+        clientPlayer = (Circle) pane.getChildren().get(31);
         if(mode.equals(Mode.SERVER)) {
-            hostSquare.setTranslateX(50); hostSquare.setTranslateY(50);
-            clientSquare.setTranslateX(250); clientSquare.setTranslateY(250);
+            hostPlayer.setFill(Color.YELLOW);
+            clientPlayer.setFill(Color.GREEN);
+            hostPlayer.setTranslateX(20); hostPlayer.setTranslateY(20);
+            clientPlayer.setTranslateX(220); clientPlayer.setTranslateY(220);
         } else {
-            hostSquare.setTranslateX(250); hostSquare.setTranslateY(250);
-            clientSquare.setTranslateX(50); clientSquare.setTranslateY(50);
+            clientPlayer.setFill(Color.YELLOW);
+            hostPlayer.setFill(Color.GREEN);
+            hostPlayer.setTranslateX(220); hostPlayer.setTranslateY(220);
+            clientPlayer.setTranslateX(20); clientPlayer.setTranslateY(20);
         }
     }
 
@@ -79,17 +82,14 @@ public class Game extends Application {
             client = new Client(args[1], Integer.parseInt(args[2]));
             networkConnection = client;
         }
-
         launch(args);
-
     }
 
-
-    public static Rectangle getHostSquare() {
-        return hostSquare;
+    public static Circle getHostPlayer() {
+        return hostPlayer;
     }
 
-    public static Rectangle getClientSquare() {
-        return clientSquare;
+    public static Circle getClientPlayer() {
+        return clientPlayer;
     }
 }

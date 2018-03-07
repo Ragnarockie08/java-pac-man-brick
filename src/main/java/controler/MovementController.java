@@ -2,13 +2,16 @@ package controler;
 
 import demo.Game;
 import javafx.scene.Scene;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Circle;
 import model.Player;
 import modes.NetworkConnection;
 
 public class MovementController {
 
-    public static void movement(Scene scene, Rectangle hostSquare, NetworkConnection networkConnection) {
+
+    private static final int SIZE = 20;
+
+    public void movement(Scene scene, Circle hostPlayer, NetworkConnection networkConnection) {
 
         scene.setOnKeyPressed(event -> {
 
@@ -16,27 +19,27 @@ public class MovementController {
                 switch (event.getCode()) {
 
                     case W:
-                        if (!(hostSquare.getTranslateY() <= 0)) {
-                            hostSquare.setTranslateY(hostSquare.getTranslateY() - 20);
+                        if (!(hostPlayer.getTranslateY() <= SIZE)) {
+                            hostPlayer.setTranslateY(hostPlayer.getTranslateY() - SIZE);
                         }
                         break;
                     case S:
-                        if (!(hostSquare.getTranslateY() >= Game.WIDTH)) {
-                            hostSquare.setTranslateY(hostSquare.getTranslateY() + 20);
+                        if (!(hostPlayer.getTranslateY() >= Game.WIDTH - SIZE)) {
+                            hostPlayer.setTranslateY(hostPlayer.getTranslateY() + SIZE);
                         }
                         break;
                     case A:
-                        if (!(hostSquare.getTranslateX() <= 0)) {
-                            hostSquare.setTranslateX(hostSquare.getTranslateX() - 20);
+                        if (!(hostPlayer.getTranslateX() <= SIZE)) {
+                            hostPlayer.setTranslateX(hostPlayer.getTranslateX() - SIZE);
                         }
                         break;
                     case D:
-                        if (!(hostSquare.getTranslateX() >= Game.HEIGHT)) {
-                            hostSquare.setTranslateX(hostSquare.getTranslateX() + 20);
+                        if (!(hostPlayer.getTranslateX() >= Game.HEIGHT - SIZE)) {
+                            hostPlayer.setTranslateX(hostPlayer.getTranslateX() + SIZE);
                         }
                         break;
                 }
-                networkConnection.send(new Player(hostSquare.getTranslateX(), hostSquare.getTranslateY()));
+                networkConnection.send(new Player(hostPlayer.getTranslateX(), hostPlayer.getTranslateY()));
 
             } catch (Exception e) {
                 e.printStackTrace();
