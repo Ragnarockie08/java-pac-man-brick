@@ -3,6 +3,7 @@ package controler;
 import demo.Game;
 import javafx.scene.Scene;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import model.Player;
 import modes.NetworkConnection;
 
@@ -10,7 +11,7 @@ public class MovementController {
 
     private static final int STEP = 20;
 
-    public static void movement(Scene scene, Rectangle hostSquare, Rectangle clientSquare, NetworkConnection networkConnection) {
+    public static void movement(Scene scene, Shape hostSquare, Shape clientSquare, NetworkConnection networkConnection) {
 
         scene.setOnKeyPressed(event -> {
 
@@ -39,7 +40,7 @@ public class MovementController {
         });
     }
 
-    private static void checkMoveUp(Rectangle player, Rectangle wall) {
+    private static void checkMoveUp(Shape player, Shape wall) {
         if (player.getTranslateY() > 0
                 && !(player.getBoundsInParent().intersects(wall.getBoundsInParent())
                      && wall.getTranslateX() == player.getTranslateX()
@@ -48,7 +49,7 @@ public class MovementController {
         }
     }
 
-    private static void checkMoveDown(Rectangle player, Rectangle wall) {
+    private static void checkMoveDown(Shape player, Shape wall) {
         if (player.getTranslateY() < Game.HEIGHT - 20
                 && !(player.getBoundsInParent().intersects(wall.getBoundsInParent())
                      && wall.getTranslateX() == player.getTranslateX()
@@ -57,7 +58,7 @@ public class MovementController {
         }
     }
 
-    private static void checkMoveLeft(Rectangle player, Rectangle wall) {
+    private static void checkMoveLeft(Shape player, Shape wall) {
         if (player.getTranslateX() > 0
                 && !(player.getBoundsInParent().intersects(wall.getBoundsInParent())
                      && wall.getTranslateY() == player.getTranslateY()
@@ -66,7 +67,7 @@ public class MovementController {
         }
     }
 
-    private static void checkMoveRight(Rectangle player, Rectangle wall) {
+    private static void checkMoveRight(Shape player, Shape wall) {
         if (player.getTranslateX() < Game.WIDTH - 20
                 && !(player.getBoundsInParent().intersects(wall.getBoundsInParent())
                      && wall.getTranslateY() == player.getTranslateY()

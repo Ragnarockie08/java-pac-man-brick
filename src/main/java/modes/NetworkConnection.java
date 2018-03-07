@@ -13,13 +13,10 @@ import java.net.Socket;
 
 public abstract class NetworkConnection extends Thread {
 
-    private Player player;
-
     private Socket socket;
     private ObjectOutputStream outputStream;
 
-    public NetworkConnection(Player player) {
-        this.player = player;
+    public NetworkConnection(){
     }
 
     public void startConnection() throws Exception {
@@ -32,10 +29,6 @@ public abstract class NetworkConnection extends Thread {
 
     public void closeConnection() throws Exception {
         socket.close();
-    }
-
-    public Player getPlayer() {
-        return player;
     }
 
     protected abstract boolean isServer();
@@ -66,8 +59,8 @@ public abstract class NetworkConnection extends Thread {
 
             while (true) {
                 Player player = (Player) in.readObject();
-                Game.getClientSquare().setTranslateY(player.getyCoordinate());
-                Game.getClientSquare().setTranslateX(player.getxCoordinate());
+                Game.getClientPlayer().setTranslateY(player.getyCoordinate());
+                Game.getClientPlayer().setTranslateX(player.getxCoordinate());
             }
 
         } catch (IOException e){

@@ -8,71 +8,49 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import model.Player;
+import javafx.stage.Stage;
 import modes.Client;
 import modes.NetworkConnection;
 import modes.Server;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Game extends Application {
 
     private static NetworkConnection networkConnection;
     private static Mode mode;
-
     private static final int BLOCK_SIZE = 40;
-    public static final int WIDTH = 15 * BLOCK_SIZE;
-    public static final int HEIGHT = 15 * BLOCK_SIZE;
-
-    private static Pane root;
-
-    private static Rectangle hostSquare = new Rectangle(20, 20);
-    private static Rectangle clientSquare = new Rectangle(20, 20);
-    private static Player player = new Player();
+    public static final int WIDTH = 17 * BLOCK_SIZE;
+    public static final int HEIGHT = 17 * BLOCK_SIZE;
+    private static Circle hostPlayer = new Circle(15);
+    private static Circle clientPlayer = new Circle(15);
+    private MovementController movementController;
+    private List<Rectangle> walls;
 
     @Override
     public void init() throws Exception {
         networkConnection.startConnection();
+        movementController = new MovementController();
+        walls = new ArrayList<>();
     }
 
     public void start(Stage primaryStage) throws IOException {
 
-        root = FXMLLoader.load(getClass().getResource("/test.fxml"));
+        Pane root = FXMLLoader.load(getClass().getResource("/GameBoard.fxml"));
 
         Scene scene = new Scene(root);
         Pane pane = (Pane) root.lookup("#scene");
-        pane.getChildren().addAll(hostSquare, clientSquare);
-
-        setSquares(pane);
-
-        MovementController.movement(scene, hostSquare, clientSquare, networkConnection);
-
+        pane.getChildren().addAll(hostPlayer, clientPlayer);
+        getWalls(pane);
+        setPosition(pane);
+        movementController.movement(scene, hostPlayer, clientPlayer, networkConnection);
         showPreparedStage(primaryStage, scene);
-    }
 
-    private void setSquares(Pane pane) {
-        hostSquare = (Rectangle) pane.getChildren().get(0);
-        clientSquare = (Rectangle) pane.getChildren().get(1);
-
-        int initCoord1 = 50;
-        int initCoord2 = 250;
-
-        if(mode.equals(Mode.SERVER)) {
-            hostSquare.setTranslateX(initCoord1); hostSquare.setTranslateY(initCoord1);
-            clientSquare.setTranslateX(initCoord2); clientSquare.setTranslateY(initCoord2);
-
-        } else {
-            hostSquare.setTranslateX(initCoord2); hostSquare.setTranslateY(initCoord2);
-            clientSquare.setTranslateX(initCoord1); clientSquare.setTranslateY(initCoord1);
-        }
-    }
-
-    private boolean isAnyKeyReleased(KeyEvent event) {
-        return (event.getCode() == KeyCode.D || event.getCode() == KeyCode.A
-                || event.getCode() == KeyCode.W || event.getCode() == KeyCode.S);
     }
 
     private void showPreparedStage(Stage stage, Scene scene) {
@@ -82,6 +60,33 @@ public class Game extends Application {
         stage.show();
     }
 
+    private void setPosition(Pane pane){
+
+        hostPlayer = (Circle) pane.getChildren().get(30);
+        clientPlayer = (Circle) pane.getChildren().get(31);
+
+        if(mode.equals(Mode.SERVER)) {
+            hostPlayer.setFill(Color.YELLOW);
+            clientPlayer.setFill(Color.GREEN);
+            hostPlayer.setTranslateX(20); hostPlayer.setTranslateY(20);
+            clientPlayer.setTranslateX(220); clientPlayer.setTranslateY(220);
+
+        } else {
+            clientPlayer.setFill(Color.YELLOW);
+            hostPlayer.setFill(Color.GREEN);
+            hostPlayer.setTranslateX(220); hostPlayer.setTranslateY(220);
+            clientPlayer.setTranslateX(20); clientPlayer.setTranslateY(20);
+        }
+    }
+
+    private void getWalls(Pane pane){
+
+        for (int i = 0; i < pane.getChildren().size() - 2; i++){
+            walls.add((Rectangle) pane.getChildren().get(i));
+        }
+    }
+
+
     public static void main(String[] args) {
 
         Server server;
@@ -90,22 +95,25 @@ public class Game extends Application {
         mode = Mode.getInstance(args[0]);
 
         if (mode.equals(Mode.SERVER)) {
-            server = new Server(Integer.parseInt(args[1]), player);
+            server = new Server(Integer.parseInt(args[1]));
             networkConnection = server;
 
         } else if (mode.equals(Mode.CLIENT)) {
-            client = new Client(args[1], Integer.parseInt(args[2]), player);
+            client = new Client(args[1], Integer.parseInt(args[2]));
             networkConnection = client;
         }
-
         launch(args);
     }
 
-    public static Rectangle getHostSquare() {
-        return hostSquare;
+    public static Circle getHostPlayer() {
+        return hostPlayer;
     }
 
-    public static Rectangle getClientSquare() {
-        return clientSquare;
+    public static Circle getClientPlayer() {
+        return clientPlayer;
+    }
+
+    public List<Rectangle> getWalls() {
+        return walls;
     }
 }
