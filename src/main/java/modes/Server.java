@@ -11,8 +11,8 @@ public class Server extends NetworkConnection {
 
     private int port;
 
-    public Server(int port, Player player) {
-        super(player);
+    public Server(int port) {
+        super();
         this.port = port;
     }
 

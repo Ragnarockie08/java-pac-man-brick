@@ -10,9 +10,6 @@ public class MovementController {
 
     public static void movement(Scene scene, Rectangle hostSquare, NetworkConnection networkConnection) {
 
-
-        Player player = new Player(hostSquare.getTranslateX(), hostSquare.getTranslateY());
-
         scene.setOnKeyPressed(event -> {
 
             try {

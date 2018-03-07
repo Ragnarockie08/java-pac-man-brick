@@ -9,7 +9,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import javafx.scene.shape.Rectangle;
-import model.Player;
 import modes.Client;
 import modes.NetworkConnection;
 import modes.Server;
@@ -29,7 +28,6 @@ public class Game extends Application {
 
     private static Rectangle hostSquare = new Rectangle(20, 20);
     private static Rectangle clientSquare = new Rectangle(20, 20);
-    private static Player player = new Player();
 
     @Override
     public void init() throws Exception {
@@ -75,10 +73,10 @@ public class Game extends Application {
         mode = Mode.getInstance(args[0]);
 
         if (mode.equals(Mode.SERVER)) {
-            server = new Server(Integer.parseInt(args[1]), player);
+            server = new Server(Integer.parseInt(args[1]));
             networkConnection = server;
         } else if (mode.equals(Mode.CLIENT)) {
-            client = new Client(args[1], Integer.parseInt(args[2]), player);
+            client = new Client(args[1], Integer.parseInt(args[2]));
             networkConnection = client;
         }
 
