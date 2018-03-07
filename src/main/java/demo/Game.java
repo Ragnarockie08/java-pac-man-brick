@@ -1,12 +1,8 @@
 package demo;
 
+import controler.MovementController;
 import helper.Mode;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.LongProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleLongProperty;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -28,8 +24,8 @@ public class Game extends Application {
     private static Mode mode;
 
     private static final int BLOCK_SIZE = 40;
-    private static final int WIDTH = 15 * BLOCK_SIZE;
-    private static final int HEIGHT = 15 * BLOCK_SIZE;
+    public static final int WIDTH = 15 * BLOCK_SIZE;
+    public static final int HEIGHT = 15 * BLOCK_SIZE;
 
     private static Pane root;
 
@@ -52,63 +48,7 @@ public class Game extends Application {
 
         setSquares(pane);
 
-        final double rectangleSpeed = 100 ; // pixels per second
-        final DoubleProperty rectangleVelocityX = new SimpleDoubleProperty();
-        final DoubleProperty rectangleVelocityY = new SimpleDoubleProperty();
-        final LongProperty lastUpdateTime = new SimpleLongProperty();
-        final AnimationTimer rectangleAnimation = new AnimationTimer() {
-            @Override
-            public void handle(long timestamp) {
-                if (lastUpdateTime.get() > 0) {
-                    final double elapsedSeconds = (timestamp - lastUpdateTime.get()) / 1_000_000_000.0 ;
-
-                    final double deltaX = elapsedSeconds * rectangleVelocityX.get();
-                    final double oldX = hostSquare.getTranslateX();
-                    final double newX = Math.max(0, Math.min(WIDTH, oldX + deltaX));
-
-                    final double deltaY = elapsedSeconds * rectangleVelocityY.get();
-                    final double oldY = hostSquare.getTranslateY();
-                    final double newY = Math.max(0, Math.min(HEIGHT, oldY + deltaY));
-
-                    hostSquare.setTranslateX(newX);
-                    hostSquare.setTranslateY(newY);
-                }
-                lastUpdateTime.set(timestamp);
-            }
-        };
-        rectangleAnimation.start();
-
-        try {
-            scene.setOnKeyPressed((KeyEvent event) ->
-            {
-                if (event.getCode() == KeyCode.D) {
-                    rectangleVelocityX.set(rectangleSpeed);
-                } else if (event.getCode() == KeyCode.A) {
-                    rectangleVelocityX.set(-rectangleSpeed);
-                } else if (event.getCode() == KeyCode.W) {
-                    rectangleVelocityY.set(-rectangleSpeed);
-                } else if (event.getCode() == KeyCode.S) {
-                    rectangleVelocityY.set(rectangleSpeed);
-                }
-
-                try {
-                    networkConnection.send(new Player(hostSquare.getTranslateX(), hostSquare.getTranslateY()));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            });
-
-            scene.setOnKeyReleased((KeyEvent event) -> {
-
-                if (isAnyKeyReleased(event)) {
-                    rectangleVelocityX.set(0);
-                    rectangleVelocityY.set(0);
-                }
-            });
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        MovementController.movement(scene, hostSquare, clientSquare, networkConnection);
 
         showPreparedStage(primaryStage, scene);
     }
