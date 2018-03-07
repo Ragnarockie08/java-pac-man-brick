@@ -17,7 +17,6 @@ public class MovementController {
 
             try {
                 switch (event.getCode()) {
-
                     case W:
                         if (!(hostPlayer.getTranslateY() <= SIZE)) {
                             hostPlayer.setTranslateY(hostPlayer.getTranslateY() - SIZE);

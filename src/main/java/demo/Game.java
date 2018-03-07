@@ -8,13 +8,15 @@ import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import modes.Client;
 import modes.NetworkConnection;
 import modes.Server;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Game extends Application {
 
@@ -26,11 +28,13 @@ public class Game extends Application {
     private static Circle hostPlayer = new Circle(15);
     private static Circle clientPlayer = new Circle(15);
     private MovementController movementController;
+    private List<Rectangle> walls;
 
     @Override
     public void init() throws Exception {
         networkConnection.startConnection();
         movementController = new MovementController();
+        walls = new ArrayList<>();
     }
 
     public void start(Stage primaryStage) throws IOException {
@@ -40,7 +44,7 @@ public class Game extends Application {
         Scene scene = new Scene(root);
         Pane pane = (Pane) root.lookup("#scene");
         pane.getChildren().addAll(hostPlayer, clientPlayer);
-
+        getWalls(pane);
         setPosition(pane);
         movementController.movement(scene, hostPlayer, networkConnection);
 
@@ -68,6 +72,14 @@ public class Game extends Application {
         }
     }
 
+    private void getWalls(Pane pane){
+
+        for (int i = 0; i < pane.getChildren().size() - 2; i++){
+            walls.add((Rectangle) pane.getChildren().get(i));
+        }
+    }
+
+
     public static void main(String[] args) {
 
         Server server;
@@ -91,5 +103,9 @@ public class Game extends Application {
 
     public static Circle getClientPlayer() {
         return clientPlayer;
+    }
+
+    public List<Rectangle> getWalls() {
+        return walls;
     }
 }
