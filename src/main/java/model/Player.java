@@ -7,10 +7,12 @@ public class Player implements Serializable {
 
     private double xCoordinate;
     private double yCoordinate;
+    private String direction;
 
     public Player(Player player) {
         this.xCoordinate = player.getxCoordinate();
         this.yCoordinate = player.getyCoordinate();
+        this.direction = player.getDirection();
     }
 
     public Player(double xCoordinate, double yCoordinate) {
@@ -34,4 +36,11 @@ public class Player implements Serializable {
         this.yCoordinate = yCoordinate;
     }
 
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
 }
