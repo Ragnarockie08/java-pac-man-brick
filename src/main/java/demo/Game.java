@@ -31,9 +31,6 @@ public class Game {
 
     public void setPosition(Pane pane){
 
-        hostPlayer = (Rectangle) pane.getChildren().get(30);
-        clientPlayer = (Rectangle) pane.getChildren().get(31);
-
         if(mode.equals(Mode.SERVER)) {
             hostPlayer.setFill(Color.YELLOW);
             clientPlayer.setFill(Color.GREEN);
@@ -50,8 +47,13 @@ public class Game {
 
     public void createWalls(Pane pane){
 
-        for (int i = 0; i < pane.getChildren().size() - 2; i++){
-            walls.add((Rectangle) pane.getChildren().get(i));
+        for (int i = 0; i < pane.getChildren().size(); i++){
+            if(pane.getChildren().get(i) instanceof Rectangle
+                    && pane.getChildren().get(i) != hostPlayer
+                    && pane.getChildren().get(i) != clientPlayer) {
+
+                walls.add((Rectangle) pane.getChildren().get(i));
+            }
         }
     }
 
