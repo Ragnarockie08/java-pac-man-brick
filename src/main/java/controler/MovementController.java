@@ -7,6 +7,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -268,26 +269,37 @@ public class MovementController {
     private void handleEnd(NetworkConnection networkConnection, Pane pane){
 
         if (game.getCoins().isEmpty()){
-            networkConnection.setConnected(false);
+
             if (game.getMode() == Mode.SERVER){
                 handleWin(pane);
             } else {
                 handleLose(pane);
             }
-        } else if (game.getHostPlayer().getTranslateX() == game.getClientPlayer().getTranslateX()
-                && game.getClientPlayer().getTranslateX() == game.getClientPlayer().getTranslateY()){
+
             networkConnection.setConnected(false);
+        } else if (game.getHostPlayer().getTranslateX() == game.getClientPlayer().getTranslateX()
+                && game.getHostPlayer().getTranslateY() == game.getClientPlayer().getTranslateY()){
+
             if (game.getMode() == Mode.CLIENT){
+                System.out.println("mode.client");
                 handleWin(pane);
             } else {
+                System.out.println("else");
                 handleLose(pane);
             }
+            System.out.println("przed networlk");
+            networkConnection.setConnected(false);
         }
+
+
     }
 
     private void handleWin(Pane pane){
-        Pane victoryPane = (Pane) pane.lookup("#victory");
+        StackPane stackPane = (StackPane) pane.getParent();
+        System.out.println(stackPane.getChildren().size());
+        Pane victoryPane = (Pane) stackPane.lookup("#victory");
         victoryPane.setOpacity(1);
+
     }
 
     private void handleLose(Pane pane){
