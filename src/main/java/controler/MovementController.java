@@ -1,16 +1,28 @@
 package controler;
 
 import demo.Game;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 import model.Player;
 import modes.NetworkConnection;
 
 public class MovementController {
 
+    public enum Direction {
+        UP, DOWN, LEFT, RIGHT;
+    }
     private final int STEP = 8;
     private final int PLAYER_SIZE = 30;
+
+    private Direction direction = Direction.LEFT;
+    private boolean running = false;
+    private boolean moved = false;
+    private Timeline timeline = new Timeline();
+
     private char[][] walkableBoard;
     private Game game;
 
@@ -20,9 +32,81 @@ public class MovementController {
     }
 
     public void movement(Scene scene, Pane hostSquare, NetworkConnection networkConnection) {
+        handleMovement(scene, hostSquare, networkConnection);
+        timeline.play();
+    }
+
+    public void handleMovement(Scene scene, Pane hostSquare, NetworkConnection networkConnection) {
 
         prepareTable();
+
         scene.setOnKeyPressed(event -> {
+            if (moved) {
+                int x = (int) hostSquare.getTranslateX();
+                int y = (int) hostSquare.getTranslateY();
+                switch (event.getCode()) {
+
+                    case W:
+                        if (isAbleToMoveUp(hostSquare, x, y)) {
+                            direction = Direction.UP;
+                        }
+                        break;
+                    case S:
+                        if (isAbleToMoveDown(hostSquare, x, y)) {
+                            direction = Direction.DOWN;
+                        }
+                        break;
+                    case A:
+                        if (isAbleToMoveLeft(hostSquare, x, y)) {
+                            direction = Direction.LEFT;
+                        }
+                        break;
+                    case D:
+                        if (isAbleToMoveRight(hostSquare, x, y)) {
+                            direction = Direction.RIGHT;
+                        }
+                        break;
+                }
+            }
+        });
+
+        KeyFrame frame = new KeyFrame(Duration.seconds(0.05), event -> {
+            if (networkConnection.isConnected()) {
+                try {
+
+                    int x = (int) hostSquare.getTranslateX();
+                    int y = (int) hostSquare.getTranslateY();
+
+                    switch (direction) {
+                        case UP:
+                            checkMoveUp(hostSquare, x, y);
+                            break;
+                        case DOWN:
+                            checkMoveDown(hostSquare, x, y);
+                            break;
+                        case LEFT:
+                            checkMoveLeft(hostSquare, x, y);
+                            break;
+                        case RIGHT:
+                            checkMoveRight(hostSquare, x, y);
+                            break;
+                    }
+
+                    moved = true;
+                    handleSend(networkConnection);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        timeline.getKeyFrames().add(frame);
+        timeline.setCycleCount(Timeline.INDEFINITE);
+    }
+/*
+
+        scene.setOnKeyPressed(event-> {
             if (networkConnection.isConnected()){
                 try {
                     int x = (int) hostSquare.getTranslateX();
@@ -52,45 +136,52 @@ public class MovementController {
             }
         });
     }
+*/
 
     private void checkMoveUp(Pane player, int x, int y) {
-        if (player.getTranslateY() > STEP && isAbleToMoveUp(x, y)) {
+        if (isAbleToMoveUp(player, x, y)) {
             player.setTranslateY(player.getTranslateY() - STEP);
         }
     }
 
-    private boolean isAbleToMoveUp(int x, int y) {
-        return walkableBoard[x][y - STEP] == 'O' && walkableBoard[x + PLAYER_SIZE][y - STEP] == 'O';
+    private boolean isAbleToMoveUp(Pane player, int x, int y) {
+        return player.getTranslateY() > STEP
+                && walkableBoard[x][y - STEP] == 'O' && walkableBoard[x + PLAYER_SIZE][y - STEP] == 'O';
     }
 
     private void checkMoveDown(Pane player, int x, int y) {
-        if (player.getTranslateY() < Game.HEIGHT - 40 && isAbleToMoveDown(x, y)) {
+        if (isAbleToMoveDown(player, x, y)) {
             player.setTranslateY(player.getTranslateY() + STEP);
         }
     }
 
-    private boolean isAbleToMoveDown(int x, int y) {
-        return walkableBoard[x][y + STEP + PLAYER_SIZE] == 'O' && walkableBoard[x + PLAYER_SIZE][y + STEP + PLAYER_SIZE] == 'O';
+    private boolean isAbleToMoveDown(Pane player, int x, int y) {
+        return player.getTranslateY() < Game.HEIGHT - 40
+                && walkableBoard[x][y + STEP + PLAYER_SIZE] == 'O'
+                && walkableBoard[x + PLAYER_SIZE][y + STEP + PLAYER_SIZE] == 'O';
     }
 
     private void checkMoveLeft(Pane player, int x, int y) {
-        if (player.getTranslateX() > STEP && isAbleToMoveLeft(x, y)) {
+        if (isAbleToMoveLeft(player, x, y)) {
             player.setTranslateX(player.getTranslateX() - STEP);
         }
     }
 
-    private boolean isAbleToMoveLeft(int x, int y) {
-        return walkableBoard[x - STEP][y] == 'O' && walkableBoard[x -STEP][y + PLAYER_SIZE] == 'O';
+    private boolean isAbleToMoveLeft(Pane player, int x, int y) {
+        return player.getTranslateX() > STEP
+                && walkableBoard[x - STEP][y] == 'O' && walkableBoard[x -STEP][y + PLAYER_SIZE] == 'O';
     }
 
     private void checkMoveRight(Pane player, int x, int y) {
-        if (player.getTranslateX() < Game.WIDTH - 40 && isAbleToMoveRight(x, y)) {
+        if (isAbleToMoveRight(player, x, y)) {
             player.setTranslateX(player.getTranslateX() + STEP);
         }
     }
 
-    private boolean isAbleToMoveRight(int x, int y) {
-        return walkableBoard[x + STEP + PLAYER_SIZE][y] == 'O' && walkableBoard[x + STEP + PLAYER_SIZE][y + PLAYER_SIZE] == 'O';
+    private boolean isAbleToMoveRight(Pane player, int x, int y) {
+        return player.getTranslateX() < Game.WIDTH - 40
+                && walkableBoard[x + STEP + PLAYER_SIZE][y] == 'O'
+                && walkableBoard[x + STEP + PLAYER_SIZE][y + PLAYER_SIZE] == 'O';
     }
 
     private void prepareTable() {
@@ -126,6 +217,8 @@ public class MovementController {
         game.getPlayer().setyCoordinate(coordinateY);
 
         networkConnection.send(new Player(game.getPlayer()));
+        timeline.play();
+
     }
 
 }
