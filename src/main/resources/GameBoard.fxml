@@ -225,7 +225,7 @@
             </ImageView>
          </children>
       </Pane>
-      <Pane fx:id="lose" prefHeight="200.0" prefWidth="200.0">
+      <Pane fx:id="lose" opacity="0.0" prefHeight="200.0" prefWidth="200.0">
          <children>
             <ImageView fitHeight="680.0" fitWidth="680.0">
                <image>
