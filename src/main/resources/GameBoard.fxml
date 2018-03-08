@@ -216,5 +216,14 @@
                </children>
             </Pane>
          </children></Pane>
+      <Pane fx:id="victory" opacity="0.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;">
+         <children>
+            <ImageView fitHeight="680.0" fitWidth="669.0" layoutX="8.0" layoutY="4.0">
+               <image>
+                  <Image url="@informatyk.gif" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
    </children>
 </StackPane>
