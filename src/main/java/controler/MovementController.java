@@ -23,6 +23,7 @@ public class MovementController {
 
     private char[][] walkableBoard;
     private Game game;
+    private Player player;
 
     public MovementController(Game game){
         this.game = game;
@@ -33,6 +34,7 @@ public class MovementController {
     public void movement(Scene scene, Pane hostSquare, NetworkConnection networkConnection) {
         handleMovement(scene, hostSquare, networkConnection);
         timeline.play();
+
     }
 
     public void handleMovement(Scene scene, Pane hostSquare, NetworkConnection networkConnection) {
@@ -103,39 +105,6 @@ public class MovementController {
         timeline.getKeyFrames().add(frame);
         timeline.setCycleCount(Timeline.INDEFINITE);
     }
-/*
-
-        scene.setOnKeyPressed(event-> {
-            if (networkConnection.isConnected()){
-                try {
-                    int x = (int) hostSquare.getTranslateX();
-                    int y = (int) hostSquare.getTranslateY();
-
-                    switch (event.getCode()) {
-
-                        case W:
-                            checkMoveUp(hostSquare, x, y);
-                            break;
-                        case S:
-                            checkMoveDown(hostSquare, x, y);
-                            break;
-                        case A:
-                            checkMoveLeft(hostSquare, x, y);
-                            break;
-                        case D:
-                            checkMoveRight(hostSquare, x, y);
-                            break;
-                    }
-
-                    handleSend(networkConnection);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-*/
 
     private void checkMoveUp(Pane player, int x, int y) {
         if (isAbleToMoveUp(player, x, y)) {
@@ -214,10 +183,43 @@ public class MovementController {
 
         game.getPlayer().setxCoordinate(coordinateX);
         game.getPlayer().setyCoordinate(coordinateY);
-
         networkConnection.send(new Player(game.getPlayer()));
-        timeline.play();
+    }
 
+    @Deprecated
+    private void handleMovement() {
+        /*
+        scene.setOnKeyPressed(event-> {
+            if (networkConnection.isConnected()){
+                try {
+                    int x = (int) hostSquare.getTranslateX();
+                    int y = (int) hostSquare.getTranslateY();
+
+                    switch (event.getCode()) {
+
+                        case W:
+                            checkMoveUp(hostSquare, x, y);
+                            break;
+                        case S:
+                            checkMoveDown(hostSquare, x, y);
+                            break;
+                        case A:
+                            checkMoveLeft(hostSquare, x, y);
+                            break;
+                        case D:
+                            checkMoveRight(hostSquare, x, y);
+                            break;
+                    }
+
+                    handleSend(networkConnection);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+*/
     }
 
 }

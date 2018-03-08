@@ -29,6 +29,7 @@ public abstract class NetworkConnection extends Thread {
 
     public void send(Serializable data) throws Exception {
         outputStream.writeObject(data);
+        outputStream.flush();
     }
 
     public void closeConnection() throws Exception {
@@ -75,9 +76,9 @@ public abstract class NetworkConnection extends Thread {
     }
 
 
-    private void moveOponent(Player player){
-        game.getClientPlayer().setTranslateY(player.getyCoordinate());
+    private void moveOponent(Player player) {
         game.getClientPlayer().setTranslateX(player.getxCoordinate());
+        game.getClientPlayer().setTranslateY(player.getyCoordinate());
     }
 
 
