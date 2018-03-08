@@ -3,7 +3,9 @@ package modes;
 import demo.Game;
 import helper.Mode;
 import javafx.scene.shape.Circle;
+import helper.Direction;
 import model.Player;
+import org.omg.PortableInterceptor.DISCARDING;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -11,6 +13,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
+
 
 public abstract class NetworkConnection extends Thread {
 
@@ -21,19 +24,24 @@ public abstract class NetworkConnection extends Thread {
     private boolean connected;
 
     public NetworkConnection(Game game){
+
         this.game = game;
         this.connected = false;
     }
 
     public void startConnection() throws Exception {
+
         start();
     }
 
     public void send(Serializable data) throws Exception {
+
         outputStream.writeObject(data);
+        outputStream.flush();
     }
 
     public void closeConnection() throws Exception {
+
         socket.close();
     }
 
@@ -45,6 +53,7 @@ public abstract class NetworkConnection extends Thread {
 
     @Override
     public void run() {
+
         try {
 
             ServerSocket server;
@@ -79,9 +88,38 @@ public abstract class NetworkConnection extends Thread {
 
 
     private void moveOponent(Player player){
+
         game.getClientPlayer().setTranslateY(player.getyCoordinate());
         game.getClientPlayer().setTranslateX(player.getxCoordinate());
+        System.out.println(player.getDirection());
+        roundDirection(player);
     }
+
+    private void roundDirection(Player player) {
+
+
+        if (player.getDirection() == Direction.UP) {
+            if(!game.isPacman()) {
+
+                game.getClientPlayer().setRotate(270);
+                game.getClientPlayer().setScaleY(1);
+            }
+        } else if (player.getDirection() == Direction.RIGHT) {
+            System.out.println("right");
+            game.getClientPlayer().setRotate(0);
+            game.getClientPlayer().setScaleY(1);
+        } else if (player.getDirection() == Direction.DOWN) {
+            if(!game.isPacman()) {
+                game.getClientPlayer().setRotate(90);
+                game.getClientPlayer().setScaleY(1);
+            }
+        } else if (player.getDirection() == Direction.LEFT) {
+            System.out.println("left");
+            game.getClientPlayer().setRotate(180);
+            game.getClientPlayer().setScaleY(-1);
+        }
+    }
+
 
     private void removeCoin(Player player){
 

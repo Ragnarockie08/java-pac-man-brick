@@ -1,11 +1,11 @@
 package demo;
 
+import helper.Direction;
 import helper.Mode;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import model.Player;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,29 +29,39 @@ public class Game {
         coinsToRemove = new ArrayList<>();
     }
 
-    public void setPosition(Pane pane){
+    public void setPosition(Pane pane) {
 
-        if (mode.equals(Mode.SERVER)){
-            hostPlayer = (Pane) pane.lookup("#server");
-            clientPlayer = (Pane) pane.lookup("#client");
-            hostPlayer.setTranslateX(325); hostPlayer.setTranslateY(645);
-            clientPlayer.setTranslateX(325); clientPlayer.setTranslateY(365);
+        if (mode.equals(Mode.SERVER)) {
+            setServerPosition(pane);
         } else {
-            hostPlayer = (Pane) pane.lookup("#client");
-            clientPlayer = (Pane) pane.lookup("#server");
-            hostPlayer.setTranslateX(325); hostPlayer.setTranslateY(365);
-            clientPlayer.setTranslateX(325); clientPlayer.setTranslateY(645);
+            setClientPosition(pane);
         }
         player = new Player(hostPlayer.getTranslateX(), hostPlayer.getTranslateY());
-
+        player.setDirection(Direction.UP);
     }
 
-    public void createWalls(Pane pane){
+    private void setServerPosition (Pane pane) {
+
+        hostPlayer = (Pane) pane.lookup("#server");
+        clientPlayer = (Pane) pane.lookup("#client");
+        hostPlayer.setTranslateX(325); hostPlayer.setTranslateY(645);
+        clientPlayer.setTranslateX(325); clientPlayer.setTranslateY(365);
+    }
+
+    private void setClientPosition(Pane pane) {
+
+        hostPlayer = (Pane) pane.lookup("#client");
+        clientPlayer = (Pane) pane.lookup("#server");
+        hostPlayer.setTranslateX(325); hostPlayer.setTranslateY(365);
+        clientPlayer.setTranslateX(325); clientPlayer.setTranslateY(645);
+    }
+
+    public void createWalls(Pane pane) {
 
         for (int i = 0; i < pane.getChildren().size(); i++){
             if(pane.getChildren().get(i) instanceof Rectangle
                     && pane.getChildren().get(i) != hostPlayer
-                        && pane.getChildren().get(i) != clientPlayer) {
+                    && pane.getChildren().get(i) != clientPlayer) {
 
                 walls.add((Rectangle) pane.getChildren().get(i));
             }
@@ -96,5 +106,12 @@ public class Game {
 
     public List<Circle> getCoinsToRemove() {
         return coinsToRemove;
+    }
+
+    public boolean isPacman() {
+        if (mode.getValue().equals("server")) {
+            return true;
+        }
+        return false;
     }
 }

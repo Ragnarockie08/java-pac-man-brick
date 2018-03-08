@@ -18,22 +18,30 @@ public class App extends Application {
     private MovementController movementController;
     private static NetworkConnection networkConnection;
 
+    private static int port;
+    private static String host;
+    private static Mode mode;
+
 
     @Override
     public void init() throws Exception {
-        networkConnection.startConnection();
         movementController = new MovementController(game);
     }
 
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) throws Exception {
 
         Pane root = FXMLLoader.load(getClass().getResource("/GameBoard.fxml"));
 
         Scene scene = new Scene(root);
         Pane pane = (Pane) root.lookup("#scene");
+
+        game.setMode(mode);
         game.createWalls(pane);
         game.createCoins(pane);
         game.setPosition(pane);
+
+        setNetworkConnection();
+
         movementController.movement(scene, game.getHostPlayer(), networkConnection, pane);
         showPreparedStage(primaryStage, scene);
 
@@ -46,23 +54,33 @@ public class App extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {
+    private void setNetworkConnection() throws Exception {
+        if (mode == Mode.SERVER) {
+            networkConnection = new Server(port, game);
 
-        Server server;
-        Client client;
-
-        Mode mode = Mode.getInstance(args[0]);
-
-        if (mode.equals(Mode.SERVER)) {
-            server = new Server(Integer.parseInt(args[1]), game);
-            networkConnection = server;
-
-        } else if (mode.equals(Mode.CLIENT)) {
-            client = new Client(args[1], Integer.parseInt(args[2]), game);
-            networkConnection = client;
+        } else if (mode == Mode.CLIENT) {
+            networkConnection = new Client(host, port, game);
         }
 
-        game.setMode(mode);
+        networkConnection.startConnection();
+    }
+
+    public static void main(String[] args) {
+
+        manageArgs(args);
         launch(args);
+    }
+
+    private static void manageArgs(String[] args) {
+
+        mode = Mode.getInstance(args[0]);
+
+        if (args.length == 2) {
+            port = Integer.parseInt(args[1]);
+
+        } else {
+            port = Integer.parseInt(args[2]);
+            host = args[1];
+        }
     }
 }
