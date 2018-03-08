@@ -11,8 +11,6 @@ public class MovementController {
 
     private final int STEP = 20;
     private final int PLAYER_SIZE = 30;
-    private static int playerXcoord;
-    private static int playerYcoord;
     private char[][] walkableBoard;
     private Game game;
 
@@ -21,35 +19,36 @@ public class MovementController {
         this.walkableBoard = new char[680][680];
     }
 
-    public void movement(Scene scene, Shape hostSquare, Shape clientSquare, NetworkConnection networkConnection) {
+    public void movement(Scene scene, Shape hostSquare, NetworkConnection networkConnection) {
 
         prepareTable();
         scene.setOnKeyPressed(event -> {
+            if (networkConnection.isConnected()){
+                try {
+                    int x = (int) hostSquare.getTranslateX();
+                    int y = (int) hostSquare.getTranslateY();
 
-            try {
-                int x = (int) hostSquare.getTranslateX();
-                int y = (int) hostSquare.getTranslateY();
+                    switch (event.getCode()) {
 
-                switch (event.getCode()) {
+                        case W:
+                            checkMoveUp(hostSquare,x, y);
+                            break;
+                        case S:
+                            checkMoveDown(hostSquare, x, y);
+                            break;
+                        case A:
+                            checkMoveLeft(hostSquare, x, y);
+                            break;
+                        case D:
+                            checkMoveRight(hostSquare, x, y);
+                            break;
+                    }
 
-                    case W:
-                        checkMoveUp(hostSquare,x, y);
-                        break;
-                    case S:
-                        checkMoveDown(hostSquare, x, y);
-                        break;
-                    case A:
-                        checkMoveLeft(hostSquare, x, y);
-                        break;
-                    case D:
-                        checkMoveRight(hostSquare, x, y);
-                        break;
+                    handleSend(networkConnection);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-
-                handleSend(networkConnection);
-
-            } catch (Exception e) {
-                e.printStackTrace();
             }
         });
     }
@@ -109,7 +108,6 @@ public class MovementController {
 
     private void fillWithWalkableFields() {
 
-
         for (Rectangle shape : game.getWalls()) {
             for (int i = (int) shape.getLayoutX(); i < shape.getLayoutX() + shape.getWidth(); i++) {
                 for (int j = (int) shape.getLayoutY(); j < shape.getLayoutY() + shape.getHeight(); j++) {
@@ -121,9 +119,13 @@ public class MovementController {
 
     private void handleSend(NetworkConnection networkConnection) throws Exception {
 
-        Player player = new Player(game.getHostPlayer().getTranslateX(), game.getHostPlayer().getTranslateY());
+        double coordinateX = game.getHostPlayer().getTranslateX();
+        double coordinateY = game.getHostPlayer().getTranslateY();
 
-        networkConnection.send(player);
+        game.getPlayer().setxCoordinate(coordinateX);
+        game.getPlayer().setyCoordinate(coordinateY);
+
+        networkConnection.send(new Player(game.getPlayer()));
     }
 
 }

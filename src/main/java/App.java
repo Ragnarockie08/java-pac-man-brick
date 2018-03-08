@@ -34,7 +34,7 @@ public class App extends Application {
         pane.getChildren().addAll(game.getHostPlayer(), game.getClientPlayer());
         game.createWalls(pane);
         game.setPosition(pane);
-        movementController.movement(scene, game.getHostPlayer(), game.getClientPlayer(), networkConnection);
+        movementController.movement(scene, game.getHostPlayer(), networkConnection);
         showPreparedStage(primaryStage, scene);
 
     }
