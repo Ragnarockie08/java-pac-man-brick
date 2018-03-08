@@ -23,7 +23,7 @@ public class MovementController {
 
     private char[][] walkableBoard;
     private Game game;
-    Player player;
+//    Player player;
 
     public MovementController(Game game) {
 
@@ -51,21 +51,25 @@ public class MovementController {
                     case W:
                         if (isAbleToMoveUp(hostSquare, x, y)) {
                             direction = Direction.UP;
+                            game.getPlayer().setDirection(Direction.UP);
                         }
                         break;
                     case S:
                         if (isAbleToMoveDown(hostSquare, x, y)) {
                             direction = Direction.DOWN;
+                            game.getPlayer().setDirection(Direction.DOWN);
                         }
                         break;
                     case A:
                         if (isAbleToMoveLeft(hostSquare, x, y)) {
                             direction = Direction.LEFT;
+                            game.getPlayer().setDirection(Direction.LEFT);
                         }
                         break;
                     case D:
                         if (isAbleToMoveRight(hostSquare, x, y)) {
                             direction = Direction.RIGHT;
+                            game.getPlayer().setDirection(Direction.RIGHT);
                         }
                         break;
                 }
@@ -224,6 +228,7 @@ public class MovementController {
     }
 
 
+
     @Deprecated
     private void handleMovement() {
         /*
@@ -259,4 +264,5 @@ public class MovementController {
     }
 */
     }
+
 }
