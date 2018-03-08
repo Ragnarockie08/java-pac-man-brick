@@ -216,23 +216,5 @@
                </children>
             </Pane>
          </children></Pane>
-      <Pane fx:id="victory" opacity="0.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;">
-         <children>
-            <ImageView fitHeight="680.0" fitWidth="669.0" layoutX="8.0" layoutY="4.0">
-               <image>
-                  <Image url="@informatyk.gif" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
-      <Pane fx:id="lose" opacity="0.0" prefHeight="200.0" prefWidth="200.0">
-         <children>
-            <ImageView fitHeight="680.0" fitWidth="680.0">
-               <image>
-                  <Image url="@lose.gif" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
    </children>
 </StackPane>
