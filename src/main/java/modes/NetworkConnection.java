@@ -88,10 +88,12 @@ public abstract class NetworkConnection extends Thread {
 
         game.getClientPlayer().setTranslateY(player.getyCoordinate());
         game.getClientPlayer().setTranslateX(player.getxCoordinate());
+        System.out.println(player.getDirection());
         roundDirection(player);
     }
 
     private void roundDirection(Player player) {
+
 
         if (player.getDirection() == Direction.UP) {
             if(!game.isPacman()) {
@@ -100,6 +102,7 @@ public abstract class NetworkConnection extends Thread {
                 game.getClientPlayer().setScaleY(1);
             }
         } else if (player.getDirection() == Direction.RIGHT) {
+            System.out.println("right");
             game.getClientPlayer().setRotate(0);
             game.getClientPlayer().setScaleY(1);
         } else if (player.getDirection() == Direction.DOWN) {
@@ -109,6 +112,7 @@ public abstract class NetworkConnection extends Thread {
                 game.getClientPlayer().setScaleY(1);
             }
         } else if (player.getDirection() == Direction.LEFT) {
+            System.out.println("left");
             game.getClientPlayer().setRotate(180);
             game.getClientPlayer().setScaleY(-1);
         }
