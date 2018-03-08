@@ -276,14 +276,13 @@ public class MovementController {
             }
         } else if (game.getHostPlayer().getTranslateX() == game.getClientPlayer().getTranslateX()
                 && game.getClientPlayer().getTranslateX() == game.getClientPlayer().getTranslateY()){
+            networkConnection.setConnected(false);
             if (game.getMode() == Mode.CLIENT){
                 handleWin(pane);
             } else {
                 handleLose(pane);
             }
         }
-    }
-*/
     }
 
     private void handleWin(Pane pane){
@@ -292,7 +291,7 @@ public class MovementController {
     }
 
     private void handleLose(Pane pane){
-
+        System.out.println("you lose");
     }
 
 
