@@ -34,11 +34,4 @@ public class Player implements Serializable {
         this.yCoordinate = yCoordinate;
     }
 
-    @Override
-    public String toString() {
-        return "Player{" +
-                "x ='" + xCoordinate + '\'' +
-                ", y ='" + yCoordinate +
-                '}';
-    }
 }

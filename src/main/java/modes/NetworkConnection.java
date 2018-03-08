@@ -64,8 +64,7 @@ public abstract class NetworkConnection extends Thread {
 
             while (true) {
                 player = (Player) in.readObject();
-                game.getClientPlayer().setTranslateY(player.getyCoordinate());
-                game.getClientPlayer().setTranslateX(player.getxCoordinate());
+                moveOponent(player);
             }
 
         } catch (IOException e){
@@ -74,6 +73,13 @@ public abstract class NetworkConnection extends Thread {
             e.printStackTrace();
         }
     }
+
+
+    private void moveOponent(Player player){
+        game.getClientPlayer().setTranslateY(player.getyCoordinate());
+        game.getClientPlayer().setTranslateX(player.getxCoordinate());
+    }
+
 
     public boolean isConnected() {
         return connected;
