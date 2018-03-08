@@ -2,13 +2,13 @@ package modes;
 
 import demo.Game;
 import model.Player;
-
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
+
 
 public abstract class NetworkConnection extends Thread {
 
@@ -19,19 +19,23 @@ public abstract class NetworkConnection extends Thread {
     private boolean connected;
 
     public NetworkConnection(Game game){
+
         this.game = game;
         this.connected = false;
     }
 
     public void startConnection() throws Exception {
+
         start();
     }
 
     public void send(Serializable data) throws Exception {
+
         outputStream.writeObject(data);
     }
 
     public void closeConnection() throws Exception {
+
         socket.close();
     }
 
@@ -44,6 +48,7 @@ public abstract class NetworkConnection extends Thread {
 
     @Override
     public void run() {
+
         try {
 
             ServerSocket server;
@@ -76,8 +81,33 @@ public abstract class NetworkConnection extends Thread {
 
 
     private void moveOponent(Player player){
+
         game.getClientPlayer().setTranslateY(player.getyCoordinate());
         game.getClientPlayer().setTranslateX(player.getxCoordinate());
+        roundRidection(player);
+    }
+
+    private void roundRidection(Player player) {
+
+        if (player.getDirection().equals("NORTH")) {
+            if(!game.isPacman()) {
+
+                game.getClientPlayer().setRotate(270);
+                game.getClientPlayer().setScaleY(1);
+            }
+        } else if (player.getDirection().equals("EAST")) {
+            game.getClientPlayer().setRotate(0);
+            game.getClientPlayer().setScaleY(1);
+        } else if (player.getDirection().equals("SOUTH")) {
+            if(!game.isPacman()) {
+
+                game.getClientPlayer().setRotate(90);
+                game.getClientPlayer().setScaleY(1);
+            }
+        } else if (player.getDirection().equals("WEST")) {
+            game.getClientPlayer().setRotate(180);
+            game.getClientPlayer().setScaleY(-1);
+        }
     }
 
 
