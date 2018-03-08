@@ -1,10 +1,10 @@
 package demo;
 
+import helper.Direction;
 import helper.Mode;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import model.Player;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +32,7 @@ public class Game {
             setClientPosition(pane);
         }
         player = new Player(hostPlayer.getTranslateX(), hostPlayer.getTranslateY());
+        player.setDirection(Direction.UP);
     }
 
     private void setServerPosition (Pane pane) {
@@ -82,7 +83,10 @@ public class Game {
         return player;
     }
 
-    public Mode getMode() {
-        return mode;
+    public boolean isPacman() {
+        if (mode.getValue().equals("server")) {
+            return true;
+        }
+        return false;
     }
 }

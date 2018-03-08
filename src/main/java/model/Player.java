@@ -13,7 +13,7 @@ public class Player implements Serializable {
     public Player(Player player) {
         this.xCoordinate = player.getxCoordinate();
         this.yCoordinate = player.getyCoordinate();
-        this.direction = Direction.UP;
+        this.direction = player.getDirection();
     }
 
     public Player(double xCoordinate, double yCoordinate) {
