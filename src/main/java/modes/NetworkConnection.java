@@ -1,7 +1,10 @@
 package modes;
 
 import demo.Game;
+import helper.Direction;
 import model.Player;
+import org.omg.PortableInterceptor.DISCARDING;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -90,22 +93,22 @@ public abstract class NetworkConnection extends Thread {
 
     private void roundDirection(Player player) {
 
-        if (player.getDirection().equals("NORTH")) {
+        if (player.getDirection() == Direction.UP) {
             if(!game.isPacman()) {
 
                 game.getClientPlayer().setRotate(270);
                 game.getClientPlayer().setScaleY(1);
             }
-        } else if (player.getDirection().equals("EAST")) {
+        } else if (player.getDirection() == Direction.RIGHT) {
             game.getClientPlayer().setRotate(0);
             game.getClientPlayer().setScaleY(1);
-        } else if (player.getDirection().equals("SOUTH")) {
+        } else if (player.getDirection() == Direction.DOWN) {
             if(!game.isPacman()) {
 
                 game.getClientPlayer().setRotate(90);
                 game.getClientPlayer().setScaleY(1);
             }
-        } else if (player.getDirection().equals("WEST")) {
+        } else if (player.getDirection() == Direction.LEFT) {
             game.getClientPlayer().setRotate(180);
             game.getClientPlayer().setScaleY(-1);
         }

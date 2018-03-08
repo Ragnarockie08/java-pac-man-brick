@@ -93,7 +93,7 @@ public class MovementController {
                             checkMoveRight(hostSquare, x, y);
                             break;
                     }
-                    roundRidection();
+                    roundDirection();
 
                     moved = true;
                     handleSend(networkConnection);
@@ -111,7 +111,7 @@ public class MovementController {
     private void checkMoveUp(Pane player, int x, int y) {
         if (isAbleToMoveUp(player, x, y)) {
             player.setTranslateY(player.getTranslateY() - STEP);
-            game.getPlayer().setDirection("NORTH");
+            game.getPlayer().setDirection(Direction.UP);
         }
     }
 
@@ -123,7 +123,7 @@ public class MovementController {
     private void checkMoveDown(Pane player, int x, int y) {
         if (isAbleToMoveDown(player, x, y)) {
             player.setTranslateY(player.getTranslateY() + STEP);
-            game.getPlayer().setDirection("SOUTH");
+            game.getPlayer().setDirection(Direction.DOWN);
         }
     }
 
@@ -136,7 +136,7 @@ public class MovementController {
     private void checkMoveLeft(Pane player, int x, int y) {
         if (isAbleToMoveLeft(player, x, y)) {
             player.setTranslateX(player.getTranslateX() - STEP);
-            game.getPlayer().setDirection("WEST");
+            game.getPlayer().setDirection(Direction.LEFT);
         }
     }
 
@@ -148,7 +148,7 @@ public class MovementController {
     private void checkMoveRight(Pane player, int x, int y) {
         if (isAbleToMoveRight(player, x, y)) {
             player.setTranslateX(player.getTranslateX() + STEP);
-            game.getPlayer().setDirection("EAST");
+            game.getPlayer().setDirection(Direction.RIGHT);
         }
     }
 
@@ -194,21 +194,21 @@ public class MovementController {
         networkConnection.send(new Player(game.getPlayer()));
     }
 
-    private void roundRidection() {
+    private void roundDirection() {
 
-        if (game.getPlayer().getDirection().equals("NORTH")) {
+        if (game.getPlayer().getDirection() == Direction.UP) {
 
             if (game.isPacman()) {
                 game.getHostPlayer().setRotate(270);
                 game.getHostPlayer().setScaleY(1);
             }
 
-        } else if (game.getPlayer().getDirection().equals("EAST")) {
+        } else if (game.getPlayer().getDirection() == Direction.RIGHT) {
 
             game.getHostPlayer().setRotate(0);
             game.getHostPlayer().setScaleY(1);
 
-        } else if (game.getPlayer().getDirection().equals("SOUTH")) {
+        } else if (game.getPlayer().getDirection() == Direction.DOWN) {
 
             if (game.isPacman()) {
 
@@ -216,7 +216,7 @@ public class MovementController {
                 game.getHostPlayer().setScaleY(1);
 
             }
-        } else if (game.getPlayer().getDirection().equals("WEST")) {
+        } else if (game.getPlayer().getDirection() == Direction.LEFT) {
 
             game.getHostPlayer().setRotate(180);
             game.getHostPlayer().setScaleY(-1);
