@@ -197,7 +197,24 @@
             <Circle centerX="-150.0" centerY="490.0" fill="#fcff1f" layoutX="250.0" layoutY="170.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
             <Circle centerX="-150.0" centerY="490.0" fill="#fcff1f" layoutX="210.0" layoutY="170.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
             <Circle centerX="-150.0" centerY="490.0" fill="#fcff1f" layoutX="165.0" layoutY="170.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-            <Pane layoutX="320.0" layoutY="640.0" prefHeight="40.0" prefWidth="40.0" />
+            <Pane fx:id="server" layoutX="320.0" layoutY="640.0" prefHeight="40.0" prefWidth="40.0">
+               <children>
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="-5.0" layoutY="-5.0">
+                     <image>
+                        <Image url="@server.gif" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Pane layoutX="320.0" layoutY="360.0" prefHeight="40.0" prefWidth="40.0">
+               <children>
+                  <ImageView fx:id="client" fitHeight="40.0" fitWidth="40.0" layoutX="-1.0">
+                     <image>
+                        <Image url="@client.gif" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
          </children></Pane>
    </children>
 </StackPane>
