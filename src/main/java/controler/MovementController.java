@@ -2,7 +2,6 @@ package controler;
 
 import demo.Game;
 import helper.Direction;
-import helper.Mode;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
@@ -11,6 +10,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import model.Player;
 import modes.NetworkConnection;
+
 
 public class MovementController {
 
@@ -23,9 +23,10 @@ public class MovementController {
 
     private char[][] walkableBoard;
     private Game game;
-    private Player player;
+    Player player;
 
-    public MovementController(Game game){
+    public MovementController(Game game) {
+
         this.game = game;
         this.walkableBoard = new char[680][680];
         direction = Direction.UP;
@@ -92,6 +93,7 @@ public class MovementController {
                             checkMoveRight(hostSquare, x, y);
                             break;
                     }
+                    roundRidection();
 
                     moved = true;
                     handleSend(networkConnection);
@@ -109,6 +111,7 @@ public class MovementController {
     private void checkMoveUp(Pane player, int x, int y) {
         if (isAbleToMoveUp(player, x, y)) {
             player.setTranslateY(player.getTranslateY() - STEP);
+            game.getPlayer().setDirection("NORTH");
         }
     }
 
@@ -120,6 +123,7 @@ public class MovementController {
     private void checkMoveDown(Pane player, int x, int y) {
         if (isAbleToMoveDown(player, x, y)) {
             player.setTranslateY(player.getTranslateY() + STEP);
+            game.getPlayer().setDirection("SOUTH");
         }
     }
 
@@ -132,17 +136,19 @@ public class MovementController {
     private void checkMoveLeft(Pane player, int x, int y) {
         if (isAbleToMoveLeft(player, x, y)) {
             player.setTranslateX(player.getTranslateX() - STEP);
+            game.getPlayer().setDirection("WEST");
         }
     }
 
     private boolean isAbleToMoveLeft(Pane player, int x, int y) {
         return player.getTranslateX() > STEP
-                && walkableBoard[x - STEP][y] == 'O' && walkableBoard[x -STEP][y + PLAYER_SIZE] == 'O';
+                && walkableBoard[x - STEP][y] == 'O' && walkableBoard[x - STEP][y + PLAYER_SIZE] == 'O';
     }
 
     private void checkMoveRight(Pane player, int x, int y) {
         if (isAbleToMoveRight(player, x, y)) {
             player.setTranslateX(player.getTranslateX() + STEP);
+            game.getPlayer().setDirection("EAST");
         }
     }
 
@@ -153,13 +159,15 @@ public class MovementController {
     }
 
     private void prepareTable() {
+
         fillTable();
         fillWithWalkableFields();
     }
 
     private void fillTable() {
-        for (int i=0; i<680; i++) {
-            for (int j=0; j<680; j++) {
+
+        for (int i = 0; i < 680; i++) {
+            for (int j = 0; j < 680; j++) {
                 walkableBoard[i][j] = 'O';
             }
         }
@@ -185,6 +193,36 @@ public class MovementController {
         game.getPlayer().setyCoordinate(coordinateY);
         networkConnection.send(new Player(game.getPlayer()));
     }
+
+    private void roundRidection() {
+
+        if (game.getPlayer().getDirection().equals("NORTH")) {
+
+            if (game.isPacman()) {
+                game.getHostPlayer().setRotate(270);
+                game.getHostPlayer().setScaleY(1);
+            }
+
+        } else if (game.getPlayer().getDirection().equals("EAST")) {
+
+            game.getHostPlayer().setRotate(0);
+            game.getHostPlayer().setScaleY(1);
+
+        } else if (game.getPlayer().getDirection().equals("SOUTH")) {
+
+            if (game.isPacman()) {
+
+                game.getHostPlayer().setRotate(90);
+                game.getHostPlayer().setScaleY(1);
+
+            }
+        } else if (game.getPlayer().getDirection().equals("WEST")) {
+
+            game.getHostPlayer().setRotate(180);
+            game.getHostPlayer().setScaleY(-1);
+        }
+    }
+
 
     @Deprecated
     private void handleMovement() {
@@ -221,5 +259,4 @@ public class MovementController {
     }
 */
     }
-
 }
