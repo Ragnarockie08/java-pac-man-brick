@@ -25,6 +25,7 @@ public class MovementController {
 
     private char[][] walkableBoard;
     private Game game;
+//    Player player;
 
     public MovementController(Game game) {
 
@@ -281,6 +282,8 @@ public class MovementController {
                 handleLose(pane);
             }
         }
+    }
+*/
     }
 
     private void handleWin(Pane pane){
