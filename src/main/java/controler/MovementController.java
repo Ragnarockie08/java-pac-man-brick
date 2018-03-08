@@ -31,7 +31,7 @@ public class MovementController {
 
         this.game = game;
         this.walkableBoard = new char[680][680];
-        direction = Direction.RIGHT;
+        direction = Direction.UP;
     }
 
     public void movement(Scene scene, Pane hostSquare, NetworkConnection networkConnection, Pane pane) {
@@ -100,6 +100,7 @@ public class MovementController {
                             break;
                     }
                     handleCoins(pane);
+                    handleWin(networkConnection);
                     roundDirection();
 
                     moved = true;
@@ -261,6 +262,14 @@ public class MovementController {
 
             game.getHostPlayer().setRotate(180);
             game.getHostPlayer().setScaleY(-1);
+        }
+    }
+
+
+    private void handleWin(NetworkConnection networkConnection){
+
+        if (game.getCoins().isEmpty()){
+            networkConnection.setConnected(false);
         }
     }
 

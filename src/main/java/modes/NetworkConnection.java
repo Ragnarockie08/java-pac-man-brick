@@ -104,7 +104,6 @@ public abstract class NetworkConnection extends Thread {
                 game.getClientPlayer().setScaleY(1);
             }
         } else if (player.getDirection() == Direction.RIGHT) {
-            System.out.println("right");
             game.getClientPlayer().setRotate(0);
             game.getClientPlayer().setScaleY(1);
         } else if (player.getDirection() == Direction.DOWN) {
@@ -113,7 +112,6 @@ public abstract class NetworkConnection extends Thread {
                 game.getClientPlayer().setScaleY(1);
             }
         } else if (player.getDirection() == Direction.LEFT) {
-            System.out.println("left");
             game.getClientPlayer().setRotate(180);
             game.getClientPlayer().setScaleY(-1);
         }
@@ -132,6 +130,10 @@ public abstract class NetworkConnection extends Thread {
                 game.getCoinsToRemove().add(coin);
             }
         }
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
     }
 
     public boolean isConnected() {
