@@ -134,7 +134,6 @@
             <Circle centerX="-80.0" centerY="280.0" fill="#fcff1f" layoutX="220.0" layoutY="100.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
             <Circle centerX="-80.0" centerY="280.0" fill="#fcff1f" layoutX="300.0" layoutY="100.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
             <Circle centerX="-80.0" centerY="280.0" fill="#fcff1f" layoutX="380.0" layoutY="100.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-            <Circle centerX="-80.0" centerY="280.0" fill="#fcff1f" layoutX="420.0" layoutY="100.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
             <Circle centerX="-80.0" centerY="280.0" fill="#fcff1f" layoutX="460.0" layoutY="100.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
             <Circle centerX="-80.0" centerY="280.0" fill="#fcff1f" layoutX="540.0" layoutY="100.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
             <Circle centerX="-80.0" centerY="280.0" fill="#fcff1f" layoutX="620.0" layoutY="100.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
@@ -190,7 +189,6 @@
             <Circle centerX="-150.0" centerY="490.0" fill="#fcff1f" layoutX="610.0" layoutY="170.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
             <Circle centerX="-150.0" centerY="490.0" fill="#fcff1f" layoutX="570.0" layoutY="170.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
             <Circle centerX="-150.0" centerY="490.0" fill="#fcff1f" layoutX="530.0" layoutY="170.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-            <Circle centerX="-150.0" centerY="490.0" fill="#fcff1f" layoutX="490.0" layoutY="170.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
             <Circle centerX="-150.0" centerY="490.0" fill="#fcff1f" layoutX="450.0" layoutY="170.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
             <Circle centerX="-150.0" centerY="490.0" fill="#fcff1f" layoutX="410.0" layoutY="170.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
             <Circle centerX="-150.0" centerY="490.0" fill="#fcff1f" layoutX="370.0" layoutY="170.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
@@ -199,6 +197,7 @@
             <Circle centerX="-150.0" centerY="490.0" fill="#fcff1f" layoutX="250.0" layoutY="170.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
             <Circle centerX="-150.0" centerY="490.0" fill="#fcff1f" layoutX="210.0" layoutY="170.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
             <Circle centerX="-150.0" centerY="490.0" fill="#fcff1f" layoutX="165.0" layoutY="170.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+            <Pane layoutX="320.0" layoutY="640.0" prefHeight="40.0" prefWidth="40.0" />
          </children></Pane>
    </children>
 </StackPane>
