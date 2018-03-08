@@ -4,7 +4,6 @@ import helper.Mode;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import model.Player;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,5 +70,12 @@ public class Game {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public boolean isPacman() {
+        if (mode.getValue().equals("server")) {
+            return true;
+        }
+        return false;
     }
 }
