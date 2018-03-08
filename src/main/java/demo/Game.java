@@ -1,5 +1,6 @@
 package demo;
 
+import helper.Direction;
 import helper.Mode;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
@@ -23,24 +24,34 @@ public class Game {
         walls = new ArrayList<>();
     }
 
-    public void setPosition(Pane pane){
+    public void setPosition(Pane pane) {
 
-        if (mode.equals(Mode.SERVER)){
-            hostPlayer = (Pane) pane.lookup("#server");
-            clientPlayer = (Pane) pane.lookup("#client");
-            hostPlayer.setTranslateX(325); hostPlayer.setTranslateY(645);
-            clientPlayer.setTranslateX(325); clientPlayer.setTranslateY(365);
+        if (mode.equals(Mode.SERVER)) {
+            setServerPosition(pane);
         } else {
-            hostPlayer = (Pane) pane.lookup("#client");
-            clientPlayer = (Pane) pane.lookup("#server");
-            hostPlayer.setTranslateX(325); hostPlayer.setTranslateY(365);
-            clientPlayer.setTranslateX(325); clientPlayer.setTranslateY(645);
+            setClientPosition(pane);
         }
         player = new Player(hostPlayer.getTranslateX(), hostPlayer.getTranslateY());
-
+        player.setDirection(Direction.UP);
     }
 
-    public void createWalls(Pane pane){
+    private void setServerPosition (Pane pane) {
+
+        hostPlayer = (Pane) pane.lookup("#server");
+        clientPlayer = (Pane) pane.lookup("#client");
+        hostPlayer.setTranslateX(325); hostPlayer.setTranslateY(645);
+        clientPlayer.setTranslateX(325); clientPlayer.setTranslateY(365);
+    }
+
+    private void setClientPosition(Pane pane) {
+
+        hostPlayer = (Pane) pane.lookup("#client");
+        clientPlayer = (Pane) pane.lookup("#server");
+        hostPlayer.setTranslateX(325); hostPlayer.setTranslateY(365);
+        clientPlayer.setTranslateX(325); clientPlayer.setTranslateY(645);
+    }
+
+    public void createWalls(Pane pane) {
 
         for (int i = 0; i < pane.getChildren().size(); i++){
             if(pane.getChildren().get(i) instanceof Rectangle

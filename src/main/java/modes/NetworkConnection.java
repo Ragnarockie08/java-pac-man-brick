@@ -1,7 +1,10 @@
 package modes;
 
 import demo.Game;
+import helper.Direction;
 import model.Player;
+import org.omg.PortableInterceptor.DISCARDING;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -32,6 +35,7 @@ public abstract class NetworkConnection extends Thread {
     public void send(Serializable data) throws Exception {
 
         outputStream.writeObject(data);
+        outputStream.flush();
     }
 
     public void closeConnection() throws Exception {
@@ -84,32 +88,35 @@ public abstract class NetworkConnection extends Thread {
 
         game.getClientPlayer().setTranslateY(player.getyCoordinate());
         game.getClientPlayer().setTranslateX(player.getxCoordinate());
-        roundRidection(player);
+        System.out.println(player.getDirection());
+        roundDirection(player);
     }
 
-    private void roundRidection(Player player) {
+    private void roundDirection(Player player) {
 
-        if (player.getDirection().equals("NORTH")) {
+
+        if (player.getDirection() == Direction.UP) {
             if(!game.isPacman()) {
 
                 game.getClientPlayer().setRotate(270);
                 game.getClientPlayer().setScaleY(1);
             }
-        } else if (player.getDirection().equals("EAST")) {
+        } else if (player.getDirection() == Direction.RIGHT) {
+            System.out.println("right");
             game.getClientPlayer().setRotate(0);
             game.getClientPlayer().setScaleY(1);
-        } else if (player.getDirection().equals("SOUTH")) {
+        } else if (player.getDirection() == Direction.DOWN) {
             if(!game.isPacman()) {
 
                 game.getClientPlayer().setRotate(90);
                 game.getClientPlayer().setScaleY(1);
             }
-        } else if (player.getDirection().equals("WEST")) {
+        } else if (player.getDirection() == Direction.LEFT) {
+            System.out.println("left");
             game.getClientPlayer().setRotate(180);
             game.getClientPlayer().setScaleY(-1);
         }
     }
-
 
     public boolean isConnected() {
         return connected;
