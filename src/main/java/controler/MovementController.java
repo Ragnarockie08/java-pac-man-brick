@@ -35,13 +35,12 @@ public class MovementController {
     }
 
     public void movement(Scene scene, Pane hostSquare, NetworkConnection networkConnection, Pane pane) {
-    public void movement(Scene scene, Pane hostSquare, NetworkConnection networkConnection) {
-        handleMovement(scene, hostSquare, networkConnection);
+        handleMovement(scene, hostSquare, networkConnection, pane);
         timeline.play();
 
     }
 
-    public void handleMovement(Scene scene, Pane hostSquare, NetworkConnection networkConnection) {
+    public void handleMovement(Scene scene, Pane hostSquare, NetworkConnection networkConnection, Pane pane) {
 
         prepareTable();
 
