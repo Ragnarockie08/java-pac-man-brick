@@ -7,6 +7,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -100,7 +101,7 @@ public class MovementController {
                             break;
                     }
                     handleCoins(pane);
-                    handleWin(networkConnection);
+                    handleEnd(networkConnection, pane);
                     roundDirection();
 
                     moved = true;
@@ -265,13 +266,42 @@ public class MovementController {
         }
     }
 
-    private void handleWin(NetworkConnection networkConnection){
+    private void handleEnd(NetworkConnection networkConnection, Pane pane){
 
         if (game.getCoins().isEmpty()){
+            if (game.getMode() == Mode.SERVER){
+                System.out.println("server win");
+                handleWin(pane);
+            } else {
+                System.out.println("client lose");
+                handleLose(pane);
+            }
+            networkConnection.setConnected(false);
+        } else if (game.getHostPlayer().getTranslateX() == game.getClientPlayer().getTranslateX()
+                && game.getHostPlayer().getTranslateY() == game.getClientPlayer().getTranslateY()){
+            if (game.getMode() == Mode.CLIENT){
+                System.out.println("client win");
+                handleWin(pane);
+            } else {
+                System.out.println("server lose");
+                handleLose(pane);
+            }
             networkConnection.setConnected(false);
         }
     }
-*/
+
+    private void handleWin(Pane pane){
+        StackPane stackPane = (StackPane) pane.getParent();
+        Pane victoryPane = (Pane) stackPane.lookup("#victory");
+        victoryPane.setOpacity(1);
     }
+
+    private void handleLose(Pane pane){
+        StackPane stackPane = (StackPane) pane.getParent();
+        Pane victoryPane = (Pane) stackPane.lookup("#lose");
+        victoryPane.setOpacity(1);
+    }
+
+
 
 }
