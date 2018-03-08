@@ -107,7 +107,7 @@ public class MovementController {
                     handleSend(networkConnection);
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+
                 }
             }
         });
@@ -265,48 +265,11 @@ public class MovementController {
         }
     }
 
-
     private void handleWin(NetworkConnection networkConnection){
 
         if (game.getCoins().isEmpty()){
             networkConnection.setConnected(false);
         }
-    }
-
-
-
-    @Deprecated
-    private void handleMovement() {
-        /*
-        scene.setOnKeyPressed(event-> {
-            if (networkConnection.isConnected()){
-                try {
-                    int x = (int) hostSquare.getTranslateX();
-                    int y = (int) hostSquare.getTranslateY();
-
-                    switch (event.getCode()) {
-
-                        case W:
-                            checkMoveUp(hostSquare, x, y);
-                            break;
-                        case S:
-                            checkMoveDown(hostSquare, x, y);
-                            break;
-                        case A:
-                            checkMoveLeft(hostSquare, x, y);
-                            break;
-                        case D:
-                            checkMoveRight(hostSquare, x, y);
-                            break;
-                    }
-
-                    handleSend(networkConnection);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
 */
     }
