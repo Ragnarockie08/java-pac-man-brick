@@ -269,41 +269,37 @@ public class MovementController {
     private void handleEnd(NetworkConnection networkConnection, Pane pane){
 
         if (game.getCoins().isEmpty()){
-
             if (game.getMode() == Mode.SERVER){
+                System.out.println("server win");
                 handleWin(pane);
             } else {
+                System.out.println("client lose");
                 handleLose(pane);
             }
-
             networkConnection.setConnected(false);
         } else if (game.getHostPlayer().getTranslateX() == game.getClientPlayer().getTranslateX()
                 && game.getHostPlayer().getTranslateY() == game.getClientPlayer().getTranslateY()){
-
             if (game.getMode() == Mode.CLIENT){
-                System.out.println("mode.client");
+                System.out.println("client win");
                 handleWin(pane);
             } else {
-                System.out.println("else");
+                System.out.println("server lose");
                 handleLose(pane);
             }
-            System.out.println("przed networlk");
             networkConnection.setConnected(false);
         }
-
-
     }
 
     private void handleWin(Pane pane){
         StackPane stackPane = (StackPane) pane.getParent();
-        System.out.println(stackPane.getChildren().size());
         Pane victoryPane = (Pane) stackPane.lookup("#victory");
         victoryPane.setOpacity(1);
-
     }
 
     private void handleLose(Pane pane){
-        System.out.println("you lose");
+        StackPane stackPane = (StackPane) pane.getParent();
+        Pane victoryPane = (Pane) stackPane.lookup("#lose");
+        victoryPane.setOpacity(1);
     }
 
 
