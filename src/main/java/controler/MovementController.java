@@ -7,6 +7,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
@@ -268,30 +269,37 @@ public class MovementController {
     private void handleEnd(NetworkConnection networkConnection, Pane pane){
 
         if (game.getCoins().isEmpty()){
-            networkConnection.setConnected(false);
             if (game.getMode() == Mode.SERVER){
+                System.out.println("server win");
                 handleWin(pane);
             } else {
+                System.out.println("client lose");
                 handleLose(pane);
             }
-        } else if (game.getHostPlayer().getTranslateX() == game.getClientPlayer().getTranslateX()
-                && game.getClientPlayer().getTranslateX() == game.getClientPlayer().getTranslateY()){
             networkConnection.setConnected(false);
+        } else if (game.getHostPlayer().getTranslateX() == game.getClientPlayer().getTranslateX()
+                && game.getHostPlayer().getTranslateY() == game.getClientPlayer().getTranslateY()){
             if (game.getMode() == Mode.CLIENT){
+                System.out.println("client win");
                 handleWin(pane);
             } else {
+                System.out.println("server lose");
                 handleLose(pane);
             }
+            networkConnection.setConnected(false);
         }
     }
 
     private void handleWin(Pane pane){
-        Pane victoryPane = (Pane) pane.lookup("#victory");
+        StackPane stackPane = (StackPane) pane.getParent();
+        Pane victoryPane = (Pane) stackPane.lookup("#victory");
         victoryPane.setOpacity(1);
     }
 
     private void handleLose(Pane pane){
-        System.out.println("you lose");
+        StackPane stackPane = (StackPane) pane.getParent();
+        Pane victoryPane = (Pane) stackPane.lookup("#lose");
+        victoryPane.setOpacity(1);
     }
 
 
