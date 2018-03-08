@@ -100,7 +100,7 @@ public class MovementController {
                             break;
                     }
                     handleCoins(pane);
-                    handleWin(networkConnection);
+                    handleEnd(networkConnection, pane);
                     roundDirection();
 
                     moved = true;
@@ -265,13 +265,35 @@ public class MovementController {
         }
     }
 
-    private void handleWin(NetworkConnection networkConnection){
+    private void handleEnd(NetworkConnection networkConnection, Pane pane){
 
         if (game.getCoins().isEmpty()){
             networkConnection.setConnected(false);
+            if (game.getMode() == Mode.SERVER){
+                handleWin(pane);
+            } else {
+                handleLose(pane);
+            }
+        } else if (game.getHostPlayer().getTranslateX() == game.getClientPlayer().getTranslateX()
+                && game.getClientPlayer().getTranslateX() == game.getClientPlayer().getTranslateY()){
+            networkConnection.setConnected(false);
+            if (game.getMode() == Mode.CLIENT){
+                handleWin(pane);
+            } else {
+                handleLose(pane);
+            }
         }
     }
 
+    private void handleWin(Pane pane){
+        Pane victoryPane = (Pane) pane.lookup("#victory");
+        victoryPane.setOpacity(1);
+    }
+
+    private void handleLose(Pane pane){
+        System.out.println("you lose");
     }
 
 
+
+}

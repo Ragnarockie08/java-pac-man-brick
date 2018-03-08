@@ -140,7 +140,6 @@ public abstract class NetworkConnection extends Thread {
         return connected;
     }
 
-
 }
 
 
