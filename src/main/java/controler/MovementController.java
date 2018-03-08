@@ -25,13 +25,12 @@ public class MovementController {
 
     private char[][] walkableBoard;
     private Game game;
-//    Player player;
 
     public MovementController(Game game) {
 
         this.game = game;
         this.walkableBoard = new char[680][680];
-        direction = Direction.RIGHT;
+        direction = Direction.UP;
     }
 
     public void movement(Scene scene, Pane hostSquare, NetworkConnection networkConnection, Pane pane) {
@@ -100,13 +99,14 @@ public class MovementController {
                             break;
                     }
                     handleCoins(pane);
+                    handleWin(networkConnection);
                     roundDirection();
 
                     moved = true;
                     handleSend(networkConnection);
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+
                 }
             }
         });
@@ -264,42 +264,11 @@ public class MovementController {
         }
     }
 
+    private void handleWin(NetworkConnection networkConnection){
 
-
-    @Deprecated
-    private void handleMovement() {
-        /*
-        scene.setOnKeyPressed(event-> {
-            if (networkConnection.isConnected()){
-                try {
-                    int x = (int) hostSquare.getTranslateX();
-                    int y = (int) hostSquare.getTranslateY();
-
-                    switch (event.getCode()) {
-
-                        case W:
-                            checkMoveUp(hostSquare, x, y);
-                            break;
-                        case S:
-                            checkMoveDown(hostSquare, x, y);
-                            break;
-                        case A:
-                            checkMoveLeft(hostSquare, x, y);
-                            break;
-                        case D:
-                            checkMoveRight(hostSquare, x, y);
-                            break;
-                    }
-
-                    handleSend(networkConnection);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-*/
+        if (game.getCoins().isEmpty()){
+            networkConnection.setConnected(false);
+        }
     }
 
 }
