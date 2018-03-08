@@ -1,6 +1,8 @@
 package controler;
 
 import demo.Game;
+import helper.Direction;
+import helper.Mode;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
@@ -12,14 +14,10 @@ import modes.NetworkConnection;
 
 public class MovementController {
 
-    public enum Direction {
-        UP, DOWN, LEFT, RIGHT;
-    }
     private final int STEP = 8;
     private final int PLAYER_SIZE = 30;
 
-    private Direction direction = Direction.LEFT;
-    private boolean running = false;
+    private Direction direction;
     private boolean moved = false;
     private Timeline timeline = new Timeline();
 
@@ -29,6 +27,7 @@ public class MovementController {
     public MovementController(Game game){
         this.game = game;
         this.walkableBoard = new char[680][680];
+        direction = Direction.UP;
     }
 
     public void movement(Scene scene, Pane hostSquare, NetworkConnection networkConnection) {
