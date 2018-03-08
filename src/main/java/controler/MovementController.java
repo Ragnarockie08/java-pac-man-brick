@@ -5,6 +5,7 @@ import helper.Mode;
 import helper.Direction;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -13,6 +14,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import model.Player;
 import modes.NetworkConnection;
+
+import java.io.IOException;
 
 
 public class MovementController {
@@ -26,7 +29,6 @@ public class MovementController {
 
     private char[][] walkableBoard;
     private Game game;
-//    Player player;
 
     public MovementController(Game game) {
 
@@ -81,8 +83,8 @@ public class MovementController {
 
         KeyFrame frame = new KeyFrame(Duration.seconds(0.05), event -> {
             if (networkConnection.isConnected()) {
-                try {
 
+                try {
                     int x = (int) hostSquare.getTranslateX();
                     int y = (int) hostSquare.getTranslateY();
 
@@ -103,7 +105,6 @@ public class MovementController {
                     handleCoins(pane);
                     handleEnd(networkConnection, pane);
                     roundDirection();
-
                     moved = true;
                     handleSend(networkConnection);
 
@@ -208,6 +209,7 @@ public class MovementController {
 
         game.getPlayer().setxCoordinate(coordinateX);
         game.getPlayer().setyCoordinate(coordinateY);
+
         networkConnection.send(new Player(game.getPlayer()));
     }
 
@@ -266,42 +268,44 @@ public class MovementController {
         }
     }
 
-    private void handleEnd(NetworkConnection networkConnection, Pane pane){
+    private void handleEnd(NetworkConnection networkConnection, Pane pane) throws Exception {
 
         if (game.getCoins().isEmpty()){
             if (game.getMode() == Mode.SERVER){
-                System.out.println("server win");
                 handleWin(pane);
             } else {
-                System.out.println("client lose");
                 handleLose(pane);
             }
             networkConnection.setConnected(false);
         } else if (game.getHostPlayer().getTranslateX() == game.getClientPlayer().getTranslateX()
                 && game.getHostPlayer().getTranslateY() == game.getClientPlayer().getTranslateY()){
             if (game.getMode() == Mode.CLIENT){
-                System.out.println("client win");
                 handleWin(pane);
             } else {
-                System.out.println("server lose");
                 handleLose(pane);
             }
             networkConnection.setConnected(false);
         }
+        if (!networkConnection.isConnected()){
+            endGame(networkConnection);
+        }
     }
 
-    private void handleWin(Pane pane){
+    private void handleWin(Pane pane) throws IOException {
         StackPane stackPane = (StackPane) pane.getParent();
-        Pane victoryPane = (Pane) stackPane.lookup("#victory");
-        victoryPane.setOpacity(1);
+        Pane victoryPane = FXMLLoader.load(getClass().getResource("/victory.fxml"));
+        stackPane.getChildren().add(victoryPane);
+
     }
 
-    private void handleLose(Pane pane){
+    private void handleLose(Pane pane) throws IOException {
         StackPane stackPane = (StackPane) pane.getParent();
-        Pane victoryPane = (Pane) stackPane.lookup("#lose");
-        victoryPane.setOpacity(1);
+        Pane losePane = FXMLLoader.load(getClass().getResource("/lose.fxml"));
+        stackPane.getChildren().add(losePane);
     }
 
+    private void endGame(NetworkConnection networkConnection) throws Exception{
+        networkConnection.closeConnection();
 
-
+    }
 }

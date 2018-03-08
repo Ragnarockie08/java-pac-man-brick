@@ -22,11 +22,13 @@ public abstract class NetworkConnection extends Thread {
     private Game game;
     private Player player;
     private boolean connected;
+    private boolean isRunning;
 
     public NetworkConnection(Game game){
 
         this.game = game;
         this.connected = false;
+        this.isRunning = true;
     }
 
     public void startConnection() throws Exception {
@@ -43,6 +45,7 @@ public abstract class NetworkConnection extends Thread {
     public void closeConnection() throws Exception {
 
         socket.close();
+        isRunning = false;
     }
 
     protected abstract boolean isServer();
@@ -72,7 +75,7 @@ public abstract class NetworkConnection extends Thread {
             this.socket = socket;
             this.outputStream = out;
 
-            while (true) {
+            while (isRunning) {
                 player = (Player) in.readObject();
                 moveOponent(player);
                 if (game.getMode().equals(Mode.CLIENT)){
