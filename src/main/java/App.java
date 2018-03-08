@@ -65,6 +65,4 @@ public class App extends Application {
         game.setMode(mode);
         launch(args);
     }
-
-
 }
