@@ -37,11 +37,12 @@ public class App extends Application {
 
         game.setMode(mode);
         game.createWalls(pane);
+        game.createCoins(pane);
         game.setPosition(pane);
 
         setNetworkConnection();
 
-        movementController.movement(scene, game.getHostPlayer(), networkConnection);
+        movementController.movement(scene, game.getHostPlayer(), networkConnection, pane);
         showPreparedStage(primaryStage, scene);
 
     }

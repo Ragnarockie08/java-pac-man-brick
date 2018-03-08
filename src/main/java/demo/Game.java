@@ -3,6 +3,7 @@ package demo;
 import helper.Direction;
 import helper.Mode;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import model.Player;
 import java.util.ArrayList;
@@ -19,9 +20,13 @@ public class Game {
     private Player player;
 
     private List<Rectangle> walls;
+    private List<Circle> coins;
+    private List<Circle> coinsToRemove;
 
     public Game(){
         walls = new ArrayList<>();
+        coins = new ArrayList<>();
+        coinsToRemove = new ArrayList<>();
     }
 
     public void setPosition(Pane pane) {
@@ -63,6 +68,14 @@ public class Game {
         }
     }
 
+    public void createCoins(Pane pane){
+        for (int i = 0; i < pane.getChildren().size(); i++){
+            if(pane.getChildren().get(i) instanceof Circle){
+                coins.add((Circle) pane.getChildren().get(i));
+            }
+        }
+    }
+
     public Pane getHostPlayer() {
         return hostPlayer;
     }
@@ -75,12 +88,24 @@ public class Game {
         return walls;
     }
 
+    public List<Circle> getCoins() {
+        return coins;
+    }
+
     public void setMode(Mode mode){
         this.mode = mode;
     }
 
+    public Mode getMode() {
+        return mode;
+    }
+
     public Player getPlayer() {
         return player;
+    }
+
+    public List<Circle> getCoinsToRemove() {
+        return coinsToRemove;
     }
 
     public boolean isPacman() {
