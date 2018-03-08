@@ -45,11 +45,7 @@ public class MovementController {
                             checkMoveRight(hostSquare, x, y);
                             break;
                     }
-                    if (game.getMode().equals(Mode.SERVER)){
-                        handleServerCoinPick(pane);
-                    } else {
-                        handleClientCoinRemove(pane);
-                    }
+                    handleCoins(pane);
                     handleSend(networkConnection);
 
                 } catch (Exception e) {
@@ -120,6 +116,14 @@ public class MovementController {
                     walkableBoard[i][j] = ' ';
                 }
             }
+        }
+    }
+
+    private void handleCoins(Pane pane){
+        if (game.getMode().equals(Mode.SERVER)){
+            handleServerCoinPick(pane);
+        } else {
+            handleClientCoinRemove(pane);
         }
     }
 
