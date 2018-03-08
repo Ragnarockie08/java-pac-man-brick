@@ -271,7 +271,7 @@ public class MovementController {
             networkConnection.setConnected(false);
         }
     }
-*/
+
     }
 
-}
+

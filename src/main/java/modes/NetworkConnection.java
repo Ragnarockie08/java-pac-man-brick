@@ -140,9 +140,7 @@ public abstract class NetworkConnection extends Thread {
         return connected;
     }
 
-    public void setConnected(boolean connected) {
-        this.connected = connected;
-    }
+
 }
 
 
