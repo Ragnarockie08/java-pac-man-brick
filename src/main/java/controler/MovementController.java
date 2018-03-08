@@ -1,8 +1,10 @@
 package controler;
 
 import demo.Game;
+import helper.Mode;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import model.Player;
 import modes.NetworkConnection;
@@ -19,7 +21,7 @@ public class MovementController {
         this.walkableBoard = new char[680][680];
     }
 
-    public void movement(Scene scene, Pane hostSquare, NetworkConnection networkConnection) {
+    public void movement(Scene scene, Pane hostSquare, NetworkConnection networkConnection, Pane pane) {
 
         prepareTable();
         scene.setOnKeyPressed(event -> {
@@ -43,7 +45,11 @@ public class MovementController {
                             checkMoveRight(hostSquare, x, y);
                             break;
                     }
-
+                    if (game.getMode().equals(Mode.SERVER)){
+                        handleServerCoinPick(pane);
+                    } else {
+                        handleClientCoinRemove(pane);
+                    }
                     handleSend(networkConnection);
 
                 } catch (Exception e) {
@@ -127,5 +133,31 @@ public class MovementController {
 
         networkConnection.send(new Player(game.getPlayer()));
     }
+
+    private void handleServerCoinPick(Pane pane){
+
+        Circle toRemove = null;
+        double coordinateX = game.getHostPlayer().getTranslateX();
+        double coordinateY = game.getHostPlayer().getTranslateY();
+
+        for (Circle coin: game.getCoins()){
+
+            double coinCoordinateX = coin.getLayoutX() + coin.getCenterX() - 15;
+            double coinCoordinateY = coin.getLayoutY() + coin.getCenterY() - 15;
+            if (coordinateX == coinCoordinateX && coordinateY == coinCoordinateY){
+                toRemove = coin;
+                pane.getChildren().remove(coin);
+                break;
+            }
+        }
+        game.getCoins().remove(toRemove);
+    }
+
+    private void handleClientCoinRemove(Pane pane) {
+        pane.getChildren().removeAll(game.getCoinsToRemove());
+        game.getCoins().removeAll(game.getCoinsToRemove());
+        game.getCoinsToRemove().clear();
+    }
+
 
 }

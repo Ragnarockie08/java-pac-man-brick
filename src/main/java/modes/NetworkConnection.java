@@ -1,6 +1,8 @@
 package modes;
 
 import demo.Game;
+import helper.Mode;
+import javafx.scene.shape.Circle;
 import model.Player;
 
 import java.io.IOException;
@@ -41,7 +43,6 @@ public abstract class NetworkConnection extends Thread {
 
     protected abstract int getPort();
 
-
     @Override
     public void run() {
         try {
@@ -65,8 +66,10 @@ public abstract class NetworkConnection extends Thread {
             while (true) {
                 player = (Player) in.readObject();
                 moveOponent(player);
+                if (game.getMode().equals(Mode.CLIENT)){
+                    removeCoin(player);
+                }
             }
-
         } catch (IOException e){
 
         } catch (ClassNotFoundException e) {
@@ -80,6 +83,19 @@ public abstract class NetworkConnection extends Thread {
         game.getClientPlayer().setTranslateX(player.getxCoordinate());
     }
 
+    private void removeCoin(Player player){
+
+        double coordinateX = player.getxCoordinate();
+        double coordinateY = player.getyCoordinate();
+
+        for (Circle coin: game.getCoins()){
+            double coinCoordinateX = coin.getLayoutX() + coin.getCenterX() - 15;
+            double coinCoordinateY = coin.getLayoutY() + coin.getCenterY() - 15;
+            if (coordinateX == coinCoordinateX && coordinateY == coinCoordinateY){
+                game.getCoinsToRemove().add(coin);
+            }
+        }
+    }
 
     public boolean isConnected() {
         return connected;

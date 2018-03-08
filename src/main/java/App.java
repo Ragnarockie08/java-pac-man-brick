@@ -32,8 +32,9 @@ public class App extends Application {
         Scene scene = new Scene(root);
         Pane pane = (Pane) root.lookup("#scene");
         game.createWalls(pane);
+        game.createCoins(pane);
         game.setPosition(pane);
-        movementController.movement(scene, game.getHostPlayer(), networkConnection);
+        movementController.movement(scene, game.getHostPlayer(), networkConnection, pane);
         showPreparedStage(primaryStage, scene);
 
     }
