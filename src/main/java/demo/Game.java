@@ -72,4 +72,8 @@ public class Game {
     public Player getPlayer() {
         return player;
     }
+
+    public Mode getMode() {
+        return mode;
+    }
 }
