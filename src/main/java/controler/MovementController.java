@@ -5,6 +5,7 @@ import helper.Mode;
 import helper.Direction;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -13,6 +14,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import model.Player;
 import modes.NetworkConnection;
+
+import java.io.IOException;
 
 
 public class MovementController {
@@ -208,6 +211,7 @@ public class MovementController {
 
         game.getPlayer().setxCoordinate(coordinateX);
         game.getPlayer().setyCoordinate(coordinateY);
+
         networkConnection.send(new Player(game.getPlayer()));
     }
 
@@ -266,7 +270,7 @@ public class MovementController {
         }
     }
 
-    private void handleEnd(NetworkConnection networkConnection, Pane pane){
+    private void handleEnd(NetworkConnection networkConnection, Pane pane) throws IOException   {
 
         if (game.getCoins().isEmpty()){
             if (game.getMode() == Mode.SERVER){
@@ -286,16 +290,17 @@ public class MovementController {
         }
     }
 
-    private void handleWin(Pane pane){
-        StackPane stackPane = (StackPane) pane.getParent();
-        Pane victoryPane = (Pane) stackPane.lookup("#victory");
-        victoryPane.setOpacity(1);
+    private void handleWin(Pane pane) throws IOException {
+//        StackPane stackPane = (StackPane) pane.getParent();
+        Pane victoryPane = FXMLLoader.load(getClass().getResource("/victory.fxml"));
+        pane = victoryPane;
+
     }
 
-    private void handleLose(Pane pane){
-        StackPane stackPane = (StackPane) pane.getParent();
-        Pane victoryPane = (Pane) stackPane.lookup("#lose");
-        victoryPane.setOpacity(1);
+    private void handleLose(Pane pane) throws IOException {
+//        StackPane stackPane = (StackPane) pane.getParent();
+        Pane victoryPane = FXMLLoader.load(getClass().getResource("/lose.fxml"));
+        pane = victoryPane;
     }
 
 
