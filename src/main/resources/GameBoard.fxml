@@ -6,7 +6,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="680.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="680.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Pane fx:id="scene" prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -37,7 +37,7 @@
             <Rectangle fill="DODGERBLUE" height="120.0" layoutX="480.0" layoutY="360.0" stroke="TRANSPARENT" strokeType="INSIDE" width="40.0" />
             <Rectangle fill="DODGERBLUE" height="80.0" layoutX="560.0" layoutY="240.0" stroke="TRANSPARENT" strokeType="INSIDE" width="120.0" />
             <Rectangle fill="DODGERBLUE" height="40.0" layoutX="560.0" layoutY="160.0" stroke="TRANSPARENT" strokeType="INSIDE" width="80.0" />
-            <Rectangle fill="DODGERBLUE" height="200.0" layoutX="559.0" layoutY="357.0" stroke="TRANSPARENT" strokeType="INSIDE" width="120.0" />
+            <Rectangle fill="DODGERBLUE" height="200.0" layoutX="560.0" layoutY="360.0" stroke="TRANSPARENT" strokeType="INSIDE" width="120.0" />
             <Rectangle fill="DODGERBLUE" height="80.0" layoutX="480.0" layoutY="520.0" stroke="TRANSPARENT" strokeType="INSIDE" width="40.0" />
             <Rectangle fill="DODGERBLUE" height="40.0" layoutX="400.0" layoutY="600.0" stroke="TRANSPARENT" strokeType="INSIDE" width="240.0" />
             <Circle fill="#fcff1f" layoutX="15.0" layoutY="20.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
@@ -197,18 +197,18 @@
             <Circle centerX="-150.0" centerY="490.0" fill="#fcff1f" layoutX="250.0" layoutY="170.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
             <Circle centerX="-150.0" centerY="490.0" fill="#fcff1f" layoutX="210.0" layoutY="170.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
             <Circle centerX="-150.0" centerY="490.0" fill="#fcff1f" layoutX="165.0" layoutY="170.0" radius="8.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
-            <Pane fx:id="server" layoutX="320.0" layoutY="640.0" prefHeight="40.0" prefWidth="40.0">
+            <Pane id="server" fx:id="server" prefHeight="30.0" prefWidth="30.0">
                <children>
-                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="-5.0" layoutY="-5.0">
+                  <ImageView fitHeight="55.0" fitWidth="55.0" layoutX="-10.0" layoutY="-10.0">
                      <image>
                         <Image url="@server.gif" />
                      </image>
                   </ImageView>
                </children>
             </Pane>
-            <Pane layoutX="320.0" layoutY="360.0" prefHeight="40.0" prefWidth="40.0">
+            <Pane id="client" prefHeight="30.0" prefWidth="30.0">
                <children>
-                  <ImageView fx:id="client" fitHeight="40.0" fitWidth="40.0" layoutX="-1.0">
+                  <ImageView fx:id="client" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="-5.0">
                      <image>
                         <Image url="@client.gif" />
                      </image>
