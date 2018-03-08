@@ -2,14 +2,14 @@ package controler;
 
 import demo.Game;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import model.Player;
 import modes.NetworkConnection;
 
 public class MovementController {
 
-    private final int STEP = 20;
+    private final int STEP = 8;
     private final int PLAYER_SIZE = 30;
     private char[][] walkableBoard;
     private Game game;
@@ -19,7 +19,7 @@ public class MovementController {
         this.walkableBoard = new char[680][680];
     }
 
-    public void movement(Scene scene, Shape hostSquare, NetworkConnection networkConnection) {
+    public void movement(Scene scene, Pane hostSquare, NetworkConnection networkConnection) {
 
         prepareTable();
         scene.setOnKeyPressed(event -> {
@@ -31,7 +31,7 @@ public class MovementController {
                     switch (event.getCode()) {
 
                         case W:
-                            checkMoveUp(hostSquare,x, y);
+                            checkMoveUp(hostSquare, x, y);
                             break;
                         case S:
                             checkMoveDown(hostSquare, x, y);
@@ -53,7 +53,7 @@ public class MovementController {
         });
     }
 
-    private void checkMoveUp(Shape player, int x, int y) {
+    private void checkMoveUp(Pane player, int x, int y) {
         if (player.getTranslateY() > STEP && isAbleToMoveUp(x, y)) {
             player.setTranslateY(player.getTranslateY() - STEP);
         }
@@ -63,7 +63,7 @@ public class MovementController {
         return walkableBoard[x][y - STEP] == 'O' && walkableBoard[x + PLAYER_SIZE][y - STEP] == 'O';
     }
 
-    private void checkMoveDown(Shape player, int x, int y) {
+    private void checkMoveDown(Pane player, int x, int y) {
         if (player.getTranslateY() < Game.HEIGHT - 40 && isAbleToMoveDown(x, y)) {
             player.setTranslateY(player.getTranslateY() + STEP);
         }
@@ -73,7 +73,7 @@ public class MovementController {
         return walkableBoard[x][y + STEP + PLAYER_SIZE] == 'O' && walkableBoard[x + PLAYER_SIZE][y + STEP + PLAYER_SIZE] == 'O';
     }
 
-    private void checkMoveLeft(Shape player, int x, int y) {
+    private void checkMoveLeft(Pane player, int x, int y) {
         if (player.getTranslateX() > STEP && isAbleToMoveLeft(x, y)) {
             player.setTranslateX(player.getTranslateX() - STEP);
         }
@@ -83,7 +83,7 @@ public class MovementController {
         return walkableBoard[x - STEP][y] == 'O' && walkableBoard[x -STEP][y + PLAYER_SIZE] == 'O';
     }
 
-    private void checkMoveRight(Shape player, int x, int y) {
+    private void checkMoveRight(Pane player, int x, int y) {
         if (player.getTranslateX() < Game.WIDTH - 40 && isAbleToMoveRight(x, y)) {
             player.setTranslateX(player.getTranslateX() + STEP);
         }

@@ -2,9 +2,7 @@ package demo;
 
 import helper.Mode;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import model.Player;
 
 import java.util.ArrayList;
@@ -16,33 +14,31 @@ public class Game {
     private static final int BLOCK_SIZE = 40;
     public static final int WIDTH = 17 * BLOCK_SIZE;
     public static final int HEIGHT = 17 * BLOCK_SIZE;
-    private Shape hostPlayer;
-    private Shape clientPlayer;
+    private Pane hostPlayer;
+    private Pane clientPlayer;
     private Player player;
 
     private List<Rectangle> walls;
 
     public Game(){
         walls = new ArrayList<>();
-        hostPlayer = new Rectangle(30, 30);
-        clientPlayer = new Rectangle(30, 30);
-        player = new Player(hostPlayer.getTranslateX(), hostPlayer.getTranslateY());
     }
 
     public void setPosition(Pane pane){
 
-        if(mode.equals(Mode.SERVER)) {
-            hostPlayer.setFill(Color.YELLOW);
-            clientPlayer.setFill(Color.GREEN);
-            hostPlayer.setTranslateX(5); hostPlayer.setTranslateY(5);
-            clientPlayer.setTranslateX(205); clientPlayer.setTranslateY(205);
-
+        if (mode.equals(Mode.SERVER)){
+            hostPlayer = (Pane) pane.lookup("#server");
+            clientPlayer = (Pane) pane.lookup("#client");
+            hostPlayer.setTranslateX(325); hostPlayer.setTranslateY(645);
+            clientPlayer.setTranslateX(325); clientPlayer.setTranslateY(365);
         } else {
-            clientPlayer.setFill(Color.YELLOW);
-            hostPlayer.setFill(Color.GREEN);
-            hostPlayer.setTranslateX(205); hostPlayer.setTranslateY(205);
-            clientPlayer.setTranslateX(5); clientPlayer.setTranslateY(5);
+            hostPlayer = (Pane) pane.lookup("#client");
+            clientPlayer = (Pane) pane.lookup("#server");
+            hostPlayer.setTranslateX(325); hostPlayer.setTranslateY(365);
+            clientPlayer.setTranslateX(325); clientPlayer.setTranslateY(645);
         }
+        player = new Player(hostPlayer.getTranslateX(), hostPlayer.getTranslateY());
+
     }
 
     public void createWalls(Pane pane){
@@ -57,11 +53,11 @@ public class Game {
         }
     }
 
-    public Shape getHostPlayer() {
+    public Pane getHostPlayer() {
         return hostPlayer;
     }
 
-    public Shape getClientPlayer() {
+    public Pane getClientPlayer() {
         return clientPlayer;
     }
 
