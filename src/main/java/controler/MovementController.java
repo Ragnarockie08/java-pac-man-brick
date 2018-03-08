@@ -84,7 +84,7 @@ public class MovementController {
     }
 
     private void checkMoveRight(Shape player, int x, int y) {
-        if (player.getTranslateX() < Game.WIDTH  && isAbleToMoveRight(x, y)) {
+        if (player.getTranslateX() < Game.WIDTH - 40 && isAbleToMoveRight(x, y)) {
             player.setTranslateX(player.getTranslateX() + STEP);
         }
     }
@@ -121,9 +121,6 @@ public class MovementController {
 
         double coordinateX = game.getHostPlayer().getTranslateX();
         double coordinateY = game.getHostPlayer().getTranslateY();
-
-        game.getPlayer().setxCoordinate(coordinateX);
-        game.getPlayer().setyCoordinate(coordinateY);
 
         game.getPlayer().setxCoordinate(coordinateX);
         game.getPlayer().setyCoordinate(coordinateY);
