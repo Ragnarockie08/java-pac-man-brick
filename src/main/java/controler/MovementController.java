@@ -208,6 +208,7 @@ public class MovementController {
 
         game.getPlayer().setxCoordinate(coordinateX);
         game.getPlayer().setyCoordinate(coordinateY);
+
         networkConnection.send(new Player(game.getPlayer()));
     }
 
@@ -270,20 +271,16 @@ public class MovementController {
 
         if (game.getCoins().isEmpty()){
             if (game.getMode() == Mode.SERVER){
-                System.out.println("server win");
                 handleWin(pane);
             } else {
-                System.out.println("client lose");
                 handleLose(pane);
             }
             networkConnection.setConnected(false);
         } else if (game.getHostPlayer().getTranslateX() == game.getClientPlayer().getTranslateX()
                 && game.getHostPlayer().getTranslateY() == game.getClientPlayer().getTranslateY()){
             if (game.getMode() == Mode.CLIENT){
-                System.out.println("client win");
                 handleWin(pane);
             } else {
-                System.out.println("server lose");
                 handleLose(pane);
             }
             networkConnection.setConnected(false);
