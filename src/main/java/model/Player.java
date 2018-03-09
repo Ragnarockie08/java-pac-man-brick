@@ -1,7 +1,6 @@
 package model;
 
 import helper.Direction;
-
 import java.io.Serializable;
 
 public class Player implements Serializable {
@@ -11,17 +10,20 @@ public class Player implements Serializable {
     private double yCoordinate;
 
     public Player(Player player) {
+
         this.xCoordinate = player.getxCoordinate();
         this.yCoordinate = player.getyCoordinate();
         this.direction = player.getDirection();
     }
 
     public Player(double xCoordinate, double yCoordinate) {
+
         this.xCoordinate = xCoordinate;
         this.yCoordinate = yCoordinate;
     }
 
     public double getxCoordinate() {
+
         return xCoordinate;
     }
 

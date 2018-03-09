@@ -14,6 +14,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import model.Player;
 import modes.NetworkConnection;
+import sun.nio.ch.Net;
 
 import java.io.IOException;
 
@@ -85,6 +86,7 @@ public class MovementController {
         KeyFrame frame = new KeyFrame(Duration.seconds(0.05), event -> {
             if (networkConnection.isConnected()) {
                 try {
+
 
                     int x = (int) hostSquare.getTranslateX();
                     int y = (int) hostSquare.getTranslateY();
@@ -270,7 +272,7 @@ public class MovementController {
         }
     }
 
-    private void handleEnd(NetworkConnection networkConnection, Pane pane) throws IOException   {
+    private void handleEnd(NetworkConnection networkConnection, Pane pane) throws Exception   {
 
         if (game.getCoins().isEmpty()){
             if (game.getMode() == Mode.SERVER){
@@ -288,21 +290,25 @@ public class MovementController {
             }
             networkConnection.setConnected(false);
         }
+        if (!networkConnection.isConnected()) {
+            endGame(networkConnection);
+        }
     }
 
     private void handleWin(Pane pane) throws IOException {
-//        StackPane stackPane = (StackPane) pane.getParent();
+        StackPane stackPane = (StackPane) pane.getParent();
         Pane victoryPane = FXMLLoader.load(getClass().getResource("/victory.fxml"));
-        pane = victoryPane;
+        stackPane.getChildren().add(victoryPane);
 
     }
 
     private void handleLose(Pane pane) throws IOException {
-//        StackPane stackPane = (StackPane) pane.getParent();
-        Pane victoryPane = FXMLLoader.load(getClass().getResource("/lose.fxml"));
-        pane = victoryPane;
+        StackPane stackPane = (StackPane) pane.getParent();
+        Pane losePane = FXMLLoader.load(getClass().getResource("/lose.fxml"));
+        stackPane.getChildren().add(losePane);
     }
 
-
-
+    private void endGame(NetworkConnection networkConnection) throws Exception {
+        networkConnection.closeConnection();
+    }
 }
