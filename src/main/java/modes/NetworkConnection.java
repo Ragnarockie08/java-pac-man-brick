@@ -28,6 +28,7 @@ public abstract class NetworkConnection extends Thread {
         this.isRunning = true;
         this.game = game;
         this.connected = false;
+        this.isRunning = true;
     }
 
     public void startConnection() throws Exception {

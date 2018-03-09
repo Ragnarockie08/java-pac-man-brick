@@ -30,7 +30,6 @@ public class MovementController {
 
     private char[][] walkableBoard;
     private Game game;
-//    Player player;
 
     public MovementController(Game game) {
 
@@ -85,9 +84,8 @@ public class MovementController {
 
         KeyFrame frame = new KeyFrame(Duration.seconds(0.05), event -> {
             if (networkConnection.isConnected()) {
+
                 try {
-
-
                     int x = (int) hostSquare.getTranslateX();
                     int y = (int) hostSquare.getTranslateY();
 
@@ -311,4 +309,7 @@ public class MovementController {
     private void endGame(NetworkConnection networkConnection) throws Exception {
         networkConnection.closeConnection();
     }
+
+
+
 }
