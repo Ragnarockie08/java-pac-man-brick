@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import modes.Client;
 import modes.NetworkConnection;
 import modes.Server;
-import java.io.IOException;
 
 
 public class App extends Application {
@@ -48,7 +47,7 @@ public class App extends Application {
     }
 
     private void showPreparedStage(Stage stage, Scene scene) {
-        stage.setTitle("Tanks");
+        stage.setTitle("Pac-Man");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

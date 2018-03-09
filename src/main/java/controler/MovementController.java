@@ -80,8 +80,7 @@ public class MovementController {
                 }
             }
         });
-
-        KeyFrame frame = new KeyFrame(Duration.seconds(0.05), event -> {
+        KeyFrame frame = new KeyFrame(Duration.seconds(0.06), event -> {
             if (networkConnection.isConnected()) {
 
                 try {
@@ -103,13 +102,13 @@ public class MovementController {
                             break;
                     }
                     handleCoins(pane);
+                    handleEnd(networkConnection, pane);
                     roundDirection();
                     moved = true;
                     handleSend(networkConnection);
-                    handleEnd(networkConnection, pane);
 
                 } catch (Exception e) {
-
+                    System.out.println("impossible to send");
                 }
             }
         });
@@ -295,7 +294,6 @@ public class MovementController {
         StackPane stackPane = (StackPane) pane.getParent();
         Pane victoryPane = FXMLLoader.load(getClass().getResource("/victory.fxml"));
         stackPane.getChildren().add(victoryPane);
-
     }
 
     private void handleLose(Pane pane) throws IOException {
