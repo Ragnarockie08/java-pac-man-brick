@@ -1,5 +1,6 @@
 package controler;
 
+import board.WalkableBoard;
 import demo.Game;
 import helper.Mode;
 import helper.Direction;
@@ -29,23 +30,22 @@ public class MovementController {
 
     private char[][] walkableBoard;
     private Game game;
+    private WalkableBoard board;
 
     public MovementController(Game game) {
 
         this.game = game;
-        this.walkableBoard = new char[680][680];
-//        direction = Direction.UP;
     }
 
     public void movement(Scene scene, Pane hostSquare, NetworkConnection networkConnection, Pane pane) {
         handleMovement(scene, hostSquare, networkConnection, pane);
         timeline.play();
-
     }
 
     public void handleMovement(Scene scene, Pane hostSquare, NetworkConnection networkConnection, Pane pane) {
 
-        prepareTable();
+        board = new WalkableBoard(game);
+        walkableBoard = board.getWalkableBoard();
 
         scene.setOnKeyPressed(event -> {
             if (moved) {
@@ -103,10 +103,10 @@ public class MovementController {
                             break;
                     }
                     handleCoins(pane);
+                    handleEnd(networkConnection, pane);
                     roundDirection();
                     moved = true;
                     handleSend(networkConnection);
-                    handleEnd(networkConnection, pane);
 
                 } catch (Exception e) {
 
@@ -166,32 +166,6 @@ public class MovementController {
         return player.getTranslateX() < Game.WIDTH - 40
                 && walkableBoard[x + STEP + PLAYER_SIZE][y] == 'O'
                 && walkableBoard[x + STEP + PLAYER_SIZE][y + PLAYER_SIZE] == 'O';
-    }
-
-    private void prepareTable() {
-
-        fillTable();
-        fillWithWalkableFields();
-    }
-
-    private void fillTable() {
-
-        for (int i = 0; i < 680; i++) {
-            for (int j = 0; j < 680; j++) {
-                walkableBoard[i][j] = 'O';
-            }
-        }
-    }
-
-    private void fillWithWalkableFields() {
-
-        for (Rectangle shape : game.getWalls()) {
-            for (int i = (int) shape.getLayoutX(); i < shape.getLayoutX() + shape.getWidth(); i++) {
-                for (int j = (int) shape.getLayoutY(); j < shape.getLayoutY() + shape.getHeight(); j++) {
-                    walkableBoard[i][j] = ' ';
-                }
-            }
-        }
     }
 
     private void handleCoins(Pane pane){
