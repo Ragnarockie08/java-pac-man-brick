@@ -23,7 +23,7 @@ public class MovementController {
     private final int STEP = 8;
     private final int PLAYER_SIZE = 30;
 
-    private Direction direction;
+//    private Direction direction;
     private boolean moved = false;
     private Timeline timeline = new Timeline();
 
@@ -34,7 +34,7 @@ public class MovementController {
 
         this.game = game;
         this.walkableBoard = new char[680][680];
-        direction = Direction.UP;
+//        direction = Direction.UP;
     }
 
     public void movement(Scene scene, Pane hostSquare, NetworkConnection networkConnection, Pane pane) {
@@ -55,25 +55,25 @@ public class MovementController {
 
                     case W:
                         if (isAbleToMoveUp(hostSquare, x, y)) {
-                            direction = Direction.UP;
+//                            direction = Direction.UP;
                             game.getPlayer().setDirection(Direction.UP);
                         }
                         break;
                     case S:
                         if (isAbleToMoveDown(hostSquare, x, y)) {
-                            direction = Direction.DOWN;
+//                            direction = Direction.DOWN;
                             game.getPlayer().setDirection(Direction.DOWN);
                         }
                         break;
                     case A:
                         if (isAbleToMoveLeft(hostSquare, x, y)) {
-                            direction = Direction.LEFT;
+//                            direction = Direction.LEFT;
                             game.getPlayer().setDirection(Direction.LEFT);
                         }
                         break;
                     case D:
                         if (isAbleToMoveRight(hostSquare, x, y)) {
-                            direction = Direction.RIGHT;
+//                            direction = Direction.RIGHT;
                             game.getPlayer().setDirection(Direction.RIGHT);
                         }
                         break;
@@ -88,7 +88,7 @@ public class MovementController {
                     int x = (int) hostSquare.getTranslateX();
                     int y = (int) hostSquare.getTranslateY();
 
-                    switch (direction) {
+                    switch (game.getPlayer().getDirection()) {
                         case UP:
                             checkMoveUp(hostSquare, x, y);
                             break;
@@ -103,10 +103,10 @@ public class MovementController {
                             break;
                     }
                     handleCoins(pane);
-                    handleEnd(networkConnection, pane);
                     roundDirection();
                     moved = true;
                     handleSend(networkConnection);
+                    handleEnd(networkConnection, pane);
 
                 } catch (Exception e) {
 
@@ -277,8 +277,7 @@ public class MovementController {
                 handleLose(pane);
             }
             networkConnection.setConnected(false);
-        } else if (game.getHostPlayer().getTranslateX() == game.getClientPlayer().getTranslateX()
-                && game.getHostPlayer().getTranslateY() == game.getClientPlayer().getTranslateY()){
+        } else if (isTouchingOpponent()){
             if (game.getMode() == Mode.CLIENT){
                 handleWin(pane);
             } else {
@@ -289,6 +288,11 @@ public class MovementController {
         if (!networkConnection.isConnected()){
             endGame(networkConnection);
         }
+    }
+
+    private boolean isTouchingOpponent() {
+        return game.getHostPlayer().getBoundsInParent()
+                .intersects(game.getClientPlayer().getTranslateX(), game.getClientPlayer().getTranslateY(), 0, 0);
     }
 
     private void handleWin(Pane pane) throws IOException {
