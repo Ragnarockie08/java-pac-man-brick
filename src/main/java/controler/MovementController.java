@@ -14,7 +14,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import model.Player;
 import modes.NetworkConnection;
-import sun.nio.ch.Net;
 
 import java.io.IOException;
 
@@ -269,7 +268,7 @@ public class MovementController {
         }
     }
 
-    private void handleEnd(NetworkConnection networkConnection, Pane pane) throws Exception   {
+    private void handleEnd(NetworkConnection networkConnection, Pane pane) throws Exception {
 
         if (game.getCoins().isEmpty()){
             if (game.getMode() == Mode.SERVER){
@@ -278,8 +277,8 @@ public class MovementController {
                 handleLose(pane);
             }
             networkConnection.setConnected(false);
-        } else if (game.getHostPlayer().getTranslateX() == game.getClientPlayer().getTranslateX()
-                && game.getHostPlayer().getTranslateY() == game.getClientPlayer().getTranslateY()){
+        } else if (game.getHostPlayer().getBoundsInParent().intersects(game.getClientPlayer().getTranslateX(),
+                game.getClientPlayer().getTranslateY(), 0, 0)){
             if (game.getMode() == Mode.CLIENT){
                 handleWin(pane);
             } else {
@@ -287,7 +286,7 @@ public class MovementController {
             }
             networkConnection.setConnected(false);
         }
-        if (!networkConnection.isConnected()) {
+        if (!networkConnection.isConnected()){
             endGame(networkConnection);
         }
     }
