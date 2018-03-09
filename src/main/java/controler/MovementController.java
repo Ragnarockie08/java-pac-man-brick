@@ -103,10 +103,10 @@ public class MovementController {
                             break;
                     }
                     handleCoins(pane);
-                    handleEnd(networkConnection, pane);
                     roundDirection();
                     moved = true;
                     handleSend(networkConnection);
+                    handleEnd(networkConnection, pane);
 
                 } catch (Exception e) {
 
@@ -277,8 +277,8 @@ public class MovementController {
                 handleLose(pane);
             }
             networkConnection.setConnected(false);
-        } else if (game.getHostPlayer().getTranslateX() == game.getClientPlayer().getTranslateX()
-                && game.getHostPlayer().getTranslateY() == game.getClientPlayer().getTranslateY()){
+        } else if (game.getHostPlayer().getBoundsInParent().intersects(game.getClientPlayer().getTranslateX(),
+                game.getClientPlayer().getTranslateY(), 0, 0)){
             if (game.getMode() == Mode.CLIENT){
                 handleWin(pane);
             } else {
