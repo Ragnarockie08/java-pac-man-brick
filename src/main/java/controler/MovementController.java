@@ -81,7 +81,7 @@ public class MovementController {
             }
         });
 
-        KeyFrame frame = new KeyFrame(Duration.seconds(0.05), event -> {
+        KeyFrame frame = new KeyFrame(Duration.seconds(0.06), event -> {
             if (networkConnection.isConnected()) {
 
                 try {
@@ -286,4 +286,7 @@ public class MovementController {
         networkConnection.closeConnection();
 
     }
+
+
+
 }

@@ -48,7 +48,7 @@ public class App extends Application {
     }
 
     private void showPreparedStage(Stage stage, Scene scene) {
-        stage.setTitle("Tanks");
+        stage.setTitle("Pac-man");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
