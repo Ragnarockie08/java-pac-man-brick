@@ -14,6 +14,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import model.Player;
 import modes.NetworkConnection;
+import sun.nio.ch.Net;
 
 import java.io.IOException;
 
@@ -104,6 +105,7 @@ public class MovementController {
                     handleCoins(pane);
                     handleEnd(networkConnection, pane);
                     roundDirection();
+
                     moved = true;
                     handleSend(networkConnection);
 
@@ -267,7 +269,7 @@ public class MovementController {
         }
     }
 
-    private void handleEnd(NetworkConnection networkConnection, Pane pane) throws Exception {
+    private void handleEnd(NetworkConnection networkConnection, Pane pane) throws Exception   {
 
         if (game.getCoins().isEmpty()){
             if (game.getMode() == Mode.SERVER){
@@ -276,8 +278,8 @@ public class MovementController {
                 handleLose(pane);
             }
             networkConnection.setConnected(false);
-        } else if (game.getHostPlayer().getBoundsInParent().intersects(game.getClientPlayer().getTranslateX(),
-                game.getClientPlayer().getTranslateY(), 0, 0)){
+        } else if (game.getHostPlayer().getTranslateX() == game.getClientPlayer().getTranslateX()
+                && game.getHostPlayer().getTranslateY() == game.getClientPlayer().getTranslateY()){
             if (game.getMode() == Mode.CLIENT){
                 handleWin(pane);
             } else {
@@ -285,7 +287,7 @@ public class MovementController {
             }
             networkConnection.setConnected(false);
         }
-        if (!networkConnection.isConnected()){
+        if (!networkConnection.isConnected()) {
             endGame(networkConnection);
         }
     }
@@ -302,8 +304,10 @@ public class MovementController {
         stackPane.getChildren().add(losePane);
     }
 
-    private void endGame(NetworkConnection networkConnection) throws Exception{
+    private void endGame(NetworkConnection networkConnection) throws Exception {
         networkConnection.closeConnection();
-
     }
+
+
+
 }
