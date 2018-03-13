@@ -106,7 +106,7 @@ public class MovementController {
                     }
                     handleEnd(networkConnection, pane);
                     roundDirection();
-
+                    coinService.check();
                     moved = true;
                     handleSend(networkConnection);
 
