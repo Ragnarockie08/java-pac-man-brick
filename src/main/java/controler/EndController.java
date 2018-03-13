@@ -49,10 +49,8 @@ public class EndController {
         } else if (game.getHostPlayer().getTranslateX() == game.getClientPlayer().getTranslateX()
                 && game.getHostPlayer().getTranslateY() == game.getClientPlayer().getTranslateY()){
             if (game.getMode() == Mode.CLIENT){
-                System.out.println("client here");
                 handleWin(pane);
             } else {
-                System.out.println("server here");
                 handleLose(pane);
             }
             networkConnection.setConnected(false);
