@@ -23,12 +23,9 @@ public class CoinController {
             @Override
             public void run() {
                 if (game.getMode() == Mode.SERVER){
-                    System.out.println("server");
                     handleServerCoinPick();
                 } else {
-                    System.out.println("client");
-                    removeCoin(game.getClientPlayer());
-                    handleClientCoinRemove();
+                    handleClientCoinRemove(game.getClientPlayer());
                 }
             }
         });
@@ -44,7 +41,7 @@ public class CoinController {
 
             double coinCoordinateX = coin.getLayoutX() + coin.getCenterX() - 15;
             double coinCoordinateY = coin.getLayoutY() + coin.getCenterY() - 15;
-            if (coordinateX == coinCoordinateX && coordinateY == coinCoordinateY){
+            if (game.getHostPlayer().getBoundsInParent().contains(coin.getBoundsInParent())){
                 toRemove = coin;
                 pane.getChildren().remove(coin);
                 break;
@@ -53,25 +50,23 @@ public class CoinController {
         game.getCoins().remove(toRemove);
     }
 
-    private void handleClientCoinRemove() {
-        pane.getChildren().removeAll(game.getCoinsToRemove());
-        game.getCoins().removeAll(game.getCoinsToRemove());
-        game.getCoinsToRemove().clear();
-    }
+    private void handleClientCoinRemove(Pane pacMan) {
 
-    private void removeCoin(Pane pacMan){
+        Circle toRemove = null;
 
         double coordinateX = pacMan.getTranslateX();
         double coordinateY = pacMan.getTranslateY();
 
         for (Circle coin: game.getCoins()){
 
-            double coinCoordinateX = coin.getLayoutX() + coin.getCenterX() - 15;
-            double coinCoordinateY = coin.getLayoutY() + coin.getCenterY() - 15;
+            double coinX = coin.getLayoutX() + coin.getCenterX() - 15;
+            double coinY = coin.getLayoutY() + coin.getCenterY() - 15;
 
-            if (coordinateX == coinCoordinateX && coordinateY == coinCoordinateY){
-                game.getCoinsToRemove().add(coin);
+            if (pacMan.getBoundsInParent().contains(coin.getBoundsInParent())) {
+                toRemove = coin;
             }
         }
+        game.getCoins().remove(toRemove);
+        pane.getChildren().remove(toRemove);
     }
 }

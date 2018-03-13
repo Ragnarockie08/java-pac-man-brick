@@ -243,8 +243,7 @@ public class MovementController {
                 handleLose(pane);
             }
             networkConnection.setConnected(false);
-        } else if (game.getHostPlayer().getBoundsInParent().intersects(game.getClientPlayer().getTranslateX(),
-                game.getClientPlayer().getTranslateY(), 0, 0)){
+        } else if (game.getHostPlayer().getBoundsInParent().contains(game.getClientPlayer().getBoundsInParent())){
             if (game.getMode() == Mode.CLIENT){
                 handleWin(pane);
             } else {
