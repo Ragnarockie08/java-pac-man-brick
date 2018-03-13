@@ -20,7 +20,7 @@ public abstract class NetworkConnection extends Thread {
     private ObjectOutputStream outputStream;
     private Game game;
     private Player player;
-    private boolean connected;
+    private volatile boolean connected;
     private boolean isRunning;
 
     public NetworkConnection(Game game){
@@ -70,9 +70,6 @@ public abstract class NetworkConnection extends Thread {
             while (isRunning) {
                 player = (Player) in.readObject();
                 moveOponent(player);
-                if (game.getMode().equals(Mode.CLIENT)){
-                    removeCoin(player);
-                }
             }
         } catch (IOException e){
 
@@ -122,23 +119,6 @@ public abstract class NetworkConnection extends Thread {
 
             game.getClientPlayer().setRotate(180);
             game.getClientPlayer().setScaleY(-1);
-        }
-    }
-
-
-    private void removeCoin(Player player){
-
-        double coordinateX = player.getxCoordinate();
-        double coordinateY = player.getyCoordinate();
-
-        for (Circle coin: game.getCoins()){
-
-            double coinCoordinateX = coin.getLayoutX() + coin.getCenterX() - 15;
-            double coinCoordinateY = coin.getLayoutY() + coin.getCenterY() - 15;
-
-            if (coordinateX == coinCoordinateX && coordinateY == coinCoordinateY){
-                game.getCoinsToRemove().add(coin);
-            }
         }
     }
 

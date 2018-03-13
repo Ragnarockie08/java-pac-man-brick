@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import modes.Client;
 import modes.NetworkConnection;
 import modes.Server;
-import java.io.IOException;
 
 
 public class App extends Application {
@@ -24,8 +23,9 @@ public class App extends Application {
 
 
     @Override
-    public void init() throws Exception {
+    public void init(){
         movementController = new MovementController(game);
+
     }
 
     public void start(Stage primaryStage) throws Exception {
@@ -48,7 +48,7 @@ public class App extends Application {
     }
 
     private void showPreparedStage(Stage stage, Scene scene) {
-        stage.setTitle("Tanks");
+        stage.setTitle("Pac-Man");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
@@ -83,4 +83,7 @@ public class App extends Application {
             host = args[1];
         }
     }
+
+
+
 }
