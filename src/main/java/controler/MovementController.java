@@ -29,6 +29,7 @@ public class MovementController {
     private char[][] walkableBoard;
     private Game game;
     private CoinController coinService;
+    private EndController endController;
 
     public MovementController(Game game) {
 
@@ -46,7 +47,7 @@ public class MovementController {
     public void handleMovement(Scene scene, Pane hostSquare, NetworkConnection networkConnection, Pane pane) {
 
         prepareTable();
-        startCoinThread(game, pane);
+        startCoinThread(game, pane, networkConnection);
 
         scene.setOnKeyPressed(event -> {
             if (moved) {
@@ -102,7 +103,7 @@ public class MovementController {
                             checkMoveRight(hostSquare, x, y);
                             break;
                     }
-                    handleEnd(networkConnection, pane);
+                    endController.checkEnd();
                     roundDirection();
                     coinService.check();
                     moved = true;
@@ -234,46 +235,11 @@ public class MovementController {
         }
     }
 
-    private void handleEnd(NetworkConnection networkConnection, Pane pane) throws Exception {
 
-        if (game.getCoins().isEmpty()){
-            if (game.getMode() == Mode.SERVER){
-                handleWin(pane);
-            } else {
-                handleLose(pane);
-            }
-            networkConnection.setConnected(false);
-        } else if (game.getHostPlayer().getBoundsInParent().contains(game.getClientPlayer().getBoundsInParent())){
-            if (game.getMode() == Mode.CLIENT){
-                handleWin(pane);
-            } else {
-                handleLose(pane);
-            }
-            networkConnection.setConnected(false);
-        }
-        if (!networkConnection.isConnected()){
-            endGame(networkConnection);
-        }
-    }
 
-    private void handleWin(Pane pane) throws IOException {
-        StackPane stackPane = (StackPane) pane.getParent();
-        Pane victoryPane = FXMLLoader.load(getClass().getResource("/victory.fxml"));
-        stackPane.getChildren().add(victoryPane);
-    }
-
-    private void handleLose(Pane pane) throws IOException {
-        StackPane stackPane = (StackPane) pane.getParent();
-        Pane losePane = FXMLLoader.load(getClass().getResource("/lose.fxml"));
-        stackPane.getChildren().add(losePane);
-    }
-
-    private void endGame(NetworkConnection networkConnection) throws Exception {
-        networkConnection.closeConnection();
-    }
-
-    private void startCoinThread(Game game, Pane pane){
+    private void startCoinThread(Game game, Pane pane, NetworkConnection networkConnection){
         coinService = new CoinController(game ,pane);
+        endController = new EndController(game, pane, networkConnection);
 
     }
 }

@@ -34,13 +34,9 @@ public class CoinController {
     private void handleServerCoinPick(){
 
         Circle toRemove = null;
-        double coordinateX = game.getHostPlayer().getTranslateX();
-        double coordinateY = game.getHostPlayer().getTranslateY();
 
         for (Circle coin: game.getCoins()){
 
-            double coinCoordinateX = coin.getLayoutX() + coin.getCenterX() - 15;
-            double coinCoordinateY = coin.getLayoutY() + coin.getCenterY() - 15;
             if (game.getHostPlayer().getBoundsInParent().contains(coin.getBoundsInParent())){
                 toRemove = coin;
                 pane.getChildren().remove(coin);
@@ -54,13 +50,7 @@ public class CoinController {
 
         Circle toRemove = null;
 
-        double coordinateX = pacMan.getTranslateX();
-        double coordinateY = pacMan.getTranslateY();
-
         for (Circle coin: game.getCoins()){
-
-            double coinX = coin.getLayoutX() + coin.getCenterX() - 15;
-            double coinY = coin.getLayoutY() + coin.getCenterY() - 15;
 
             if (pacMan.getBoundsInParent().contains(coin.getBoundsInParent())) {
                 toRemove = coin;

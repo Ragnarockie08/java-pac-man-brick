@@ -20,7 +20,7 @@ public abstract class NetworkConnection extends Thread {
     private ObjectOutputStream outputStream;
     private Game game;
     private Player player;
-    private boolean connected;
+    private volatile boolean connected;
     private boolean isRunning;
 
     public NetworkConnection(Game game){
