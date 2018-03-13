@@ -196,14 +196,6 @@ public class MovementController {
         }
     }
 
-//    private void handleCoins(Pane pane){
-//        if (game.getMode().equals(Mode.SERVER)){
-//            handleServerCoinPick(pane);
-//        } else {
-//            handleClientCoinRemove(pane);
-//        }
-//    }
-
     private void handleSend(NetworkConnection networkConnection) throws Exception {
 
         double coordinateX = game.getHostPlayer().getTranslateX();
@@ -214,32 +206,6 @@ public class MovementController {
 
         networkConnection.send(new Player(game.getPlayer()));
     }
-
-//    private void handleServerCoinPick(Pane pane){
-//
-//        Circle toRemove = null;
-//        double coordinateX = game.getHostPlayer().getTranslateX();
-//        double coordinateY = game.getHostPlayer().getTranslateY();
-//
-//        for (Circle coin: game.getCoins()){
-//
-//            double coinCoordinateX = coin.getLayoutX() + coin.getCenterX() - 15;
-//            double coinCoordinateY = coin.getLayoutY() + coin.getCenterY() - 15;
-//            if (coordinateX == coinCoordinateX && coordinateY == coinCoordinateY){
-//                toRemove = coin;
-//                pane.getChildren().remove(coin);
-//                break;
-//            }
-//        }
-//        game.getCoins().remove(toRemove);
-//    }
-
-//    private void handleClientCoinRemove(Pane pane) {
-//        pane.getChildren().removeAll(game.getCoinsToRemove());
-//        game.getCoins().removeAll(game.getCoinsToRemove());
-//        game.getCoinsToRemove().clear();
-//    }
-
 
     private void roundDirection() {
 
