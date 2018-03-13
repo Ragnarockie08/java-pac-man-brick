@@ -18,7 +18,6 @@ public class Game {
     private Pane hostPlayer;
     private Pane clientPlayer;
     private Player player;
-
     private List<Rectangle> walls;
     private List<Circle> coins;
     private List<Circle> coinsToRemove;
