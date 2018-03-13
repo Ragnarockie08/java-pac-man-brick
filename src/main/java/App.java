@@ -1,4 +1,3 @@
-import controler.CoinController;
 import controler.MovementController;
 import demo.Game;
 import helper.Mode;
@@ -17,7 +16,6 @@ public class App extends Application {
     private static Game game = new Game();
     private MovementController movementController;
     private static NetworkConnection networkConnection;
-    private CoinController coinService;
 
     private static int port;
     private static String host;
@@ -25,7 +23,7 @@ public class App extends Application {
 
 
     @Override
-    public void init() throws Exception {
+    public void init(){
         movementController = new MovementController(game);
 
     }
