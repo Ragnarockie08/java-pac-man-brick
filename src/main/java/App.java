@@ -1,7 +1,9 @@
+import controler.CoinService;
 import controler.MovementController;
 import demo.Game;
 import helper.Mode;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -16,6 +18,7 @@ public class App extends Application {
     private static Game game = new Game();
     private MovementController movementController;
     private static NetworkConnection networkConnection;
+    private CoinService coinService;
 
     private static int port;
     private static String host;
@@ -25,6 +28,7 @@ public class App extends Application {
     @Override
     public void init() throws Exception {
         movementController = new MovementController(game);
+
     }
 
     public void start(Stage primaryStage) throws Exception {
@@ -43,6 +47,7 @@ public class App extends Application {
 
         movementController.movement(scene, game.getHostPlayer(), networkConnection, pane);
         showPreparedStage(primaryStage, scene);
+        startCoinThread(game ,pane);
 
     }
 
@@ -82,4 +87,12 @@ public class App extends Application {
             host = args[1];
         }
     }
+
+    private void startCoinThread(Game game, Pane pane){
+        CoinService coinService = new CoinService(game ,pane);
+
+    }
+
+
+
 }
