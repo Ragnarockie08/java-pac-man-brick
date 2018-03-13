@@ -31,6 +31,7 @@ public class MovementController {
     private Game game;
     private CoinController coinService;
     private EndController endController;
+    private DirectionController directionController;
 
     public MovementController(Game game) {
 
@@ -105,8 +106,9 @@ public class MovementController {
                             break;
                     }
                     endController.checkEnd();
-                    roundDirection();
+                    directionController.checkDirection();
                     coinService.checkCoins();
+
                     moved = true;
                     handleSend(networkConnection);
 
@@ -181,38 +183,11 @@ public class MovementController {
         networkConnection.send(new Player(game.getPlayer()));
     }
 
-    private void roundDirection() {
 
-        if (game.getPlayer().getDirection() == Direction.UP) {
-
-            if (game.isPacman()) {
-                game.getHostPlayer().setRotate(270);
-                game.getHostPlayer().setScaleY(1);
-            }
-
-        } else if (game.getPlayer().getDirection() == Direction.RIGHT) {
-
-            game.getHostPlayer().setRotate(0);
-            game.getHostPlayer().setScaleY(1);
-
-        } else if (game.getPlayer().getDirection() == Direction.DOWN) {
-
-            if (game.isPacman()) {
-
-                game.getHostPlayer().setRotate(90);
-                game.getHostPlayer().setScaleY(1);
-
-            }
-        } else if (game.getPlayer().getDirection() == Direction.LEFT) {
-
-            game.getHostPlayer().setRotate(180);
-            game.getHostPlayer().setScaleY(-1);
-        }
-    }
 
     private void startCoinThread(Game game, Pane pane, NetworkConnection networkConnection){
         coinService = new CoinController(game ,pane);
         endController = new EndController(game, pane, networkConnection);
-
+        directionController = new DirectionController(game);
     }
 }

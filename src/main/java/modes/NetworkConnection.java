@@ -1,5 +1,6 @@
 package modes;
 
+import controler.DirectionController;
 import demo.Game;
 import helper.Mode;
 import javafx.scene.shape.Circle;
@@ -22,6 +23,7 @@ public abstract class NetworkConnection extends Thread {
     private Player player;
     private volatile boolean connected;
     private boolean isRunning;
+    private DirectionController directionController;
 
     public NetworkConnection(Game game){
 
@@ -29,6 +31,7 @@ public abstract class NetworkConnection extends Thread {
         this.game = game;
         this.connected = false;
         this.isRunning = true;
+        this.directionController = new DirectionController(game);
     }
 
     public void startConnection() throws Exception {
@@ -91,36 +94,10 @@ public abstract class NetworkConnection extends Thread {
 
         game.getClientPlayer().setTranslateY(player.getyCoordinate());
         game.getClientPlayer().setTranslateX(player.getxCoordinate());
-        roundDirection(player);
+        directionController.roundDirection(player);
     }
 
-    private void roundDirection(Player player) {
 
-        if (player.getDirection() == Direction.UP) {
-
-            if(!game.isPacman()) {
-
-                game.getClientPlayer().setRotate(270);
-                game.getClientPlayer().setScaleY(1);
-            }
-        } else if (player.getDirection() == Direction.RIGHT) {
-
-            game.getClientPlayer().setRotate(0);
-            game.getClientPlayer().setScaleY(1);
-
-        } else if (player.getDirection() == Direction.DOWN) {
-
-            if(!game.isPacman()) {
-                game.getClientPlayer().setRotate(90);
-                game.getClientPlayer().setScaleY(1);
-            }
-
-        } else if (player.getDirection() == Direction.LEFT) {
-
-            game.getClientPlayer().setRotate(180);
-            game.getClientPlayer().setScaleY(-1);
-        }
-    }
 
     public void setConnected(boolean connected) {
         this.connected = connected;

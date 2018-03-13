@@ -48,6 +48,7 @@ public class App extends Application {
     }
 
     private void showPreparedStage(Stage stage, Scene scene) {
+
         stage.setTitle("Pac-Man");
         stage.setScene(scene);
         stage.setResizable(false);
@@ -55,6 +56,7 @@ public class App extends Application {
     }
 
     private void setNetworkConnection() throws Exception {
+
         if (mode == Mode.SERVER) {
             networkConnection = new Server(port, game);
 
