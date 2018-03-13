@@ -3,6 +3,7 @@ package controler;
 import demo.Game;
 import helper.Mode;
 import helper.Direction;
+import helper.WalkableBoard;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXMLLoader;
@@ -34,7 +35,6 @@ public class MovementController {
     public MovementController(Game game) {
 
         this.game = game;
-        this.walkableBoard = new char[680][680];
         direction = Direction.UP;
     }
 
@@ -44,9 +44,10 @@ public class MovementController {
 
     }
 
-    public void handleMovement(Scene scene, Pane hostSquare, NetworkConnection networkConnection, Pane pane) {
+    private void handleMovement(Scene scene, Pane hostSquare, NetworkConnection networkConnection, Pane pane) {
 
-        prepareTable();
+        WalkableBoard board = new WalkableBoard();
+        walkableBoard = board.prepareTable(game.getWalls());
         startCoinThread(game, pane, networkConnection);
 
         scene.setOnKeyPressed(event -> {
@@ -167,32 +168,6 @@ public class MovementController {
         return player.getTranslateX() < Game.WIDTH - 40
                 && walkableBoard[x + STEP + PLAYER_SIZE][y] == 'O'
                 && walkableBoard[x + STEP + PLAYER_SIZE][y + PLAYER_SIZE] == 'O';
-    }
-
-    private void prepareTable() {
-
-        fillTable();
-        fillWithWalkableFields();
-    }
-
-    private void fillTable() {
-
-        for (int i = 0; i < 680; i++) {
-            for (int j = 0; j < 680; j++) {
-                walkableBoard[i][j] = 'O';
-            }
-        }
-    }
-
-    private void fillWithWalkableFields() {
-
-        for (Rectangle shape : game.getWalls()) {
-            for (int i = (int) shape.getLayoutX(); i < shape.getLayoutX() + shape.getWidth(); i++) {
-                for (int j = (int) shape.getLayoutY(); j < shape.getLayoutY() + shape.getHeight(); j++) {
-                    walkableBoard[i][j] = ' ';
-                }
-            }
-        }
     }
 
     private void handleSend(NetworkConnection networkConnection) throws Exception {
