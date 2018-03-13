@@ -5,15 +5,14 @@ import helper.Mode;
 import javafx.application.Platform;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Circle;
-import model.Player;
 
-public class CoinService {
+public class CoinController {
 
 
     private Game game;
     private Pane pane;
 
-    public CoinService(Game game, Pane pane) {
+    public CoinController(Game game, Pane pane) {
         this.game = game;
         this.pane = pane;
     }
@@ -24,9 +23,11 @@ public class CoinService {
             @Override
             public void run() {
                 if (game.getMode() == Mode.SERVER){
+                    System.out.println("server");
                     handleServerCoinPick();
                 } else {
-                    removeCoin(game.getPlayer());
+                    System.out.println("client");
+                    removeCoin(game.getClientPlayer());
                     handleClientCoinRemove();
                 }
             }
@@ -58,10 +59,10 @@ public class CoinService {
         game.getCoinsToRemove().clear();
     }
 
-    private void removeCoin(Player player){
+    private void removeCoin(Pane pacMan){
 
-        double coordinateX = player.getxCoordinate();
-        double coordinateY = player.getyCoordinate();
+        double coordinateX = pacMan.getTranslateX();
+        double coordinateY = pacMan.getTranslateY();
 
         for (Circle coin: game.getCoins()){
 

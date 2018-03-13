@@ -1,9 +1,8 @@
-import controler.CoinService;
+import controler.CoinController;
 import controler.MovementController;
 import demo.Game;
 import helper.Mode;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -18,7 +17,7 @@ public class App extends Application {
     private static Game game = new Game();
     private MovementController movementController;
     private static NetworkConnection networkConnection;
-    private CoinService coinService;
+    private CoinController coinService;
 
     private static int port;
     private static String host;

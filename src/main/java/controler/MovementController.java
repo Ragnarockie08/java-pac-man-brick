@@ -5,12 +5,10 @@ import helper.Mode;
 import helper.Direction;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import model.Player;
@@ -30,7 +28,7 @@ public class MovementController {
 
     private char[][] walkableBoard;
     private Game game;
-    private CoinService coinService;
+    private CoinController coinService;
 
     public MovementController(Game game) {
 
@@ -276,7 +274,7 @@ public class MovementController {
     }
 
     private void startCoinThread(Game game, Pane pane){
-        coinService = new CoinService(game ,pane);
+        coinService = new CoinController(game ,pane);
 
     }
 }
