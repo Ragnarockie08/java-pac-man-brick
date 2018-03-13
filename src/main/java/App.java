@@ -47,7 +47,6 @@ public class App extends Application {
 
         movementController.movement(scene, game.getHostPlayer(), networkConnection, pane);
         showPreparedStage(primaryStage, scene);
-        startCoinThread(game ,pane);
 
     }
 
@@ -86,11 +85,6 @@ public class App extends Application {
             port = Integer.parseInt(args[2]);
             host = args[1];
         }
-    }
-
-    private void startCoinThread(Game game, Pane pane){
-        CoinService coinService = new CoinService(game ,pane);
-
     }
 
 

@@ -30,6 +30,7 @@ public class MovementController {
 
     private char[][] walkableBoard;
     private Game game;
+    private CoinService coinService;
 
     public MovementController(Game game) {
 
@@ -47,6 +48,7 @@ public class MovementController {
     public void handleMovement(Scene scene, Pane hostSquare, NetworkConnection networkConnection, Pane pane) {
 
         prepareTable();
+        startCoinThread(game, pane);
 
         scene.setOnKeyPressed(event -> {
             if (moved) {
@@ -305,5 +307,10 @@ public class MovementController {
 
     private void endGame(NetworkConnection networkConnection) throws Exception {
         networkConnection.closeConnection();
+    }
+
+    private void startCoinThread(Game game, Pane pane){
+        coinService = new CoinService(game ,pane);
+
     }
 }
