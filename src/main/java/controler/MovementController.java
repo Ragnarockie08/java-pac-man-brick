@@ -105,7 +105,7 @@ public class MovementController {
                     }
                     endController.checkEnd();
                     roundDirection();
-                    coinService.check();
+                    coinService.checkCoins();
                     moved = true;
                     handleSend(networkConnection);
 
@@ -234,8 +234,6 @@ public class MovementController {
             game.getHostPlayer().setScaleY(-1);
         }
     }
-
-
 
     private void startCoinThread(Game game, Pane pane, NetworkConnection networkConnection){
         coinService = new CoinController(game ,pane);

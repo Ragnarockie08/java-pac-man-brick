@@ -17,7 +17,7 @@ public class CoinController {
         this.pane = pane;
     }
 
-    public void check() {
+    public void checkCoins() {
 
         Platform.runLater(new Runnable() {
             @Override
