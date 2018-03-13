@@ -1,21 +1,15 @@
 package controler;
 
 import demo.Game;
-import helper.Mode;
 import helper.Direction;
 import helper.WalkableBoard;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import model.Player;
 import modes.NetworkConnection;
-
-import java.io.IOException;
 
 
 public class MovementController {
@@ -48,7 +42,7 @@ public class MovementController {
 
         WalkableBoard board = new WalkableBoard();
         walkableBoard = board.prepareTable(game.getWalls());
-        startCoinThread(game, pane, networkConnection);
+        startThreads(game, pane, networkConnection);
 
         scene.setOnKeyPressed(event -> {
             if (moved) {
@@ -210,7 +204,7 @@ public class MovementController {
         }
     }
 
-    private void startCoinThread(Game game, Pane pane, NetworkConnection networkConnection){
+    private void startThreads(Game game, Pane pane, NetworkConnection networkConnection){
         coinService = new CoinController(game ,pane);
         endController = new EndController(game, pane, networkConnection);
 

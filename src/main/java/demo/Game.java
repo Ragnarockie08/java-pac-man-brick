@@ -21,12 +21,10 @@ public class Game {
 
     private List<Rectangle> walls;
     private List<Circle> coins;
-    private List<Circle> coinsToRemove;
 
     public Game(){
         walls = new ArrayList<>();
         coins = new ArrayList<>();
-        coinsToRemove = new ArrayList<>();
     }
 
     public void setPosition(Pane pane) {
@@ -102,10 +100,6 @@ public class Game {
 
     public Player getPlayer() {
         return player;
-    }
-
-    public List<Circle> getCoinsToRemove() {
-        return coinsToRemove;
     }
 
     public boolean isPacman() {
