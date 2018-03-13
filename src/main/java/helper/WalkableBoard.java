@@ -24,8 +24,8 @@ public class WalkableBoard {
 
     private void fillTable() {
 
-        for (int i = 0; i < 680; i++) {
-            for (int j = 0; j < 680; j++) {
+        for (int i = 0; i < BOARD_WIDTH; i++) {
+            for (int j = 0; j < BOARD_HEIGHT; j++) {
                 board[i][j] = 'O';
             }
         }
