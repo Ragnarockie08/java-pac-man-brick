@@ -94,7 +94,7 @@ public abstract class NetworkConnection extends Thread {
 
         game.getClientPlayer().setTranslateY(player.getyCoordinate());
         game.getClientPlayer().setTranslateX(player.getxCoordinate());
-        directionController.roundDirection(player);
+        directionController.checkDirectionClient(player);
     }
 
 
