@@ -2,9 +2,6 @@ package modes;
 
 import controler.DirectionController;
 import demo.Game;
-import helper.Mode;
-import javafx.scene.shape.Circle;
-import helper.Direction;
 import model.Player;
 import java.io.IOException;
 import java.io.ObjectInputStream;

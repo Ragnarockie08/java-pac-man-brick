@@ -45,9 +45,6 @@ public class App extends Application {
         setNetworkConnection();
 
         movementController.movement(scene, game.getHostPlayer(), networkConnection, pane);
-        handleThreads = new HandleThreads(game, pane, networkConnection);
-        Thread thread = new Thread(handleThreads);
-        thread.start();
         showPreparedStage(primaryStage, scene);
 
     }
