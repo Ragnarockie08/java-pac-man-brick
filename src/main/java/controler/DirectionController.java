@@ -13,7 +13,7 @@ public class DirectionController {
         this.game = game;
     }
 
-    public void checkDirection() {
+    public void checkDirectionHost() {
 
         Platform.runLater(new Runnable() {
             @Override
@@ -25,7 +25,19 @@ public class DirectionController {
         });
     }
 
-    public void roundDirection(Player player) {
+    public void checkDirectionClient(Player player) {
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+
+                    roundDirectionHost(player);
+
+            }
+        });
+    }
+
+    public void roundDirectionHost(Player player) {
 
         if (player.getDirection() == Direction.UP) {
             if(!game.isPacman()) {

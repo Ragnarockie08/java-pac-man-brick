@@ -29,7 +29,7 @@ public class HandleThreads implements Runnable {
                 if (networkConnection.isConnected()){
                     coinController.checkCoins();
                     endController.checkEnd();
-                    directionController.checkDirection();
+                    directionController.checkDirectionHost();
                 }
             } catch (InterruptedException e){
                 e.printStackTrace();
