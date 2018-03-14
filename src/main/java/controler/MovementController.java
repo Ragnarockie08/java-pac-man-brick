@@ -22,7 +22,7 @@ public class MovementController {
     private Timeline timeline = new Timeline();
 
     private char[][] walkableBoard;
-    private volatile Game game;
+    private Game game;
     private HandleThreads handleThreads;
 
     public MovementController(Game game) {
