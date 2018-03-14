@@ -1,21 +1,15 @@
 package controler;
 
 import demo.Game;
-import helper.Mode;
 import helper.Direction;
 import helper.WalkableBoard;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import model.Player;
 import modes.NetworkConnection;
-
-import java.io.IOException;
 
 
 public class MovementController {
@@ -29,9 +23,6 @@ public class MovementController {
 
     private char[][] walkableBoard;
     private Game game;
-    private CoinController coinService;
-    private EndController endController;
-    private DirectionController directionController;
 
     public MovementController(Game game) {
 
@@ -49,7 +40,7 @@ public class MovementController {
 
         WalkableBoard board = new WalkableBoard();
         walkableBoard = board.prepareTable(game.getWalls());
-        startCoinThread(game, pane, networkConnection);
+
 
         scene.setOnKeyPressed(event -> {
             if (moved) {
@@ -105,10 +96,6 @@ public class MovementController {
                             checkMoveRight(hostSquare, x, y);
                             break;
                     }
-                    endController.checkEnd();
-                    directionController.checkDirection();
-                    coinService.checkCoins();
-
                     moved = true;
                     handleSend(networkConnection);
 
@@ -181,13 +168,5 @@ public class MovementController {
         game.getPlayer().setyCoordinate(coordinateY);
 
         networkConnection.send(new Player(game.getPlayer()));
-    }
-
-
-
-    private void startCoinThread(Game game, Pane pane, NetworkConnection networkConnection){
-        coinService = new CoinController(game ,pane);
-        endController = new EndController(game, pane, networkConnection);
-        directionController = new DirectionController(game);
     }
 }

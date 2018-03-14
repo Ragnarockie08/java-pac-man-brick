@@ -1,3 +1,4 @@
+import controler.HandleThreads;
 import controler.MovementController;
 import demo.Game;
 import helper.Mode;
@@ -20,6 +21,7 @@ public class App extends Application {
     private static int port;
     private static String host;
     private static Mode mode;
+    private HandleThreads handleThreads;
 
 
     @Override
@@ -43,6 +45,9 @@ public class App extends Application {
         setNetworkConnection();
 
         movementController.movement(scene, game.getHostPlayer(), networkConnection, pane);
+        handleThreads = new HandleThreads(game, pane, networkConnection);
+        Thread thread = new Thread(handleThreads);
+        thread.start();
         showPreparedStage(primaryStage, scene);
 
     }

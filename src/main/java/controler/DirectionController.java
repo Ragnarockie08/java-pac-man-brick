@@ -2,7 +2,6 @@ package controler;
 
 import demo.Game;
 import helper.Direction;
-import helper.Mode;
 import javafx.application.Platform;
 import model.Player;
 
@@ -14,7 +13,7 @@ public class DirectionController {
         this.game = game;
     }
 
-    public void checkDirection() {
+    public void checkDirectionHost() {
 
         Platform.runLater(new Runnable() {
             @Override
@@ -26,10 +25,21 @@ public class DirectionController {
         });
     }
 
-    public void roundDirection(Player player) {
+    public void checkDirectionClient(Player player) {
+
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+
+                    roundDirectionHost(player);
+
+            }
+        });
+    }
+
+    public void roundDirectionHost(Player player) {
 
         if (player.getDirection() == Direction.UP) {
-            System.out.println("player");
             if(!game.isPacman()) {
 
                 game.getClientPlayer().setRotate(270);
@@ -56,10 +66,7 @@ public class DirectionController {
 
     private void roundDirection() {
 
-
-
         if (game.getPlayer().getDirection() == Direction.UP) {
-            System.out.println("bez player");
             if (game.isPacman()) {
                 game.getHostPlayer().setRotate(270);
                 game.getHostPlayer().setScaleY(1);
@@ -84,5 +91,4 @@ public class DirectionController {
             game.getHostPlayer().setScaleY(-1);
         }
     }
-
 }
