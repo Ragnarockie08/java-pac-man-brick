@@ -23,9 +23,6 @@ public class MovementController {
 
     private char[][] walkableBoard;
     private Game game;
-    private CoinController coinService;
-    private EndController endController;
-    private DirectionController directionController;
 
     public MovementController(Game game) {
 
@@ -43,7 +40,7 @@ public class MovementController {
 
         WalkableBoard board = new WalkableBoard();
         walkableBoard = board.prepareTable(game.getWalls());
-        startThreads(game, pane, networkConnection);
+
 
         scene.setOnKeyPressed(event -> {
             if (moved) {
@@ -99,10 +96,6 @@ public class MovementController {
                             checkMoveRight(hostSquare, x, y);
                             break;
                     }
-                    endController.checkEnd();
-                    directionController.checkDirection();
-                    coinService.checkCoins();
-
                     moved = true;
                     handleSend(networkConnection);
 
@@ -175,13 +168,5 @@ public class MovementController {
         game.getPlayer().setyCoordinate(coordinateY);
 
         networkConnection.send(new Player(game.getPlayer()));
-    }
-
-
-
-    private void startThreads(Game game, Pane pane, NetworkConnection networkConnection){
-        coinService = new CoinController(game ,pane);
-        endController = new EndController(game, pane, networkConnection);
-        directionController = new DirectionController(game);
     }
 }
