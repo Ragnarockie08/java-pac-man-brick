@@ -14,7 +14,7 @@ import modes.Server;
 
 public class App extends Application {
 
-    private static Game game = new Game();
+    private static volatile Game game = new Game();
     private MovementController movementController;
     private static NetworkConnection networkConnection;
 
