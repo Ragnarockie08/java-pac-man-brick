@@ -17,7 +17,6 @@ public class App extends Application {
     private static Game game = new Game();
     private MovementController movementController;
     private static NetworkConnection networkConnection;
-
     private static int port;
     private static String host;
     private static Mode mode;
