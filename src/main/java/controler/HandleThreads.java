@@ -20,7 +20,6 @@ public class HandleThreads implements Runnable {
         startThreads(game, pane, networkConnection);
     }
 
-
     @Override
     public void run() {
         while(!Thread.currentThread().isInterrupted()){

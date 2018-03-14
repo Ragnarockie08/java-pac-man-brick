@@ -23,6 +23,7 @@ public class MovementController {
 
     private char[][] walkableBoard;
     private Game game;
+    private HandleThreads handleThreads;
 
     public MovementController(Game game) {
 
@@ -40,6 +41,7 @@ public class MovementController {
 
         WalkableBoard board = new WalkableBoard();
         walkableBoard = board.prepareTable(game.getWalls());
+        startThreads(pane, networkConnection);
 
 
         scene.setOnKeyPressed(event -> {
@@ -168,5 +170,11 @@ public class MovementController {
         game.getPlayer().setyCoordinate(coordinateY);
 
         networkConnection.send(new Player(game.getPlayer()));
+    }
+
+    private void startThreads(Pane pane, NetworkConnection networkConnection) {
+        handleThreads = new HandleThreads(game, pane, networkConnection);
+        Thread thread = new Thread(handleThreads);
+        thread.start();
     }
 }
